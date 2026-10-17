@@ -1,0 +1,198 @@
+---
+import PlaceholderImage from './PlaceholderImage.astro';
+import { useTranslations } from '../i18n/utils';
+import { profile } from '../data/profile';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+const stats = [
+  { label: t('about.stats.age'), field: profile.age, unit: t('about.stats.ageUnit') },
+  { label: t('about.stats.height'), field: profile.heightCm, unit: 'cm' },
+  { label: t('about.stats.chest'), field: profile.chestCm, unit: 'cm' },
+  { label: t('about.stats.waist'), field: profile.waistCm, unit: 'cm' },
+  { label: t('about.stats.hip'), field: profile.hipCm, unit: 'cm' },
+  { label: t('about.stats.clothing'), field: profile.clothingSize, unit: '' },
+  { label: t('about.stats.shoe'), field: profile.shoeSizeEu, unit: 'EU' },
+] as const;
+---
+
+<section class="about">
+  <header class="about__head">
+    <p class="about__kicker">{t('about.kicker')}</p>
+    <h1 class="about__heading">{t('site.brand')}</h1>
+  </header>
+
+  <div class="about__grid" data-reveal>
+    <div class="about__portrait">
+      <PlaceholderImage ratio="4 / 5" label={t('placeholder.label')} accent="neutral" />
+    </div>
+
+    <div class="about__content">
+      <p class="about__bio about__bio--short">{t('about.bio.short')}</p>
+      <p class="about__bio about__bio--extended">{t('about.bio.extended')}</p>
+    </div>
+  </div>
+
+  <div class="about__stats" data-reveal>
+    <h2 class="about__stats-heading">{t('about.stats.heading')}</h2>
+    <dl class="stats-grid">
+      {
+        stats.map(({ label, field, unit }) => (
+          <div class="stats-grid__row">
+            <dt>{label}</dt>
+            <dd>
+              {field.confirmed ? (
+                <>
+                  {field.value}
+                  {unit ? ` ${unit}` : ''}
+                </>
+              ) : (
+                <span class="stats-grid__pending">{t('about.stats.pending')}</span>
+              )}
+            </dd>
+          </div>
+        ))
+      }
+      <div class="stats-grid__row">
+        <dt>{t('about.stats.hair')}</dt>
+        <dd>{t('about.stats.hairValue')}</dd>
+      </div>
+      <div class="stats-grid__row">
+        <dt>{t('about.stats.eyes')}</dt>
+        <dd>{t('about.stats.eyesValue')}</dd>
+      </div>
+    </dl>
+  </div>
+</section>
+
+<style>
+  .about {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-7);
+    padding: var(--nav-clearance) var(--page-margin) var(--space-7);
+  }
+
+  .about__kicker {
+    margin: 0 0 var(--space-2);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-smoke);
+  }
+
+  .about__heading {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+
+  .about__grid {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .about__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .about__bio {
+    margin: 0;
+    max-width: 58ch;
+    line-height: 1.55;
+  }
+
+  .about__bio--short {
+    font-size: var(--step-1);
+    color: var(--color-paper);
+  }
+
+  .about__bio--extended {
+    font-size: var(--step-0);
+    color: var(--color-smoke);
+  }
+
+  .about__stats {
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-hairline);
+  }
+
+  .about__stats-heading {
+    margin: 0 0 var(--space-4);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: var(--step-2);
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+
+  .stats-grid {
+    display: grid;
+    /* minmax(0, 1fr) — see the matching note in PolaroidsView.astro; the same
+       gotcha applies here with the label/value flex row below. */
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-3) var(--space-5);
+    margin: 0;
+    max-width: 44rem;
+  }
+
+  .stats-grid__row {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--color-hairline);
+    min-width: 0;
+  }
+
+  .stats-grid dt,
+  .stats-grid dd {
+    min-width: 0;
+  }
+
+  .stats-grid dt {
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-smoke);
+  }
+
+  .stats-grid dd {
+    margin: 0;
+    font-size: var(--step-0);
+    text-align: right;
+  }
+
+  .stats-grid__pending {
+    color: var(--color-smoke);
+    font-style: italic;
+  }
+
+  @media (min-width: 48rem) {
+    .about__grid {
+      grid-template-columns: 5fr 7fr;
+      align-items: start;
+    }
+
+    .stats-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .about__portrait {
+      max-width: 28rem;
+    }
+  }
+</style>

@@ -1,0 +1,108 @@
+---
+import PlaceholderImage from './PlaceholderImage.astro';
+import { useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+// Fixed, standard agency set — not a curated gallery. See docs/PROJECT-BRIEF.md
+// ("Polaroids") and docs/ASSET-GUIDE.md for the four exact shots this maps to.
+const shots = [
+  t('polaroids.shot.faceFront'),
+  t('polaroids.shot.faceProfile'),
+  t('polaroids.shot.bodyFront'),
+  t('polaroids.shot.bodyProfile'),
+];
+---
+
+<section class="polaroids">
+  <header class="polaroids__head">
+    <p class="polaroids__kicker">{t('polaroids.kicker')}</p>
+    <h1 class="polaroids__heading">{t('nav.polaroids')}</h1>
+    <p class="polaroids__lead">{t('polaroids.lead')}</p>
+  </header>
+
+  <div class="polaroids__grid" data-reveal-group>
+    {
+      shots.map((shot) => (
+        <div class="polaroids__item" data-reveal>
+          <PlaceholderImage ratio="4 / 5" label={t('placeholder.label')} accent="neutral" />
+          <p class="polaroids__caption">{shot}</p>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .polaroids {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    padding: var(--nav-clearance) var(--page-margin) var(--space-7);
+  }
+
+  .polaroids__kicker {
+    margin: 0 0 var(--space-2);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-smoke);
+  }
+
+  .polaroids__heading {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+
+  .polaroids__lead {
+    max-width: 52ch;
+    margin: var(--space-3) 0 0;
+    color: var(--color-smoke);
+    font-size: var(--step-0);
+  }
+
+  .polaroids__grid {
+    display: grid;
+    /* minmax(0, 1fr), not 1fr — a bare 1fr track has an implicit auto (not 0)
+       minimum, so the caption text below each placeholder would otherwise
+       force the track wider than the viewport on narrow phones. */
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4);
+    max-width: 56rem;
+  }
+
+  .polaroids__item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    min-width: 0;
+  }
+
+  .polaroids__caption {
+    min-width: 0;
+  }
+
+  .polaroids__caption {
+    margin: 0;
+    font-size: 0.75rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--color-smoke);
+  }
+
+  @media (min-width: 48rem) {
+    .polaroids__grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+</style>
