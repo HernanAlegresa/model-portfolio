@@ -1,0 +1,11 @@
+# Text files are stored with LF in the repo; Git converts on checkout as
+# configured on each machine. Media is binary: never diffed or converted.
+* text=auto
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.ico binary
+*.mp4 binary
+*.mov binary
