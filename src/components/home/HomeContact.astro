@@ -1,0 +1,139 @@
+---
+import { useTranslations } from '../../i18n/utils';
+import type { Lang } from '../../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<!-- The closing call to action: the whole headline is the link to Contact.
+     Only confirmed channels appear (Instagram); email stays "coming soon". -->
+<section class="closing" aria-labelledby="closing-title">
+  <p class="closing__lead">{t('contact.lead')}</p>
+
+  <h2 id="closing-title" class="closing__title">
+    <a class="closing__link" href={`/${lang}/contact`}>
+      <span class="closing__text">{t('home.contact.title')}</span>
+    </a>
+  </h2>
+
+  <dl class="closing__channels">
+    <div>
+      <dt>{t('contact.instagram.label')}</dt>
+      <dd>
+        <a class="link-sweep" href="https://instagram.com/hernanalegresa" target="_blank" rel="noopener noreferrer">
+          @hernanalegresa
+        </a>
+      </dd>
+    </div>
+    <div>
+      <dt>{t('contact.email.label')}</dt>
+      <dd class="closing__pending">{t('contact.email.pending')}</dd>
+    </div>
+  </dl>
+</section>
+
+<style>
+  .closing {
+    padding: var(--space-8) var(--page-margin) var(--space-7);
+    border-top: 1px solid var(--color-hairline);
+    overflow: hidden;
+  }
+
+  .closing__lead {
+    max-width: 34ch;
+    margin: 0 0 var(--space-5);
+    color: var(--color-smoke);
+    font-size: var(--step-0);
+  }
+
+  .closing__title {
+    margin: 0 0 var(--space-6);
+    font-family: var(--font-display);
+    font-weight: 900;
+    /* Sized to fill the width like the hero name, on as few lines as fit. */
+    font-size: clamp(2.25rem, 12vw, 12rem);
+    line-height: 0.85;
+    letter-spacing: -0.045em;
+    text-transform: uppercase;
+  }
+
+  .closing__link {
+    display: inline-block;
+    text-decoration: none;
+  }
+
+  /* Hover: a wine bar sweeps in under the headline, the same gesture as the
+     site's small text links, at headline scale. */
+  .closing__text {
+    background-image: linear-gradient(var(--color-accent), var(--color-accent));
+    background-repeat: no-repeat;
+    background-position: 0 92%;
+    background-size: 0% 0.08em;
+  }
+
+  .closing__link:hover .closing__text,
+  .closing__link:focus-visible .closing__text {
+    background-size: 100% 0.08em;
+  }
+
+  .closing__channels {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4) var(--space-6);
+    margin: 0;
+  }
+
+  .closing__channels dt {
+    margin-bottom: 0.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-smoke);
+  }
+
+  .closing__channels dd {
+    margin: 0;
+    font-size: var(--step-1);
+  }
+
+  .closing__channels a {
+    text-decoration: none;
+  }
+
+  .closing__pending {
+    color: var(--color-smoke);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .closing__text {
+      transition: background-size 600ms cubic-bezier(0.65, 0, 0.35, 1);
+    }
+
+    /* The headline slides in from the right as the section comes up, so the
+       page ends on a movement toward the reader rather than just stopping. */
+    @supports (animation-timeline: view()) {
+      .closing__title {
+        animation: closing-in linear both;
+        animation-timeline: view();
+        animation-range: entry 0% cover 45%;
+      }
+    }
+  }
+
+  @keyframes closing-in {
+    from {
+      opacity: 0.2;
+      translate: 18% 0;
+    }
+    to {
+      opacity: 1;
+      translate: 0 0;
+    }
+  }
+</style>

@@ -1,0 +1,138 @@
+---
+import { getCollection } from 'astro:content';
+import { useTranslations } from '../../i18n/utils';
+import type { Lang } from '../../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+// Every brand from the work collection, in curation order. Names only, no
+// logos (PROJECT-BRIEF.md rule 7: no official brand material).
+const brands = (await getCollection('work'))
+  .sort((a, b) => a.data.priority - b.data.priority)
+  .map((entry) => entry.data.brand);
+---
+
+<!-- A ticker: the list is written twice in a row and the strip slides left
+     by exactly one copy's width, then starts again. Because the second copy
+     is identical, the restart can't be seen and the band seems endless. -->
+<section class="brands" aria-label={t('home.brands.label')}>
+  <div class="brands__track">
+    {
+      [0, 1].map((copy) => (
+        <ul class="brands__list" role="list" aria-hidden={copy === 1 ? 'true' : undefined}>
+          {brands.map((brand) => (
+            <li class="brands__item">{brand}</li>
+          ))}
+        </ul>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  /* A quiet band across the full width: a shade lighter than the page,
+     hairlines above and below, small grey names. It credits the brands
+     without competing with the photos around it. */
+  .brands {
+    overflow: hidden;
+    padding: 1.1rem 0;
+    background: var(--color-ink-raised);
+    border-block: 1px solid var(--color-hairline);
+    color: var(--color-smoke);
+    /* The names fade in and out at the screen edges instead of being cut. */
+    mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+  }
+
+  .brands__track {
+    display: flex;
+    width: max-content;
+  }
+
+  .brands__list {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .brands__item {
+    display: flex;
+    align-items: center;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 0.9rem;
+    line-height: 1;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* A small dot after every name keeps them apart. It sits on every item,
+     including the last, so the gap where the two copies meet matches all
+     the others. */
+  .brands__item::after {
+    content: '';
+    width: 3px;
+    height: 3px;
+    margin-inline: 2.5rem;
+    border-radius: 50%;
+    background: rgb(140 138 134 / 50%);
+  }
+
+  /* Without motion: the names wrap and sit still instead of sliding, and
+     the duplicate copy is hidden. */
+  @media (prefers-reduced-motion: reduce) {
+    .brands {
+      padding-inline: var(--page-margin);
+      mask-image: none;
+    }
+
+    .brands__track {
+      width: auto;
+    }
+
+    .brands__list {
+      flex-wrap: wrap;
+      row-gap: var(--space-3);
+    }
+
+    .brands__list[aria-hidden] {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .brands__track {
+      animation: brands-scroll 40s linear infinite;
+    }
+
+    .brands__item {
+      transition: color 300ms ease;
+    }
+
+    /* Hovering holds the band still and lights the name under the pointer,
+       so it can be read. */
+    .brands:hover .brands__track {
+      animation-play-state: paused;
+    }
+
+    .brands__item:hover {
+      color: var(--color-paper);
+    }
+  }
+
+  @keyframes brands-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+</style>
