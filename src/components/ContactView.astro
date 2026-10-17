@@ -1,0 +1,106 @@
+---
+import { useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<section class="contact">
+  <header class="contact__head">
+    <p class="contact__kicker">{t('contact.kicker')}</p>
+    <h1 class="contact__heading">{t('nav.contact')}</h1>
+    <p class="contact__lead">{t('contact.lead')}</p>
+  </header>
+
+  <dl class="contact__list" data-reveal-group>
+    <div class="contact__row" data-reveal>
+      <dt>{t('contact.instagram.label')}</dt>
+      <dd>
+        <a class="contact__link link-sweep" href="https://instagram.com/hernanalegresa" target="_blank" rel="noopener noreferrer">
+          @hernanalegresa
+        </a>
+      </dd>
+    </div>
+    <div class="contact__row" data-reveal>
+      <dt>{t('contact.email.label')}</dt>
+      <dd class="contact__pending">{t('contact.email.pending')}</dd>
+    </div>
+  </dl>
+</section>
+
+<style>
+  .contact {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    min-height: 60svh;
+    padding: var(--nav-clearance) var(--page-margin) var(--space-7);
+  }
+
+  .contact__kicker {
+    margin: 0 0 var(--space-2);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-smoke);
+  }
+
+  .contact__heading {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+
+  .contact__lead {
+    max-width: 48ch;
+    margin: var(--space-3) 0 0;
+    color: var(--color-smoke);
+    font-size: var(--step-0);
+  }
+
+  .contact__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin: 0;
+    max-width: 32rem;
+  }
+
+  .contact__row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .contact__row dt {
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-smoke);
+  }
+
+  .contact__row dd {
+    margin: 0;
+    font-size: var(--step-2);
+  }
+
+  .contact__link {
+    font-family: var(--font-display);
+    font-weight: 700;
+  }
+
+  .contact__pending {
+    color: var(--color-smoke);
+    font-style: italic;
+  }
+</style>

@@ -1,0 +1,11 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import WorkView from '../../components/WorkView.astro';
+import { useTranslations } from '../../i18n/utils';
+
+const t = useTranslations('en');
+---
+
+<BaseLayout lang="en" title={t('work.title')} description={t('work.description')}>
+  <WorkView lang="en" />
+</BaseLayout>

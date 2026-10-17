@@ -1,0 +1,11 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PolaroidsView from '../../components/PolaroidsView.astro';
+import { useTranslations } from '../../i18n/utils';
+
+const t = useTranslations('es');
+---
+
+<BaseLayout lang="es" title={t('polaroids.title')} description={t('polaroids.description')}>
+  <PolaroidsView lang="es" />
+</BaseLayout>
