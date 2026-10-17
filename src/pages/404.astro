@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout lang="es" title="404 — Hernán Alegresa" description="Página no encontrada.">
+  <section class="not-found">
+    <p class="not-found__kicker">404</p>
+    <h1 class="not-found__title">Página no encontrada<br />Page not found</h1>
+    <p class="not-found__body">
+      El enlace puede estar roto o la página ya no existe.<br />
+      The link may be broken, or the page no longer exists.
+    </p>
+    <div class="not-found__links">
+      <a class="not-found__link link-sweep" href="/es/">Ir al inicio (ES)</a>
+      <a class="not-found__link link-sweep" href="/en/">Go home (EN)</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    min-height: 70svh;
+    justify-content: center;
+    padding: var(--nav-clearance) var(--page-margin) var(--space-7);
+  }
+
+  .not-found__kicker {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: var(--step-5);
+    letter-spacing: -0.03em;
+    color: var(--color-hairline);
+  }
+
+  .not-found__title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(1.8rem, 4vw, 2.75rem);
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+  }
+
+  .not-found__body {
+    max-width: 48ch;
+    margin: 0;
+    color: var(--color-smoke);
+    line-height: 1.6;
+  }
+
+  .not-found__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    margin-top: var(--space-3);
+    font-size: 0.9rem;
+  }
+</style>

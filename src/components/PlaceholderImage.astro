@@ -1,0 +1,61 @@
+---
+interface Props {
+  ratio?: string;
+  label: string;
+  accent?: 'neutral' | 'wine';
+  class?: string;
+}
+
+const { ratio = '4 / 5', label, accent = 'neutral', class: className } = Astro.props;
+---
+
+<div class:list={['placeholder', className]} style={`aspect-ratio: ${ratio};`} data-accent={accent}>
+  <span class="placeholder__label">{label}</span>
+</div>
+
+<style>
+  .placeholder {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    width: 100%;
+    overflow: hidden;
+    background:
+      repeating-linear-gradient(
+        135deg,
+        rgb(242 241 238 / 6%) 0 1px,
+        transparent 1px 14px
+      ),
+      var(--color-ink-raised);
+    border: 1px solid var(--color-hairline);
+  }
+
+  .placeholder::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.5;
+  }
+
+  .placeholder[data-accent='wine']::before {
+    background: linear-gradient(160deg, color-mix(in srgb, var(--color-wine) 26%, transparent), transparent 60%);
+  }
+
+  .placeholder[data-accent='neutral']::before {
+    background: linear-gradient(160deg, color-mix(in srgb, var(--color-smoke) 16%, transparent), transparent 60%);
+  }
+
+  .placeholder__label {
+    position: relative;
+    z-index: 1;
+    margin: var(--space-3);
+    padding: 0.35rem 0.6rem;
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-smoke);
+    background: rgb(12 12 13 / 70%);
+    border: 1px solid var(--color-hairline);
+  }
+</style>
