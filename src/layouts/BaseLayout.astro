@@ -1,0 +1,64 @@
+---
+import Nav from '../components/Nav.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { switchLocalePath } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+import '../styles/global.css';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description: string;
+}
+
+const { lang, title, description } = Astro.props;
+
+const pathname = Astro.url.pathname;
+const alternatePath = switchLocalePath(pathname, lang === 'es' ? 'en' : 'es');
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="alternate" hreflang="es" href={lang === 'es' ? pathname : alternatePath} />
+    <link rel="alternate" hreflang="en" href={lang === 'en' ? pathname : alternatePath} />
+  </head>
+  <body>
+    <Nav lang={lang} />
+    <main>
+      <slot />
+    </main>
+    <SiteFooter lang={lang} />
+  </body>
+</html>
+
+<script>
+  // Scroll-reveal for [data-reveal] elements (see global.css). No-op on pages
+  // that don't use the attribute, and respects prefers-reduced-motion by
+  // marking everything visible immediately instead of observing.
+  const targets = document.querySelectorAll<HTMLElement>('[data-reveal]');
+
+  if (targets.length > 0) {
+    if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          }
+        },
+        { threshold: 0.15, rootMargin: '0px 0px -10% 0px' },
+      );
+      targets.forEach((el) => observer.observe(el));
+    } else {
+      targets.forEach((el) => el.classList.add('is-visible'));
+    }
+  }
+</script>
