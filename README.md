@@ -8,7 +8,7 @@ Es, a la vez, un portfolio profesional real, una pieza de portfolio de programac
 
 Las 5 páginas existen en ambos idiomas: **Home**, **Work**, **Polaroids**, **About** y **Contact**.
 
-- La **Home** se está revisando sección por sección con el dueño del sitio. El hero, "Sobre mí" (con video real), el banner de marcas y la grilla de trabajos ya están definidos. "Qué hago", la ficha y el contacto de cierre están construidos y falta revisarlos.
+- La **Home** se está revisando sección por sección con el dueño del sitio. El hero, "Sobre mí" (con video real), el banner de marcas y la grilla de trabajos ya están definidos. La ficha y el contacto de cierre están construidos y falta revisarlos ("Qué hago" se sacó).
 - Material real cargado: la foto del hero y el video de "Sobre mí". El resto de las imágenes son placeholders explícitos, a reemplazar siguiendo `docs/ASSET-GUIDE.md`.
 
 El detalle de cada sesión está en `docs/DEVELOPMENT-LOG.md`.

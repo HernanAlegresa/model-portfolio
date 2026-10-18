@@ -54,7 +54,6 @@ src/components/
   home/HomeAbout.astro        — "Sobre mí": video o slideshow + frase y párrafo que se iluminan al scrollear
   home/HomeBrands.astro       — banner de marcas que se desliza (marquee CSS)
   home/HomeWork.astro         — grilla 2×3 de trabajos con hover de Máxima Michaels + botón "Ver más trabajos"
-  home/HomeServices.astro     — "Qué hago": disciplinas con las marcas de cada una (desde la Collection)
   home/HomeStats.astro        — ficha (medidas de profile.ts) + 4 polaroids que llevan a /polaroids
   home/HomeContact.astro      — cierre "Trabajemos juntos" + Instagram
   WorkView.astro              — lista de proyectos desde la Content Collection `work`
@@ -84,9 +83,9 @@ Orden (en `HomeView.astro`), pensado como las preguntas que se hace una marca o 
 2. **Sobre mí** (`HomeAbout`) — es la "hoja" que sube tapando el hero.
 3. **Banner de marcas** (`HomeBrands`) — las 11 marcas de la Collection, sutil; hace de encabezado de la grilla.
 4. **Trabajos** (`HomeWork`) — 6 marcas de `selected-work.ts`, réplica de la sección "Some works" de Máxima Michaels.
-5. **Qué hago** (`HomeServices`), 6. **Ficha + polaroids** (`HomeStats`), 7. **Contacto** (`HomeContact`).
+5. **Ficha + polaroids** (`HomeStats`), 6. **Contacto** (`HomeContact`). ("Qué hago" se sacó en 2026-10: repetía las categorías y marcas que ya muestran el banner y la grilla.)
 
-El hero y "Sobre mí" van dentro de `<div class="curtain">`: el hero es `position: sticky` y `.curtain__sheet` (fondo opaco, `z-index: 1`) sube por encima. Las secciones 3 a 7 no tienen título visible por decisión del usuario; cada una lleva un `<h2 class="visually-hidden">` para lectores de pantalla.
+El hero y "Sobre mí" van dentro de `<div class="curtain">`: el hero es `position: sticky` y `.curtain__sheet` (fondo opaco, `z-index: 1`) sube por encima. Las secciones 3 a 6 no tienen título visible por decisión del usuario; cada una lleva un `<h2 class="visually-hidden">` para lectores de pantalla.
 
 ## Sistema de movimiento
 
@@ -96,7 +95,7 @@ Toda animación vive dentro de `@media (prefers-reduced-motion: no-preference)`;
 |---|---|---|
 | `.reveal`, `.reveal-wipe` (keyframes al cargar) | `global.css`, hero | Entrada del hero. |
 | `[data-reveal]` + `IntersectionObserver` | `global.css` + `BaseLayout.astro` | Fade/rise al entrar en pantalla (Work, Polaroids, About, Contact, tarjetas de `HomeWork`). |
-| `animation-timeline: view()` / named view timelines | `HomeView` (telón del hero), `HomeAbout` (palabras que se iluminan), `HomeServices` (líneas), `HomeContact` (título) | Animaciones que avanzan con el scroll. Envueltas en `@supports (animation-timeline: view())`; Firefox hoy no las soporta y ve el contenido quieto. |
+| `animation-timeline: view()` / named view timelines | `HomeView` (telón del hero), `HomeAbout` (palabras que se iluminan), `HomeContact` (título) | Animaciones que avanzan con el scroll. Envueltas en `@supports (animation-timeline: view())`; Firefox hoy no las soporta y ve el contenido quieto. |
 | Marquee CSS (`translateX(0 → -50%)` con la lista duplicada) | `HomeBrands` | Banner infinito; se pausa con hover. |
 | `IntersectionObserver` + `visibilitychange` | `HomeAbout` | El video y el slideshow solo corren cuando están en pantalla. |
 

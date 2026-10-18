@@ -38,7 +38,9 @@ const polaroids = [
 
 <section class="stats" aria-labelledby="stats-title">
   <div class="stats__info">
-    <h2 id="stats-title" class="stats__title">{t('home.stats.title')}</h2>
+    <!-- No visible label, like the other Home sections; screen readers
+         still get the heading. -->
+    <h2 id="stats-title" class="visually-hidden">{t('home.stats.title')}</h2>
     <p class="stats__intro">{t('home.stats.intro')}</p>
 
     <dl class="stats__list">
@@ -72,18 +74,7 @@ const polaroids = [
   .stats {
     display: grid;
     gap: var(--space-6);
-    padding: var(--space-8) var(--page-margin);
-    border-top: 1px solid var(--color-hairline);
-  }
-
-  .stats__title {
-    margin: 0 0 var(--space-3);
-    font-family: var(--font-mono);
-    font-weight: 500;
-    font-size: 0.8rem;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--color-smoke);
+    padding: 0 var(--page-margin) var(--section-gap);
   }
 
   .stats__intro {

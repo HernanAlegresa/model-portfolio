@@ -55,6 +55,7 @@ const shots = await Promise.all(
                     alt={shot.alt}
                     widths={[640, 960, 1280, 1600]}
                     sizes="(min-width: 48rem) 50vw, 100vw"
+                    style={shot.position && `object-position: ${shot.position}`}
                   />
                 ) : (
                   <PlaceholderImage ratio={RATIO} label={t('placeholder.label')} />
@@ -62,7 +63,13 @@ const shots = await Promise.all(
               </div>
               <div class="works__layer works__layer--front" aria-hidden="true">
                 {shot.image ? (
-                  <Image src={shot.image} alt="" widths={[640, 960, 1280, 1600]} sizes="(min-width: 48rem) 38vw, 76vw" />
+                  <Image
+                    src={shot.image}
+                    alt=""
+                    widths={[640, 960, 1280, 1600]}
+                    sizes="(min-width: 48rem) 38vw, 76vw"
+                    style={shot.position && `object-position: ${shot.position}`}
+                  />
                 ) : (
                   <PlaceholderImage ratio={RATIO} label={t('placeholder.label')} />
                 )}
@@ -85,8 +92,10 @@ const shots = await Promise.all(
 </section>
 
 <style>
+  /* Close under the brand ticker (it reads as this section's heading),
+     the standard section gap below. */
   .works {
-    padding: var(--space-5) 0 var(--space-8);
+    padding: var(--space-5) 0 var(--section-gap);
   }
 
   /* Edge to edge, no gutter between the photos — the captions keep the

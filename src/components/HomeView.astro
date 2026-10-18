@@ -3,7 +3,6 @@ import { Image } from 'astro:assets';
 import HomeAbout from './home/HomeAbout.astro';
 import HomeBrands from './home/HomeBrands.astro';
 import HomeWork from './home/HomeWork.astro';
-import HomeServices from './home/HomeServices.astro';
 import HomeStats from './home/HomeStats.astro';
 import HomeContact from './home/HomeContact.astro';
 import heroPhoto from '../assets/home/hero.png';
@@ -65,9 +64,8 @@ const t = useTranslations(lang);
 
 <HomeWork lang={lang} />
 
-<!-- Who he is first, then the work, what he does, the facts a casting
-     needs, and how to get in touch, in the order a client asks those. -->
-<HomeServices lang={lang} />
+<!-- Who he is first, then the work, the facts a casting needs, and how
+     to get in touch, in the order a client asks those. -->
 <HomeStats lang={lang} />
 <HomeContact lang={lang} />
 

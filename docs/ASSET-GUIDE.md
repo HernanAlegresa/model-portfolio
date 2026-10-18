@@ -44,8 +44,8 @@ src/assets/
       meller-01.jpg
     urban-haus/
       urban-haus-01.jpg
-    carolina-herrera/
-      carolina-herrera-01.jpg
+    rabanne/
+      rabanne-01.jpg
     chivas-regal/
       chivas-regal-01.jpg
     vcp-uruguay/
@@ -71,7 +71,7 @@ La cantidad de placeholders que ya genera cada página de `/work` depende del ca
 |---|---|---|
 | `many` | 6 | Rent the Look, Forum Industries, Original Penguin, Armani Beauty |
 | `some` | 4 | Vans Uruguay, Meller |
-| `few` | 2 | Urban Haus, Carolina Herrera, Chivas Regal |
+| `few` | 2 | Urban Haus, Rabanne, Chivas Regal |
 | `one` | 1 | Salus Uruguay |
 | `pending` | 1 | VCP Uruguay |
 

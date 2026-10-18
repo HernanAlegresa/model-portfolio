@@ -35,7 +35,7 @@ Corré `npm run check` y `npm run build` antes de dar por terminada cualquier ta
 - `src/i18n/ui.ts` — diccionario de strings por idioma. `src/i18n/utils.ts` — helpers (`getLangFromUrl`, `useTranslations`, `switchLocalePath`).
 - `src/layouts/BaseLayout.astro` — shell HTML, head, nav, footer, `hreflang`.
 - `src/components/` — piezas reutilizables (`Nav`, `LanguageSwitcher`, `PlaceholderImage`, `SiteFooter`, `WipView`) y una vista por página (`HomeView`, `WorkView`, `PolaroidsView`, `AboutView`, `ContactView`).
-- `src/components/home/` — una sección de la Home por archivo (`HomeAbout`, `HomeBrands`, `HomeWork`, `HomeServices`, `HomeStats`, `HomeContact`); `HomeView.astro` tiene el hero y el orden.
+- `src/components/home/` — una sección de la Home por archivo (`HomeAbout`, `HomeBrands`, `HomeWork`, `HomeStats`, `HomeContact`); `HomeView.astro` tiene el hero y el orden.
 - `src/data/` — datos editables sin tocar componentes: `profile.ts` (medidas), `selected-work.ts` (marcas/fotos de la grilla de la Home), `about-media.ts` (video de "Sobre mí").
 - `src/content/work/*.yaml` + `src/content.config.ts` — Content Collection con las 11 marcas.
 - `src/pages/es/*` y `src/pages/en/*` — una página por idioma, sin lógica de contenido embebida (la vista real vive en `src/components/*View.astro`).

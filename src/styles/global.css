@@ -29,6 +29,10 @@
   --space-7: 7rem;
   /* Inter-section vertical rhythm — closer to the reference's generous 150-200px beats. */
   --space-8: 9rem;
+  /* The one space between Home sections, content to content. Each section
+     puts it only below itself (never above too), so two sections never add
+     up to a double gap. 9rem on desktop, ~5.5rem on phones. */
+  --section-gap: clamp(5.5rem, 1rem + 8.5vw, 9rem);
 
   /* Fluid, viewport-relative page margin — tighter against the edge than a fixed rem value,
      closer to the reference's ~5vw gutters. */

@@ -13,8 +13,6 @@ const t = useTranslations(lang);
 <!-- The closing call to action: the whole headline is the link to Contact.
      Only confirmed channels appear (Instagram); email stays "coming soon". -->
 <section class="closing" aria-labelledby="closing-title">
-  <p class="closing__lead">{t('contact.lead')}</p>
-
   <h2 id="closing-title" class="closing__title">
     <a class="closing__link" href={`/${lang}/contact`}>
       <span class="closing__text">{t('home.contact.title')}</span>
@@ -39,16 +37,8 @@ const t = useTranslations(lang);
 
 <style>
   .closing {
-    padding: var(--space-8) var(--page-margin) var(--space-7);
-    border-top: 1px solid var(--color-hairline);
+    padding: 0 var(--page-margin) var(--section-gap);
     overflow: hidden;
-  }
-
-  .closing__lead {
-    max-width: 34ch;
-    margin: 0 0 var(--space-5);
-    color: var(--color-smoke);
-    font-size: var(--step-0);
   }
 
   .closing__title {

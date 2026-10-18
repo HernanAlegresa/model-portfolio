@@ -166,3 +166,31 @@
 - Fotos reales para la grilla de trabajos, los polaroids y About.
 - Foto del hero en más resolución.
 - Preguntas abiertas: ¿"MODELO" cambia a "Hernán Alegresa" al scrollear? ¿Agregar un título chico tipo "SOME WORKS" sobre la grilla? Confirmar los textos nuevos de "Sobre mí" y "Qué hago".
+
+## 2026-10-17 (cont.) — Fotos reales en Trabajos, Rabanne y limpieza de la Home
+
+**Marcas:**
+- **Rabanne reemplaza a Carolina Herrera** (era una confusión del usuario: el trabajo fue con Rabanne, como modelo e influencer). `rabanne.yaml` hereda año, material y prioridad; `carolina-herrera.yaml` borrado. Supuestos a confirmar: año 2025, ~4 fotos, roles modelo + creador de contenido, sin eventos.
+- **Vans Uruguay sale de las 6 de la Home** (sigue en /work) y su `priority` pasa de 5 a 8, así las 6 primeras de /work coinciden con la Home.
+
+**Trabajos (`HomeWork`):**
+- Primera foto real por marca en `src/assets/work/<slug>/<slug>-01.jpg` para Rent the Look, Forum Industries, Original Penguin, Armani Beauty, Rabanne y Meller, con `alt` ES/EN.
+- Las 6 son verticales en tarjetas 1,45:1: nuevo campo opcional `position` (CSS `object-position`) en `selected-work.ts` para elegir la franja visible.
+- Armani: se reemplazó por la versión editada (1206×1580, `position: '50% 42%'`). Las dos primeras subidas eran la misma foto sin la edición (iOS manda el original si la edición no está "aplicada" → duplicar o exportar antes de enviar).
+
+**Estructura y ritmo de la Home:**
+- Orden actual: Hero → Sobre mí → Marcas → Trabajos → Ficha → Contacto.
+- **"Qué hago" eliminada** (`HomeServices` y sus 12 strings): repetía categorías y marcas que ya muestran el banner y las tarjetas. Decisión del usuario: no moverla a otra página.
+- **Sin líneas divisorias entre secciones**: al usuario le gusta que la Home se lea como una sola página con el mismo fondo. Quedan solo las líneas internas (filas de la ficha, banner de marcas) y la del footer (es de todo el sitio).
+- **Espaciado uniforme**: token `--section-gap` (`clamp(5.5rem, 1rem + 8.5vw, 9rem)`) y cada sección pone el espacio solo debajo de sí misma. Medido de contenido a contenido: 144 px en escritorio y 88 px a 390 px entre todas las secciones. Única excepción: banner → grilla 40 px, porque el banner funciona como título de Trabajos.
+- Ficha: sin la etiqueta visible "FICHA" (queda `visually-hidden`). Contacto: sin la línea "Para propuestas de marcas…" (sigue en la página Contact).
+- Se probó y revirtió una etiqueta visible "Trabajos" encima del banner.
+
+**Comprobaciones:** `npm run check` 0 errores / 0 warnings; `npm run build` OK; revisión en Chrome a 1536 px y en iframe de 390 px.
+
+**Pendiente:**
+- Polaroids reales (orden: rostro frente, rostro perfil, cuerpo frente, cuerpo perfil); el usuario está por enviarlas.
+- Armani: el usuario cortó un ajuste de encuadre a `50% 36%` (mostraba un poco más de pelo arriba); queda en 42 %.
+- Confirmar si Meller es correcto para la foto con paletas "KUL." y si Armani debe decir "CONTENIDO" en vez de "EVENTOS".
+- ¿Sacar también la frase de la ficha "Para agencias y castings…"?
+- Foto del hero en más resolución; fotos de About.
