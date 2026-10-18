@@ -8,9 +8,9 @@ Guía basada en el código real de este repo, no genérica. Cada sección: qué 
 
 **Por qué acá:** un portfolio de fotos y texto no necesita React. Astro genera HTML estático; solo viaja al navegador el JS que escribís en `<script>`.
 
-**Dónde mirarlo:** `src/components/home/HomeServices.astro`: el frontmatter lee la Collection `work` y arma las filas; la plantilla solo las recorre.
+**Dónde mirarlo:** `src/components/home/HomeBrands.astro`: el frontmatter lee la Collection `work` y arma la lista de marcas; la plantilla solo la recorre.
 
-**Ejercicio:** en `src/components/HomeView.astro`, cambiá de lugar `<HomeStats lang={lang} />` y `<HomeServices lang={lang} />`. Cambiaste el orden de la Home moviendo una línea: eso es lo que da dividir en componentes.
+**Ejercicio:** en `src/components/HomeView.astro`, cambiá de lugar `<HomeStats lang={lang} />` y `<HomeContact lang={lang} />`. Cambiaste el orden de la Home moviendo una línea: eso es lo que da dividir en componentes.
 
 ## 2. i18n con rutas por carpeta
 
@@ -34,7 +34,7 @@ Guía basada en el código real de este repo, no genérica. Cada sección: qué 
 
 **Qué es:** datos con un *schema* validado (Zod) en vez de arrays sueltos en el código. Cada marca es un `.yaml` en `src/content/work/`; el schema está en `src/content.config.ts`.
 
-**Por qué acá:** el banner de marcas, la grilla de trabajos, "Qué hago" y la página Work leen la misma fuente. Agregar una marca es agregar un archivo.
+**Por qué acá:** el banner de marcas, la grilla de trabajos y la página Work leen la misma fuente. Agregar una marca es agregar un archivo.
 
 **Ejercicio:** en un `.yaml`, poné `year: "2025"` (con comillas) y corré `npm run build`. El schema rechaza el string porque espera un número.
 

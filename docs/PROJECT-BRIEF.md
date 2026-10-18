@@ -58,7 +58,7 @@ Todo corresponde a 2025 salvo que se confirme otra fecha. Distinguir explícitam
 | **Forum Industries** | 2025 | E-commerce, fotos y videos para web/redes | Modelo | modelaje, ecommerce, contenido | Bastante material: fotos + videos |
 | **Vans Uruguay** | 2025 | Contenido durante un viaje personal a Río de Janeiro usando producto de la marca; parte publicada en redes de la marca, parte en redes propias | Creador de contenido | contenido | Hasta ~10 fotos + algunos videos |
 | **Armani Beauty** | 2025 | Eventos y creación de contenido (primer acercamiento al rubro fue un evento suyo en Punta del Este, enero 2025 — no asumir que todo el material es de ese mismo evento) | Creador de contenido, invitado | eventos, contenido | Bastante material: fotos + videos |
-| **Carolina Herrera** | 2025 | Asistencia a eventos y contenido | Creador de contenido, invitado | eventos, contenido | ~4 fotos |
+| **Rabanne** *(no "Carolina Herrera")* | 2025 | Modelo e influencer para la marca | Modelo, creador de contenido | modelaje, contenido | ~4 fotos |
 | **Chivas Regal** | 2025 | Asistencia a un evento y contenido | Creador de contenido, invitado | eventos, contenido | ~4 fotos |
 | **Salus Uruguay** | 2025 | Participación en un comercial de televisión | Participante en comercial | comercial-tv | 1 foto propia; **no hay video del comercial disponible** |
 
@@ -67,7 +67,7 @@ Todo corresponde a 2025 salvo que se confirme otra fecha. Distinguir explícitam
 2. Cada proyecto respeta las categorías de la tabla; un proyecto puede tener varias.
 3. No inventar resultados, estadísticas, alcance, premios, créditos, enlaces o testimonios.
 4. No mostrar las 11 marcas con idéntico protagonismo — selección curada, no checklist.
-5. No forzar galerías extensas en proyectos con poco material (Carolina Herrera, Chivas Regal, Urban Haus: ~4 fotos; Salus: 1 foto).
+5. No forzar galerías extensas en proyectos con poco material (Rabanne, Chivas Regal, Urban Haus: ~4 fotos; Salus: 1 foto).
 6. Dejar espacio para enlaces a publicaciones oficiales, pero **no inventar URLs** — todos los `link` quedan `null`/pendientes hasta que el usuario los confirme.
 7. No usar logos o materiales oficiales de marca sin autorización — el nombre de la marca es referencia de un trabajo real, no implica respaldo oficial del sitio.
 8. Vans Uruguay: no presentar el viaje como campaña internacional oficial ni organizada por la marca.

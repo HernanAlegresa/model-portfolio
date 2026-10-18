@@ -1,0 +1,351 @@
+---
+import { Image, getImage } from 'astro:assets';
+import PlaceholderImage from '../PlaceholderImage.astro';
+import { aboutMedia } from '../../data/about-media';
+import { useTranslations } from '../../i18n/utils';
+import type { Lang } from '../../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+
+// Both texts are split into words so each one can light up in turn as the
+// reader scrolls (see the CSS at the bottom).
+const statementWords = t('home.about.statement').split(' ');
+const bodyWords = t('home.about.body').split(' ');
+
+const { video, images } = aboutMedia;
+const poster = video ? await getImage({ src: video.poster, width: 900 }) : null;
+
+// With no real photos yet, three placeholders take turns so the cross-fade
+// can be seen and judged before the photos arrive.
+const PLACEHOLDER_SLIDES = 3;
+const slideCount = video ? 0 : images.length || PLACEHOLDER_SLIDES;
+---
+
+<section class="about-intro" aria-labelledby="about-intro-title">
+  <!-- No visible title: the section speaks for itself. Screen readers still
+       get one, so the page outline stays complete. -->
+  <h2 id="about-intro-title" class="visually-hidden">{t('home.about.title')}</h2>
+
+  <div class:list={['about-intro__media', { 'about-intro__media--video': video }]}>
+    {
+      video ? (
+        <video
+          class="about-intro__video"
+          src={video.src}
+          poster={poster?.src}
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          aria-label={t('home.about.media.alt')}
+        />
+      ) : (
+        <div class="about-intro__slides" data-slides role="img" aria-label={t('home.about.media.alt')}>
+          {Array.from({ length: slideCount }).map((_, i) => (
+            <div class:list={['about-intro__slide', { 'is-active': i === 0 }]} aria-hidden="true">
+              {images[i] ? (
+                <Image src={images[i]} alt="" widths={[480, 800, 1200]} sizes="(min-width: 56rem) 34vw, 70vw" />
+              ) : (
+                <PlaceholderImage
+                  ratio="4 / 5"
+                  label={`${t('placeholder.label')} · ${i + 1}/${slideCount}`}
+                  accent={i % 2 ? 'wine' : 'neutral'}
+                />
+              )}
+            </div>
+          ))}
+          {slideCount > 1 && (
+            <div class="about-intro__progress" aria-hidden="true">
+              {Array.from({ length: slideCount }).map((_, i) => (
+                <span class:list={['about-intro__tick', { 'is-active': i === 0 }]} />
+              ))}
+            </div>
+          )}
+        </div>
+      )
+    }
+  </div>
+
+  <div class="about-intro__text">
+    <!-- The word spans exist for the scroll effect only; screen readers get
+         each text once, from the hidden copy. -->
+    <p class="about-intro__statement">
+      <span class="visually-hidden">{t('home.about.statement')}</span>
+      <span aria-hidden="true">
+        {
+          statementWords.map((word, i) => (
+            <span class="about-intro__word" style={`--i: ${i}; --n: ${statementWords.length};`}>
+              {word}{' '}
+            </span>
+          ))
+        }
+      </span>
+    </p>
+    <p class="about-intro__body">
+      <span class="visually-hidden">{t('home.about.body')}</span>
+      <span aria-hidden="true">
+        {
+          bodyWords.map((word, i) => (
+            <span class="about-intro__word" style={`--i: ${i}; --n: ${bodyWords.length};`}>
+              {word}{' '}
+            </span>
+          ))
+        }
+      </span>
+    </p>
+    <a class="about-intro__cta link-sweep" href={`/${lang}/about`}>{t('home.about.cta')}</a>
+  </div>
+</section>
+
+<style>
+  .about-intro {
+    display: grid;
+    gap: var(--space-5);
+    padding: var(--section-gap) var(--page-margin);
+  }
+
+  /* The frame: 4:5 for photos, 9:16 (the phone video's own shape, so
+     nothing is cropped) for a video. Everything inside fills it. */
+  .about-intro__media {
+    position: relative;
+    width: 70%;
+    max-width: 26rem;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: var(--color-ink-raised);
+  }
+
+  .about-intro__media--video {
+    aspect-ratio: 9 / 16;
+    width: 62%;
+  }
+
+  .about-intro__video,
+  .about-intro__slides,
+  .about-intro__slide,
+  .about-intro__slide :global(img),
+  .about-intro__slide :global(.placeholder) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Slides are stacked; only the active one is visible. */
+  .about-intro__slide {
+    opacity: 0;
+  }
+
+  .about-intro__slide.is-active {
+    opacity: 1;
+  }
+
+  /* One tick per slide along the top edge, the current one lit — tells
+     the viewer there's more than one photo and where they are. */
+  .about-intro__progress {
+    position: absolute;
+    inset: 0.75rem 0.75rem auto;
+    z-index: 1;
+    display: flex;
+    gap: 0.35rem;
+  }
+
+  .about-intro__tick {
+    flex: 1;
+    height: 2px;
+    background: rgb(242 241 238 / 30%);
+  }
+
+  .about-intro__tick.is-active {
+    background: var(--color-paper);
+  }
+
+  .about-intro__statement {
+    max-width: 18ch;
+    margin: 0 0 var(--space-5);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--step-4);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+
+  .about-intro__body {
+    max-width: 52ch;
+    margin: 0 0 var(--space-4);
+    color: var(--color-paper);
+    font-size: var(--step-1);
+    line-height: 1.55;
+  }
+
+  .about-intro__cta {
+    font-size: 0.95rem;
+  }
+
+  /* Desktop: the frame on the left, the text taking the rest, both centred
+     in a screen-tall section so it reads as its own page after the hero. */
+  @media (min-width: 56rem) {
+    .about-intro {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--space-4);
+      align-items: center;
+      min-height: 100svh;
+    }
+
+    .about-intro__media {
+      grid-column: 1 / 5;
+      width: auto;
+      max-width: none;
+      max-height: 80svh;
+    }
+
+    /* A 9:16 frame as wide as its columns would be taller than the screen,
+       so its width comes from the height cap instead (80% of the screen
+       tall), which keeps the whole video in view without cropping. */
+    .about-intro__media--video {
+      width: min(100%, 80svh * 9 / 16);
+      max-height: none;
+      justify-self: start;
+    }
+
+    /* The narrower video frame leaves room, so the text moves one column
+       closer instead of leaving a gap. */
+    .about-intro:has(.about-intro__media--video) .about-intro__text {
+      grid-column: 5 / 13;
+    }
+
+    .about-intro__text {
+      grid-column: 6 / 13;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* Cross-fade with a slow push-in on the incoming photo. */
+    .about-intro__slide {
+      transition: opacity 1400ms ease;
+    }
+
+    .about-intro__slide :global(img),
+    .about-intro__slide :global(.placeholder) {
+      transition: transform 6000ms linear;
+    }
+
+    .about-intro__slide.is-active :global(img),
+    .about-intro__slide.is-active :global(.placeholder) {
+      transform: scale(1.06);
+    }
+
+    .about-intro__tick {
+      transition: background-color 600ms ease;
+    }
+
+    /* Both texts read in as you scroll: every word starts dim and turns
+       white in order while its paragraph crosses the screen — the
+       statement first, then the paragraph below it. Without
+       scroll-timeline support the text is simply white. */
+    @supports (animation-timeline: view()) {
+      .about-intro__statement {
+        view-timeline: --statement block;
+      }
+
+      .about-intro__body {
+        view-timeline: --about-body block;
+      }
+
+      /* --lit-from / --lit-span: where in the paragraph's trip across the
+         screen the first word lights, and how long the whole run takes. */
+      .about-intro__word {
+        animation: word-light linear both;
+        animation-range:
+          cover calc(var(--lit-from) + var(--lit-span) * var(--i) / var(--n))
+          cover calc(var(--lit-from) + var(--lit-span) * (var(--i) + 1) / var(--n));
+      }
+
+      .about-intro__statement .about-intro__word {
+        --lit-from: 15%;
+        --lit-span: 40%;
+        animation-timeline: --statement;
+      }
+
+      .about-intro__body .about-intro__word {
+        --lit-from: 10%;
+        --lit-span: 35%;
+        animation-timeline: --about-body;
+      }
+    }
+  }
+
+  @keyframes word-light {
+    from {
+      color: rgb(242 241 238 / 18%);
+    }
+    to {
+      color: var(--color-paper);
+    }
+  }
+</style>
+
+<script>
+  // Slideshow: moves the active class to the next slide every few seconds.
+  // Runs only while the frame is on screen and the tab is visible, and not
+  // at all for visitors who asked for reduced motion (they see slide 1).
+  // The video, if any, likewise pauses for them and when off screen.
+  const INTERVAL_MS = 4000;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const slideshow = document.querySelector<HTMLElement>('[data-slides]');
+  if (slideshow && !reduceMotion) {
+    const slides = [...slideshow.querySelectorAll<HTMLElement>('.about-intro__slide')];
+    const ticks = [...slideshow.querySelectorAll<HTMLElement>('.about-intro__tick')];
+    let current = 0;
+    let timer: number | undefined;
+
+    const show = (next: number) => {
+      slides[current].classList.remove('is-active');
+      ticks[current]?.classList.remove('is-active');
+      current = next;
+      slides[current].classList.add('is-active');
+      ticks[current]?.classList.add('is-active');
+    };
+
+    const start = () => {
+      if (timer === undefined && slides.length > 1) {
+        timer = window.setInterval(() => show((current + 1) % slides.length), INTERVAL_MS);
+      }
+    };
+    const stop = () => {
+      window.clearInterval(timer);
+      timer = undefined;
+    };
+
+    let onScreen = false;
+    new IntersectionObserver(([entry]) => {
+      onScreen = entry.isIntersecting;
+      onScreen && !document.hidden ? start() : stop();
+    }).observe(slideshow);
+
+    document.addEventListener('visibilitychange', () => {
+      onScreen && !document.hidden ? start() : stop();
+    });
+  }
+
+  const video = document.querySelector<HTMLVideoElement>('.about-intro__video');
+  if (video) {
+    if (reduceMotion) {
+      video.removeAttribute('autoplay');
+      video.pause();
+    } else {
+      new IntersectionObserver(([entry]) => {
+        entry.isIntersecting ? video.play().catch(() => {}) : video.pause();
+      }).observe(video);
+    }
+  }
+</script>

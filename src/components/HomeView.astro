@@ -1,0 +1,336 @@
+---
+import { Image } from 'astro:assets';
+import HomeAbout from './home/HomeAbout.astro';
+import HomeBrands from './home/HomeBrands.astro';
+import HomeWork from './home/HomeWork.astro';
+import HomeStats from './home/HomeStats.astro';
+import HomeContact from './home/HomeContact.astro';
+import heroPhoto from '../assets/home/hero.png';
+import { useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<!-- Hero + the about section share a wrapper so the hero can stay pinned
+     (sticky) while the about section slides up over it, like a page turning. -->
+<div class="curtain">
+
+<section class="hero">
+  <!-- Cover photo. Loaded eagerly with high priority because it is the first
+       thing on screen (the page's LCP element); astro:assets generates the
+       resized WebP variants listed in `widths` and the browser picks one.
+       `sizes`: the photo is 16:9, so on any screen narrower than that (every
+       phone) `cover` scales it to the screen's height, making it ~1.78× the
+       viewport height wide — not 100vw. -->
+  <div class="hero__media reveal-wipe">
+    <Image
+      src={heroPhoto}
+      alt={t('home.hero.alt')}
+      widths={[640, 960, 1280, 1672]}
+      sizes="(max-aspect-ratio: 16/9) 178vh, 100vw"
+      loading="eager"
+      fetchpriority="high"
+      decoding="async"
+    />
+  </div>
+
+  <h1 class="hero__name">
+    <span class="hero__name-line reveal reveal-delay-1">{t('home.name.first')}</span>
+    <span class="hero__name-line reveal reveal-delay-2">{t('home.name.last')}</span>
+  </h1>
+
+  <p class="hero__bio reveal reveal-delay-3">{t('home.bio')}</p>
+
+  <!-- Darkens the hero as the next section covers it (scroll-driven, see CSS). -->
+  <div class="hero__shade" aria-hidden="true"></div>
+</section>
+
+<!-- The sheet that slides over the hero: an opaque layer with the about
+     section inside it. -->
+<div class="curtain__sheet">
+  <HomeAbout lang={lang} />
+</div>
+</div>
+
+<!-- The brand ticker doubles as the work carousel's heading, so the
+     carousel itself has no visible title (screen readers still get one). -->
+<HomeBrands lang={lang} />
+
+<HomeWork lang={lang} />
+
+<!-- Who he is first, then the work, the facts a casting needs, and how
+     to get in touch, in the order a client asks those. -->
+<HomeStats lang={lang} />
+<HomeContact lang={lang} />
+
+
+<style>
+  /* ─────────────────────────────────────────────────────────────────────────
+     HERO CONTROLS — hand-tuned values for the cover photo and the bio.
+     Edit them here (phone values) and in the 56rem block below (desktop
+     values); the dev server reloads on save.
+
+     --photo-x / --photo-y   Which part of the photo stays in frame when it's
+                             cropped. 0% = left/top edge, 100% = right/bottom.
+     --photo-zoom            1 = fills the screen exactly. 1.2 = 20% closer.
+                             Never below 1 (the screen edges would show).
+                             Zooms toward the --photo-x / --photo-y point.
+     --bio-shift-x / -y      Nudges the bio from its spot. Positive = right /
+                             down, negative = left / up. Use rem or svh.
+     --bio-col-start / -end  (desktop only) Which of the 12 grid columns the
+                             bio spans: 1 / 6 = columns 1 to 5.
+     --name-size             Size of HERNÁN ALEGRESA. The vw number is the
+                             knob; the svh cap on desktop stops it growing on
+                             short, wide windows.
+     --name-align            start = left, end = right, center = centered.
+     --name-shift-x          Nudges the name sideways from its aligned spot.
+                             Positive = right, negative = left. Use rem or vw.
+     --name-weight           Stroke thickness of the name, any number from
+                             100 (hairline) to 900 (heaviest). 400 = regular.
+     Defaults fill the page width on one line (desktop) / ALEGRESA's width on
+     two lines (phone) — the original look.
+     ───────────────────────────────────────────────────────────────────────── */
+  .hero {
+    --photo-x: 68%;
+    --photo-y: 50%;
+    --photo-zoom: 1;
+    --bio-shift-x: 0rem;
+    --bio-shift-y: -1.5rem;
+    --name-size: clamp(3.25rem, 16.1vw, 14rem);
+    --name-align: center;
+    --name-shift-x: 0rem;
+    --name-weight: 900;
+  }
+
+  @media (min-width: 56rem) {
+    .hero {
+      --photo-x: 52%;
+      --photo-y: 5%;
+      --photo-zoom: 1;
+      --bio-col-start: 1;
+      --bio-col-end: 6;
+      --bio-shift-x: 0rem;
+      --bio-shift-y: -2rem;
+      --name-size: min(10vw, 24svh);
+      --name-shift-x: 0rem;
+    }
+  }
+
+  /* Exactly one screen tall: the cover image fills the viewport and the type
+     sits on top of it. svh = the "small" viewport height, so on phones the
+     hero fits even while the browser's address bar is showing. */
+  .hero {
+    position: relative;
+    display: grid;
+    grid-template-rows: 1fr auto auto;
+    gap: var(--space-4);
+    height: 100svh;
+    min-height: 30rem;
+    padding: var(--nav-clearance) var(--page-margin) var(--page-margin);
+    overflow: hidden;
+    /* Own stacking context, so nothing inside it (the shade's z-index 2)
+       can rise above the gallery that slides over it. */
+    z-index: 0;
+  }
+
+  /* Pinned while the gallery scrolls up over it. Only when the screen is
+     at least as tall as the hero's min-height; otherwise the name at the
+     bottom would be stuck below the fold. */
+  @media (min-height: 30rem) {
+    .hero {
+      position: sticky;
+      top: 0;
+    }
+  }
+
+  .hero__shade {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: var(--color-ink);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .hero__media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  /* The photo is very bright (white wall, white tank top), so white type needs
+     help: a grey veil over everything (the reference's look too) plus a deeper
+     fade at the bottom where the name sits. */
+  .hero__media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to top, rgb(12 12 13 / 85%), rgb(12 12 13 / 35%) 45%, transparent 70%),
+      rgb(12 12 13 / 30%);
+    pointer-events: none;
+  }
+
+  /* Phones: the photo is landscape, so `cover` shows its full height and
+     crops a narrow vertical strip. The face sits right of center in the frame
+     (roughly 52–75% across), hence --photo-x: 68% to keep it whole.
+     The .hero's overflow: hidden clips whatever --photo-zoom pushes outside. */
+  .hero__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--photo-x) var(--photo-y);
+    transform: scale(var(--photo-zoom));
+    transform-origin: var(--photo-x) var(--photo-y);
+    filter: grayscale(1);
+  }
+
+  .hero__name,
+  .hero__bio {
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 1px 18px rgb(12 12 13 / 45%);
+  }
+
+  /* Inter Tight at 900 with tight tracking, like the very first version.
+     -0.045em left margin cancels the H's side bearing; -0.08em bottom margin
+     sits the baseline on the hero's bottom padding. */
+  .hero__name {
+    grid-row: 3;
+    justify-self: var(--name-align);
+    margin: 0 0 -0.08em -0.045em;
+    font-family: var(--font-name);
+    font-weight: var(--name-weight);
+    font-size: var(--name-size);
+    line-height: 0.85;
+    letter-spacing: -0.045em;
+    text-align: var(--name-align);
+    translate: var(--name-shift-x) 0;
+    text-transform: uppercase;
+  }
+
+  .hero__name-line {
+    display: block;
+  }
+
+  .hero__bio {
+    grid-row: 2;
+    max-width: 42ch;
+    margin: 0;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: clamp(0.72rem, 0.66rem + 0.3vw, 1rem);
+    line-height: 1.6;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    /* `translate` (not `transform`) so the nudge doesn't fight the load-in
+       animation, which animates `transform`. */
+    translate: var(--bio-shift-x) var(--bio-shift-y);
+  }
+
+  /* Desktop and landscape tablets: the name runs on a single line along the
+     bottom edge and the bio moves to its own column, vertically centered
+     in the space above. Starts at 56rem (not the usual 64rem) because at
+     ~1000px the phone layout put the bio right across the face. */
+  @media (min-width: 56rem) {
+    .hero {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      grid-template-rows: 1fr auto 1fr auto;
+    }
+
+    .hero__name {
+      grid-column: 1 / -1;
+      grid-row: 4;
+      white-space: nowrap;
+    }
+
+    .hero__name-line {
+      display: inline;
+    }
+
+    /* Astro drops the whitespace between the two spans, so the word gap is set here. */
+    .hero__name-line + .hero__name-line {
+      margin-left: 0.2em;
+    }
+
+    .hero__bio {
+      /* Left columns: the face is on the right of the photo, so the bio
+         sits on the empty wall instead of across it. */
+      grid-column: var(--bio-col-start) / var(--bio-col-end);
+      grid-row: 2;
+      max-width: 44ch;
+    }
+
+    /* Desktop crop (values in the controls block at the top): 16:9 screens
+       show the whole photo; wider ones crop top and bottom, and --photo-y: 0%
+       anchors the top so the hair is never cut; narrower ones (16:10, 4:3)
+       crop the sides, and --photo-x: 62% keeps the face off the right edge. */
+
+    /* Extra shade on the left behind the bio, which sits on the bright wall. */
+    .hero__media::after {
+      background:
+        linear-gradient(to right, rgb(12 12 13 / 55%), transparent 50%),
+        linear-gradient(to top, rgb(12 12 13 / 85%), rgb(12 12 13 / 35%) 40%, transparent 65%),
+        rgb(12 12 13 / 25%);
+    }
+  }
+
+  /* ─── The sheet over the hero ───────────────────────────────────────────
+     Opaque and stacked above the pinned hero, so scrolling slides it up over
+     the cover photo. A soft shadow on its top edge sells the overlap. */
+  .curtain__sheet {
+    position: relative;
+    z-index: 1;
+    background: var(--color-ink);
+    box-shadow: 0 -1.5rem 3rem rgb(0 0 0 / 55%);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* Scroll-driven motion: these animations advance with the scrollbar
+       instead of a clock, so they follow the reader's pace and stop when
+       they stop. Browsers without support get the plain slide-over. */
+    @supports (animation-timeline: view()) {
+      /* --curtain tracks the sheet entering the screen; timeline-scope
+         lets the hero (a sibling, not a child) read it. */
+      .curtain {
+        timeline-scope: --curtain;
+      }
+
+      .curtain__sheet {
+        view-timeline: --curtain block;
+      }
+
+      /* While the sheet rises (its top edge travelling from the bottom of
+         the screen to the top) the hero drifts up slowly and darkens. */
+      .hero {
+        animation: hero-recede linear both;
+        animation-timeline: --curtain;
+        animation-range: entry 0% entry 100%;
+      }
+
+      .hero__shade {
+        animation: hero-shade linear both;
+        animation-timeline: --curtain;
+        animation-range: entry 0% entry 100%;
+      }
+    }
+  }
+
+  @keyframes hero-recede {
+    to {
+      translate: 0 -12svh;
+    }
+  }
+
+  @keyframes hero-shade {
+    to {
+      opacity: 0.7;
+    }
+  }
+</style>
