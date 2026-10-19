@@ -58,6 +58,14 @@ import originalPenguinClip01 from '../assets/video/work/original-penguin-01.mp4?
 import originalPenguinClip02 from '../assets/video/work/original-penguin-02.mp4?url';
 import originalPenguinPoster01 from '../assets/video/work/original-penguin-01-poster.jpg';
 import originalPenguinPoster02 from '../assets/video/work/original-penguin-02-poster.jpg';
+import armaniBeauty01 from '../assets/work/armani-beauty/armani-beauty-01.jpg';
+import armaniBeauty02 from '../assets/work/armani-beauty/armani-beauty-02.jpg';
+import armaniBeauty03 from '../assets/work/armani-beauty/armani-beauty-03.jpg';
+import armaniBeauty04 from '../assets/work/armani-beauty/armani-beauty-04.jpg';
+import armaniBeauty05 from '../assets/work/armani-beauty/armani-beauty-05.jpg';
+import armaniBeauty06 from '../assets/work/armani-beauty/armani-beauty-06.jpg';
+import armaniBeautyFilmClip from '../assets/video/work/armani-beauty-film.mp4?url';
+import armaniBeautyFilmPoster from '../assets/video/work/armani-beauty-film-poster.jpg';
 import rentTheLookClip01 from '../assets/video/work/rent-the-look-01.mp4?url';
 import rentTheLookClip02 from '../assets/video/work/rent-the-look-02.mp4?url';
 import rentTheLookClip03 from '../assets/video/work/rent-the-look-03.mp4?url';
@@ -86,12 +94,15 @@ import rentTheLookPoster04 from '../assets/video/work/rent-the-look-04-poster.jp
  *     every row. The viewer still shows each photo whole, uncropped.
  *     Each photo can set `position` (what the crop keeps in view) and
  *     `zoom` (to frame it closer, towards `position`).
- *   · `rows`: rows of two or three, chosen one by one with `inRows(...)`
- *     (which also fills `rows`, the size of each row), every photo in the
- *     same 2:3 frame. A pair fills the width with two tall photos; a trio
- *     tightens the rhythm. On phones a pair stays two across and a trio
- *     shows its first photo full width. For big shoots with looks of two
- *     and three photos. `position` and `zoom` work as in `trios`.
+ *   · `rows`: rows of one to three, chosen one by one with `inRows(...)`
+ *     (which also fills `rows`). Every photo keeps its own proportions and
+ *     the photos of a row share the same height, so the row fills the
+ *     width exactly: two 2:3 photos make a tall pair, three a tighter row.
+ *     On phones a pair stays two across and a trio shows its first photo
+ *     full width. A row can also hold a film (`WorkFilm`): a video shown
+ *     with the same weight as the photos, silent and looping while on
+ *     screen; a horizontal one alone in its row spans the full width.
+ *     `position` and `zoom` work as in `trios`.
  * - `videos`: the "Backstage" strip, all in one row (up to five; two by
  *   two on phones, an odd last one centred).
  *   Each needs an H.264 MP4 imported with `?url`, a poster (its first
@@ -117,11 +128,21 @@ export interface WorkClip {
   label: Record<Lang, string>;
 }
 
+/** A video shown in the gallery itself, as one more piece of the work (`rows` only). */
+export interface WorkFilm extends WorkClip {
+  /** Its frame size in pixels, for its proportions in the row. */
+  width: number;
+  height: number;
+}
+
+/** One place in a `rows` row: a photo (its position in `photos`) or a film. */
+export type WorkRowItem = { photo: number } | { film: WorkFilm };
+
 export interface WorkPage {
   layout?: 'pairs' | 'trios' | 'rows';
   photos: WorkPhoto[];
-  /** Only for `rows`: how many photos each row takes, in order. */
-  rows?: number[];
+  /** Only for `rows`: what each row holds, in order. */
+  rows?: WorkRowItem[][];
   videos: WorkClip[];
 }
 
@@ -134,12 +155,22 @@ function inOrder(photos: Record<number, WorkPhoto>, order: number[]): WorkPhoto[
   });
 }
 
-/** Like `inOrder`, but row by row: the photos in order plus each row's size. */
-function inRows(photos: Record<number, WorkPhoto>, rows: number[][]): Pick<WorkPage, 'photos' | 'rows'> {
-  for (const row of rows) {
-    if (row.length < 1 || row.length > 3) throw new Error(`work-pages: a row takes one to three photos, not ${row.length}`);
-  }
-  return { photos: inOrder(photos, rows.flat()), rows: rows.map((row) => row.length) };
+/**
+ * Like `inOrder`, but row by row: each number is a photo of the table, and
+ * a film can take a place in a row too. Gives the photos in order (for the
+ * viewer) and what each row holds.
+ */
+function inRows(photos: Record<number, WorkPhoto>, rows: (number | WorkFilm)[][]): Pick<WorkPage, 'photos' | 'rows'> {
+  const order: number[] = [];
+  const layout = rows.map((row) => {
+    if (row.length < 1 || row.length > 3) throw new Error(`work-pages: a row takes one to three items, not ${row.length}`);
+    return row.map((item): WorkRowItem => {
+      if (typeof item !== 'number') return { film: item };
+      order.push(item);
+      return { photo: order.length - 1 };
+    });
+  });
+  return { photos: inOrder(photos, order), rows: layout };
 }
 
 /**
@@ -442,6 +473,64 @@ const originalPenguinPhotos: Record<number, WorkPhoto> = {
   },
 };
 
+/** Armani Beauty's photos, numbered like their files. 01 is also the Home card's. */
+const armaniBeautyPhotos: Record<number, WorkPhoto> = {
+  1: {
+    image: armaniBeauty01,
+    alt: {
+      es: 'Hernán Alegresa con camisa tejida a rayas, sosteniendo un frasco de Acqua di Giò frente al mar al atardecer.',
+      en: 'Hernán Alegresa in a striped knit shirt, holding a bottle of Acqua di Giò in front of the sea at sunset.',
+    },
+  },
+  2: {
+    image: armaniBeauty02,
+    alt: {
+      es: 'Hernán Alegresa con un frasco de Acqua di Giò Profondo apoyado sobre la cabeza, mirando a cámara con el mar y el atardecer detrás.',
+      en: 'Hernán Alegresa balancing a bottle of Acqua di Giò Profondo on his head, looking into the camera with the sea and sunset behind.',
+    },
+  },
+  3: {
+    image: armaniBeauty03,
+    alt: {
+      es: 'Hernán Alegresa caminando por la arena con camisa tejida a rayas, pantalón blanco y lentes de sol, durante un evento de Armani en la playa.',
+      en: 'Hernán Alegresa walking on the sand in a striped knit shirt, white trousers and sunglasses, during an Armani beach event.',
+    },
+  },
+  4: {
+    image: armaniBeauty04,
+    alt: {
+      es: 'Hernán Alegresa agachado junto al cartel de Armani en la playa, mirando un frasco de perfume a contraluz.',
+      en: 'Hernán Alegresa crouching by the Armani sign on the beach, looking at a perfume bottle against the light.',
+    },
+  },
+  5: {
+    image: armaniBeauty05,
+    alt: {
+      es: 'Hernán Alegresa de pie junto al cartel Mare Giorgio Armani en la playa, levantando un frasco de perfume al atardecer.',
+      en: 'Hernán Alegresa standing by the Mare Giorgio Armani sign on the beach, raising a perfume bottle at sunset.',
+    },
+  },
+  6: {
+    image: armaniBeauty06,
+    alt: {
+      es: 'Hernán Alegresa con un trago junto a una invitada con abanico, en el parador del evento de Armani al atardecer.',
+      en: 'Hernán Alegresa with a drink beside a guest holding a fan, at the Armani event beach bar at sunset.',
+    },
+  },
+};
+
+/** Armani Beauty's film, shot with a professional camera (1280×720 after conversion). */
+const armaniBeautyFilm: WorkFilm = {
+  src: armaniBeautyFilmClip,
+  poster: armaniBeautyFilmPoster,
+  width: 1280,
+  height: 720,
+  label: {
+    es: 'Hernán a contraluz frente al atardecer en la playa, con un frasco de Acqua di Giò en la mano.',
+    en: 'Hernán silhouetted against the sunset on the beach, holding a bottle of Acqua di Giò.',
+  },
+};
+
 export const workPages: Record<string, WorkPage> = {
   'rent-the-look': {
     photos: [
@@ -614,6 +703,20 @@ export const workPages: Record<string, WorkPage> = {
         },
       },
     ],
+  },
+  'armani-beauty': {
+    layout: 'rows',
+    // The film opens the gallery across the full width, then two rows of
+    // three. Each number is a photo in armaniBeautyPhotos above (= its file
+    // armani-beauty-NN.jpg); move `armaniBeautyFilm` to another row to
+    // change where the film goes.
+    ...inRows(armaniBeautyPhotos, [
+      [armaniBeautyFilm], //  the film, full width
+      [2, 1, 3], //           portraits with the perfume + walking
+      [5, 4, 6], //           at the event
+    ]),
+    // No backstage for this brand: the film is part of the work itself.
+    videos: [],
   },
 };
 

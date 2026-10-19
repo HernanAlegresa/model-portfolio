@@ -38,17 +38,31 @@ const photos = await Promise.all(
 
 // `pairs`: two photos per row, an odd one out closes the gallery on its
 // own. `trios`: one grid, three across, every photo in the same 4:5 crop.
-// `rows`: rows of two or three as listed in the page's `rows`, every photo
-// in the same 2:3 crop.
+// `rows`: rows of one to three as listed in the page's `rows`, photos and
+// films each at its own proportions, all of a row at the same height.
 const trios = page.layout === 'trios';
 const mixed = page.layout === 'rows';
-const sizes = mixed ? (page.rows ?? []) : Array.from({ length: Math.ceil(photos.length / 2) }, () => 2);
 const rows: (typeof photos)[] = [];
-let start = 0;
-for (const size of sizes) {
-  rows.push(photos.slice(start, start + size));
-  start += size;
-}
+if (!mixed) for (let i = 0; i < photos.length; i += 2) rows.push(photos.slice(i, i + 2));
+
+// A `fr` column per piece, as wide as its proportions.
+const columns = (row: { ratio: number }[]) => row.map((item) => `${item.ratio.toFixed(4)}fr`).join(' ');
+
+const mixedRows = await Promise.all(
+  (mixed ? (page.rows ?? []) : []).map((row) =>
+    Promise.all(
+      row.map(async (item) => {
+        if ('photo' in item) {
+          const photo = photos[item.photo]!;
+          return { kind: 'photo' as const, photo, ratio: photo.image.width / photo.image.height };
+        }
+        const { film } = item;
+        const poster = (await getImage({ src: film.poster, width: 1280, format: 'webp' })).src;
+        return { kind: 'film' as const, film: { ...film, poster }, ratio: film.width / film.height };
+      }),
+    ),
+  ),
+);
 
 const clips = await Promise.all(
   page.videos.map(async (clip) => ({
@@ -98,38 +112,86 @@ const nameWidth = displayNameWidth(brand).toFixed(4);
     }
     {
       !trios &&
+      !mixed &&
       rows.map((row, index) => (
-        <div
-          class={`project__row${row.length === 1 ? ' project__row--single' : ''}${row.length === 3 ? ' project__row--three' : ''}`}
-        >
-          {row.map((photo, place) => (
+        <div class={`project__row${row.length === 1 ? ' project__row--single' : ''}`}>
+          {row.map((photo) => (
             <figure class="project__frame" data-reveal>
               <a class="project__open" href={photo.full} data-photo-open={photo.at}>
                 <Image
                   src={photo.image}
                   alt={photo.alt[lang]}
-                  widths={[480, 640, 960, 1280, 1717]}
-                  sizes={
-                    !mixed
-                      ? '(min-width: 48rem) 50vw, 100vw'
-                      : row.length === 3
-                        ? place === 0
-                          ? '(min-width: 48rem) 33vw, 100vw'
-                          : '(min-width: 48rem) 33vw, 50vw'
-                        : '50vw'
-                  }
+                  widths={[640, 960, 1280, 1717]}
+                  sizes="(min-width: 48rem) 50vw, 100vw"
                   loading={index === 0 ? 'eager' : 'lazy'}
                   fetchpriority={index === 0 ? 'high' : undefined}
-                  style={
-                    mixed
-                      ? `object-position: ${photo.position ?? '50% 50%'}; transform-origin: ${photo.position ?? '50% 50%'}; --zoom: ${photo.zoom ?? 1}`
-                      : undefined
-                  }
                 />
                 <span class="visually-hidden">{t('work.photo.open')}</span>
               </a>
             </figure>
           ))}
+        </div>
+      ))
+    }
+    {
+      mixedRows.map((row, index) => (
+        // Each column as wide as its photo's proportions, so every photo of
+        // the row ends up the same height and the row fills the width.
+        <div
+          class={`project__row${row.length === 3 ? ' project__row--three' : ''}`}
+          style={`--cols: ${columns(row)}; --cols-rest: ${columns(row.slice(1))}`}
+        >
+          {row.map((item, place) =>
+            item.kind === 'film' ? (
+              <figure
+                class="project__frame project__frame--film"
+                data-reveal
+                style={`--ratio: ${item.film.width} / ${item.film.height}`}
+              >
+                {/* Like the backstage clips: controls without JS or with
+                    reduced motion, silent autoplay on screen otherwise. */}
+                <video
+                  data-clip
+                  controls
+                  muted
+                  loop
+                  playsinline
+                  preload="none"
+                  poster={item.film.poster}
+                  aria-label={item.film.label[lang]}
+                >
+                  <source src={item.film.src} type="video/mp4" />
+                </video>
+              </figure>
+            ) : (
+              <figure
+                class="project__frame"
+                data-reveal
+                style={`aspect-ratio: ${item.photo.image.width} / ${item.photo.image.height}`}
+              >
+                <a class="project__open" href={item.photo.full} data-photo-open={item.photo.at}>
+                  <Image
+                    src={item.photo.image}
+                    alt={item.photo.alt[lang]}
+                    widths={[480, 640, 960, 1280, 1717]}
+                    sizes={
+                      row.length === 1
+                        ? '100vw'
+                        : row.length === 3
+                          ? place === 0
+                            ? '(min-width: 48rem) 33vw, 100vw'
+                            : '(min-width: 48rem) 33vw, 50vw'
+                          : '50vw'
+                    }
+                    loading={index < 2 ? 'eager' : 'lazy'}
+                    fetchpriority={index === 0 ? 'high' : undefined}
+                    style={`object-position: ${item.photo.position ?? '50% 50%'}; transform-origin: ${item.photo.position ?? '50% 50%'}; --zoom: ${item.photo.zoom ?? 1}`}
+                  />
+                  <span class="visually-hidden">{t('work.photo.open')}</span>
+                </a>
+              </figure>
+            ),
+          )}
         </div>
       ))
     }
@@ -315,19 +377,45 @@ const nameWidth = displayNameWidth(brand).toFixed(4);
     }
   }
 
-  /* Rows: pairs and trios as listed, every photo in the same 2:3 frame so
-     a row always lines up. On phones a pair stays two across and a trio
-     opens with its first photo across the full width. */
+  /* Rows: one to three as listed, each photo or film at its own
+     proportions (set on the frame) and each column as wide as them
+     (`--cols`), so a row's pieces share one height and fill the width.
+     On phones a trio opens with its first photo across the full width
+     and the other two side by side, again at one height (`--cols-rest`). */
   .project__gallery--rows .project__row {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: var(--cols);
   }
 
-  .project__gallery--rows .project__row--three .project__frame:first-child {
-    grid-column: 1 / -1;
+  @media (max-width: 47.99rem) {
+    .project__gallery--rows .project__row--three {
+      grid-template-columns: var(--cols-rest);
+    }
+
+    .project__gallery--rows .project__row--three .project__frame:first-child {
+      grid-column: 1 / -1;
+    }
   }
 
-  .project__gallery--rows .project__frame {
-    aspect-ratio: 2 / 3;
+  /* A film keeps its proportions on phones. From tablet up it fills the
+     screen instead: as wide as the page and as tall as the window (less
+     the frame above and below), so it is seen whole, edge to edge, with
+     its top and bottom trimmed a little if the screen is wider than it. */
+  .project__frame--film {
+    aspect-ratio: var(--ratio);
+  }
+
+  @media (min-width: 48rem) {
+    .project__frame--film {
+      aspect-ratio: auto;
+      height: calc(100svh - 2 * var(--frame));
+    }
+  }
+
+  .project__frame--film video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .project__gallery--rows .project__open {
@@ -338,16 +426,6 @@ const nameWidth = displayNameWidth(brand).toFixed(4);
     height: 100%;
     object-fit: cover;
     scale: var(--zoom, 1);
-  }
-
-  @media (min-width: 48rem) {
-    .project__gallery--rows .project__row--three {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .project__gallery--rows .project__row--three .project__frame:first-child {
-      grid-column: auto;
-    }
   }
 
   /* ---- Backstage: the vertical clips in one row ---- */
