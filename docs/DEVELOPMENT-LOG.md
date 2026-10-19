@@ -281,3 +281,17 @@
 **Comprobaciones:** `npm run check` 0 errores; `npm run build` OK (16 páginas); Chrome 1536 px e iframe de 390 px sin scroll horizontal; los 5 clips se reproducen.
 
 **Pendiente:** siguiente marca por prioridad (Original Penguin); reconvertir los clips de Rent the Look si llegan los originales; lo que sigue abierto de la entrada anterior (polaroids, Armani, Meller, etc.).
+
+## 2026-10-19 (día) — Original Penguin, tercera página de marca
+
+**Fotos (21):** muchas fotos, pero los looks tienen 1, 2, 3 o 5 fotos, así que ni los pares (Rent the Look) ni los tríos (Forum) encajaban. Nuevo `layout: 'rows'` en `work-pages.ts`: filas de dos o de tres, una por una, con `inRows(tabla, [[2, 3], [4, 7, 5], …])` (cada lista es una fila de 1–3 fotos; tira error si una fila tiene más). Todas las fotos en el mismo marco 2:3 (ya son 2:3, no se recortan); los pares dan fotos grandes y los tríos aceleran el ritmo. En celular un par sigue de a dos y un trío abre con la primera a todo el ancho. Admite `position` y `zoom` como `trios`. Orden propuesto, un look por fila: jean en Casapueblo · campera azul marino (3) · campera en la costa (2) · buzo crema · camisa tropical · gorra beige ×2 + polo rosado · duna · gorra negra · café. Aprobado por el usuario. La foto 01 es la misma de la Home (mismo archivo, mismo número).
+
+**Backstage (2 clips):** uno SDR 1080p y otro HDR HLG 4K a 120 fps (convertido con el mapeo de tonos, salida a 30 fps). 35 MB → 1,7 MB. El clip de la escollera tiene dos modelos: la descripción no dice cuál es Hernán.
+- Con 2 clips cada uno ocupaba media fila y se veían enormes. Ahora ningún clip pasa de un cuarto del ancho (el tamaño de los 4 de Rent the Look): con 1–3 clips quedan a ese tamaño y centrados (`--slots`). Pedido del usuario.
+- Más aire entre clips en todas las marcas: `--clip-gap` (16–40 px) en vez de `--frame`. Pedido del usuario.
+
+**Videos pesados:** para los que no entran por el chat, pasarlos a la PC (cable / iCloud.com) y decir la carpeta, o recortarlos en el iPhone (Fotos → Editar) antes de mandarlos.
+
+**Comprobaciones:** `npm run check` 0 errores; `npm run build` OK (18 páginas); HTML del dev server con 9 filas (3 tríos) y 2 videos. Chrome no estaba conectado: la verificación visual la hizo el usuario en su navegador.
+
+**Pendiente:** siguiente marca por prioridad (Armani Beauty); reconvertir los clips de Rent the Look si llegan los originales; lo que sigue abierto (polaroids, Meller, etc.).

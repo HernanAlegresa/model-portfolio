@@ -33,6 +33,31 @@ import forumIndustriesPoster02 from '../assets/video/work/forum-industries-02-po
 import forumIndustriesPoster03 from '../assets/video/work/forum-industries-03-poster.jpg';
 import forumIndustriesPoster04 from '../assets/video/work/forum-industries-04-poster.jpg';
 import forumIndustriesPoster05 from '../assets/video/work/forum-industries-05-poster.jpg';
+import originalPenguin01 from '../assets/work/original-penguin/original-penguin-01.jpg';
+import originalPenguin02 from '../assets/work/original-penguin/original-penguin-02.jpg';
+import originalPenguin03 from '../assets/work/original-penguin/original-penguin-03.jpg';
+import originalPenguin04 from '../assets/work/original-penguin/original-penguin-04.jpg';
+import originalPenguin05 from '../assets/work/original-penguin/original-penguin-05.jpg';
+import originalPenguin06 from '../assets/work/original-penguin/original-penguin-06.jpg';
+import originalPenguin07 from '../assets/work/original-penguin/original-penguin-07.jpg';
+import originalPenguin08 from '../assets/work/original-penguin/original-penguin-08.jpg';
+import originalPenguin09 from '../assets/work/original-penguin/original-penguin-09.jpg';
+import originalPenguin10 from '../assets/work/original-penguin/original-penguin-10.jpg';
+import originalPenguin11 from '../assets/work/original-penguin/original-penguin-11.jpg';
+import originalPenguin12 from '../assets/work/original-penguin/original-penguin-12.jpg';
+import originalPenguin13 from '../assets/work/original-penguin/original-penguin-13.jpg';
+import originalPenguin14 from '../assets/work/original-penguin/original-penguin-14.jpg';
+import originalPenguin15 from '../assets/work/original-penguin/original-penguin-15.jpg';
+import originalPenguin16 from '../assets/work/original-penguin/original-penguin-16.jpg';
+import originalPenguin17 from '../assets/work/original-penguin/original-penguin-17.jpg';
+import originalPenguin18 from '../assets/work/original-penguin/original-penguin-18.jpg';
+import originalPenguin19 from '../assets/work/original-penguin/original-penguin-19.jpg';
+import originalPenguin20 from '../assets/work/original-penguin/original-penguin-20.jpg';
+import originalPenguin21 from '../assets/work/original-penguin/original-penguin-21.jpg';
+import originalPenguinClip01 from '../assets/video/work/original-penguin-01.mp4?url';
+import originalPenguinClip02 from '../assets/video/work/original-penguin-02.mp4?url';
+import originalPenguinPoster01 from '../assets/video/work/original-penguin-01-poster.jpg';
+import originalPenguinPoster02 from '../assets/video/work/original-penguin-02-poster.jpg';
 import rentTheLookClip01 from '../assets/video/work/rent-the-look-01.mp4?url';
 import rentTheLookClip02 from '../assets/video/work/rent-the-look-02.mp4?url';
 import rentTheLookClip03 from '../assets/video/work/rent-the-look-03.mp4?url';
@@ -61,6 +86,12 @@ import rentTheLookPoster04 from '../assets/video/work/rent-the-look-04-poster.jp
  *     every row. The viewer still shows each photo whole, uncropped.
  *     Each photo can set `position` (what the crop keeps in view) and
  *     `zoom` (to frame it closer, towards `position`).
+ *   · `rows`: rows of two or three, chosen one by one with `inRows(...)`
+ *     (which also fills `rows`, the size of each row), every photo in the
+ *     same 2:3 frame. A pair fills the width with two tall photos; a trio
+ *     tightens the rhythm. On phones a pair stays two across and a trio
+ *     shows its first photo full width. For big shoots with looks of two
+ *     and three photos. `position` and `zoom` work as in `trios`.
  * - `videos`: the "Backstage" strip, all in one row (up to five; two by
  *   two on phones, an odd last one centred).
  *   Each needs an H.264 MP4 imported with `?url`, a poster (its first
@@ -74,9 +105,9 @@ import rentTheLookPoster04 from '../assets/video/work/rent-the-look-04-poster.jp
 export interface WorkPhoto {
   image: ImageMetadata;
   alt: Record<Lang, string>;
-  /** Only used by the `trios` layout's 4:5 crop. Default: centred. */
+  /** Only used by the `trios` and `rows` crops. Default: centred. */
   position?: string;
-  /** Only used by the `trios` layout: 1 = no zoom, 1.2 = 20% closer. */
+  /** Only used by `trios` and `rows`: 1 = no zoom, 1.2 = 20% closer. */
   zoom?: number;
 }
 
@@ -87,8 +118,10 @@ export interface WorkClip {
 }
 
 export interface WorkPage {
-  layout?: 'pairs' | 'trios';
+  layout?: 'pairs' | 'trios' | 'rows';
   photos: WorkPhoto[];
+  /** Only for `rows`: how many photos each row takes, in order. */
+  rows?: number[];
   videos: WorkClip[];
 }
 
@@ -99,6 +132,14 @@ function inOrder(photos: Record<number, WorkPhoto>, order: number[]): WorkPhoto[
     if (!photo) throw new Error(`work-pages: there is no photo ${n}`);
     return photo;
   });
+}
+
+/** Like `inOrder`, but row by row: the photos in order plus each row's size. */
+function inRows(photos: Record<number, WorkPhoto>, rows: number[][]): Pick<WorkPage, 'photos' | 'rows'> {
+  for (const row of rows) {
+    if (row.length < 1 || row.length > 3) throw new Error(`work-pages: a row takes one to three photos, not ${row.length}`);
+  }
+  return { photos: inOrder(photos, rows.flat()), rows: rows.map((row) => row.length) };
 }
 
 /**
@@ -247,6 +288,160 @@ const forumIndustriesPhotos: Record<number, WorkPhoto> = {
   },
 };
 
+/**
+ * Original Penguin's photos, numbered like their files. All are already
+ * 2:3 like the `rows` frame, so none needs `position` or `zoom` yet.
+ */
+const originalPenguinPhotos: Record<number, WorkPhoto> = {
+  1: {
+    image: originalPenguin01,
+    alt: {
+      es: 'Hernán Alegresa con buzo crema Original Penguin y pantalón azul marino, apoyado en el tronco de una palmera.',
+      en: 'Hernán Alegresa in a cream Original Penguin sweatshirt and navy trousers, leaning on a palm trunk.',
+    },
+  },
+  2: {
+    image: originalPenguin02,
+    alt: {
+      es: 'Hernán Alegresa con camisa de jean abierta sobre una remera blanca estampada, mirando a cámara frente a una escultura blanca.',
+      en: 'Hernán Alegresa in an open denim shirt over a printed white tee, looking into the camera in front of a white sculpture.',
+    },
+  },
+  3: {
+    image: originalPenguin03,
+    alt: {
+      es: 'Hernán Alegresa con camisa de jean y remera blanca, apoyado en una pared encalada con azulejos azules de Casapueblo.',
+      en: 'Hernán Alegresa in a denim shirt and white tee, leaning on a whitewashed wall with blue Casapueblo tiles.',
+    },
+  },
+  4: {
+    image: originalPenguin04,
+    alt: {
+      es: 'Hernán Alegresa con campera azul marino, polo azul, short crema y lentes de sol, sentado en las rocas bajo Casapueblo.',
+      en: 'Hernán Alegresa in a navy jacket, blue polo, cream shorts and sunglasses, seated on the rocks below Casapueblo.',
+    },
+  },
+  5: {
+    image: originalPenguin05,
+    alt: {
+      es: 'Hernán Alegresa con lentes de sol, subiendo el cierre de una campera azul marino de puños a rayas, cielo nublado de fondo.',
+      en: 'Hernán Alegresa in sunglasses, zipping up a navy jacket with striped cuffs against a cloudy sky.',
+    },
+  },
+  6: {
+    image: originalPenguin06,
+    alt: {
+      es: 'Hernán Alegresa de pie en la costa rocosa con polo azul, short crema y la campera azul marino sobre el hombro.',
+      en: 'Hernán Alegresa standing on the rocky shore in a blue polo and cream shorts, the navy jacket over his shoulder.',
+    },
+  },
+  7: {
+    image: originalPenguin07,
+    alt: {
+      es: 'Primer plano de Hernán Alegresa con lentes de sol dorados, cerrando una campera azul marino con el pingüino bordado.',
+      en: 'Close-up of Hernán Alegresa in gold sunglasses, zipping a navy jacket with the embroidered penguin.',
+    },
+  },
+  8: {
+    image: originalPenguin08,
+    alt: {
+      es: 'Hernán Alegresa sentado en las rocas junto al mar con campera azul marino y zapatillas, con Casapueblo al fondo.',
+      en: 'Hernán Alegresa seated on the rocks by the sea in a navy jacket and sneakers, Casapueblo behind him.',
+    },
+  },
+  9: {
+    image: originalPenguin09,
+    alt: {
+      es: 'Hernán Alegresa en la playa con gorra beige, remera blanca y short de baño azul, acomodándose la gorra.',
+      en: 'Hernán Alegresa on the beach in a beige cap, white tee and blue swim shorts, adjusting the cap.',
+    },
+  },
+  10: {
+    image: originalPenguin10,
+    alt: {
+      es: 'Hernán Alegresa con gorra beige y camisa celeste, la mano en la gorra, con el mar de fondo.',
+      en: 'Hernán Alegresa in a beige cap and light blue shirt, hand on the cap, the sea behind him.',
+    },
+  },
+  11: {
+    image: originalPenguin11,
+    alt: {
+      es: 'Hernán Alegresa con camisa tropical estampada y lentes de sol, sentado en las rocas con la mano en la cara.',
+      en: 'Hernán Alegresa in a printed tropical shirt and sunglasses, seated on the rocks with his hand on his face.',
+    },
+  },
+  12: {
+    image: originalPenguin12,
+    alt: {
+      es: 'Hernán Alegresa con camisa tropical estampada y lentes de sol, sentado en las rocas con el brazo extendido.',
+      en: 'Hernán Alegresa in a printed tropical shirt and sunglasses, seated on the rocks with his arm stretched out.',
+    },
+  },
+  13: {
+    image: originalPenguin13,
+    alt: {
+      es: 'Hernán Alegresa recostado en una duna con remera azul, la mano en el pelo, con la playa y el mar detrás.',
+      en: 'Hernán Alegresa reclining on a dune in a blue tee, hand in his hair, the beach and sea behind him.',
+    },
+  },
+  14: {
+    image: originalPenguin14,
+    alt: {
+      es: 'Hernán Alegresa recostado en una duna con remera azul de pingüino bordado, mirando hacia un costado.',
+      en: 'Hernán Alegresa reclining on a dune in a blue tee with an embroidered penguin, looking to the side.',
+    },
+  },
+  15: {
+    image: originalPenguin15,
+    alt: {
+      es: 'Hernán Alegresa con polo rosado y lentes de sol, apoyado en un poste de madera bajo una palmera.',
+      en: 'Hernán Alegresa in a pink polo and sunglasses, leaning on a wooden post beneath a palm tree.',
+    },
+  },
+  16: {
+    image: originalPenguin16,
+    alt: {
+      es: 'Hernán Alegresa con buzo crema Original Penguin, apoyado en un poste con los lentes de sol en la mano.',
+      en: 'Hernán Alegresa in a cream Original Penguin sweatshirt, leaning on a post with his sunglasses in hand.',
+    },
+  },
+  17: {
+    image: originalPenguin17,
+    alt: {
+      es: 'Hernán Alegresa con buzo crema Original Penguin, el brazo apoyado en un poste y la mano en el bolsillo.',
+      en: 'Hernán Alegresa in a cream Original Penguin sweatshirt, arm resting on a post and hand in his pocket.',
+    },
+  },
+  18: {
+    image: originalPenguin18,
+    alt: {
+      es: 'Hernán Alegresa de perfil con gorra y remera negras, el mentón en la mano, junto a una columna blanca.',
+      en: 'Hernán Alegresa in profile in a black cap and tee, chin on his hand, beside a white column.',
+    },
+  },
+  19: {
+    image: originalPenguin19,
+    alt: {
+      es: 'Hernán Alegresa con gorra y remera negras, el mentón en la mano, mirando a cámara junto a una columna blanca.',
+      en: 'Hernán Alegresa in a black cap and tee, chin on his hand, looking into the camera beside a white column.',
+    },
+  },
+  20: {
+    image: originalPenguin20,
+    alt: {
+      es: 'Hernán Alegresa con polo blanco, buzo celeste sobre los hombros y lentes de sol, tomando un café al sol.',
+      en: 'Hernán Alegresa in a white polo, a light blue sweatshirt over his shoulders and sunglasses, drinking a coffee in the sun.',
+    },
+  },
+  21: {
+    image: originalPenguin21,
+    alt: {
+      es: 'Hernán Alegresa con polo blanco y buzo celeste sobre los hombros, llevándose una taza de café a la boca.',
+      en: 'Hernán Alegresa in a white polo with a light blue sweatshirt over his shoulders, raising a cup of coffee.',
+    },
+  },
+};
+
 export const workPages: Record<string, WorkPage> = {
   'rent-the-look': {
     photos: [
@@ -380,6 +575,42 @@ export const workPages: Record<string, WorkPage> = {
         label: {
           es: 'Detrás de cámara: Hernán con camisa verde oliva frente a un fondo azul, mientras la fotógrafa lo encuadra.',
           en: 'Behind the scenes: Hernán in an olive shirt against a blue backdrop while the photographer frames him.',
+        },
+      },
+    ],
+  },
+  'original-penguin': {
+    layout: 'rows',
+    // One list per row (two or three photos), one look per row, pairs and
+    // trios alternating. Each number is a photo in originalPenguinPhotos
+    // above (= its file original-penguin-NN.jpg): move the numbers to
+    // reorder, or between lists to regroup.
+    ...inRows(originalPenguinPhotos, [
+      [2, 3], //         denim shirt, Casapueblo
+      [4, 7, 5], //      navy jacket
+      [8, 6], //         navy jacket, on the shore
+      [16, 1, 17], //    cream sweatshirt
+      [11, 12], //       tropical shirt
+      [9, 10, 15], //    beige cap ×2 + pink polo
+      [13, 14], //       blue tee, on the dune
+      [18, 19], //       black cap
+      [20, 21], //       coffee
+    ]),
+    videos: [
+      {
+        src: originalPenguinClip01,
+        poster: originalPenguinPoster01,
+        label: {
+          es: 'Hernán con remera blanca, poniéndose una campera azul marino frente al mar y el cielo azul.',
+          en: 'Hernán in a white tee, putting on a navy jacket against the sea and a blue sky.',
+        },
+      },
+      {
+        src: originalPenguinClip02,
+        poster: originalPenguinPoster02,
+        label: {
+          es: 'Detrás de cámara: Hernán y otro modelo posando en la escollera mientras los fotografían.',
+          en: 'Behind the scenes: Hernán and another model posing on the breakwater while they are photographed.',
         },
       },
     ],
