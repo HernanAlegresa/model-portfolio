@@ -1,5 +1,6 @@
 ---
 import PlaceholderImage from './PlaceholderImage.astro';
+import { polaroids } from '../data/polaroids';
 import { useTranslations } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
 
@@ -11,13 +12,8 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 
 // Fixed, standard agency set — not a curated gallery. See docs/PROJECT-BRIEF.md
-// ("Polaroids") and docs/ASSET-GUIDE.md for the four exact shots this maps to.
-const shots = [
-  t('polaroids.shot.faceFront'),
-  t('polaroids.shot.faceProfile'),
-  t('polaroids.shot.bodyFront'),
-  t('polaroids.shot.bodyProfile'),
-];
+// ("Polaroids") and docs/ASSET-GUIDE.md for the four exact shots; the list
+// lives in src/data/polaroids.ts (shared with the Home).
 ---
 
 <section class="polaroids">
@@ -29,10 +25,10 @@ const shots = [
 
   <div class="polaroids__grid" data-reveal-group>
     {
-      shots.map((shot) => (
-        <div class="polaroids__item" data-reveal>
+      polaroids.map(({ shot, id }) => (
+        <div class="polaroids__item" id={id} data-reveal>
           <PlaceholderImage ratio="4 / 5" label={t('placeholder.label')} accent="neutral" />
-          <p class="polaroids__caption">{shot}</p>
+          <p class="polaroids__caption">{t(`polaroids.shot.${shot}`)}</p>
         </div>
       ))
     }

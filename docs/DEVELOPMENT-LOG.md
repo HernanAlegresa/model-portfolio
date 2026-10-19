@@ -194,3 +194,27 @@
 - Confirmar si Meller es correcto para la foto con paletas "KUL." y si Armani debe decir "CONTENIDO" en vez de "EVENTOS".
 - ¿Sacar también la frase de la ficha "Para agencias y castings…"?
 - Foto del hero en más resolución; fotos de About.
+
+## 2026-10-18 — Polaroids protagonistas en la Home + visor
+
+**Ficha de la Home (`HomeStats`):**
+- Las 4 polaroids pasan a ocupar todo el ancho (4 en fila en escritorio, 2×2 en celular): ~344 px de ancho cada una a 1536 px, el doble que antes.
+- Datos reducidos a los 5 clave en una línea chica debajo: altura, **peso (71,5 kg, nuevo, confirmado por el usuario)**, pecho, cintura, cadera. Talle, calzado, pelo y ojos quedan solo en About. Sale la frase "Para agencias y castings…".
+- Hover: la polaroid bajo el cursor se levanta y se inclina, las otras se atenúan.
+
+**Visor de polaroids (`PolaroidLightbox.astro`, nuevo):**
+- Click en una polaroid → visor a pantalla completa con contador, Cerrar, Anterior/Siguiente, flechas del teclado, Esc, swipe y click afuera para cerrar.
+- `<dialog>` nativo (`showModal()`): foco atrapado y Esc sin código propio. Con View Transitions la polaroid crece desde la miniatura y vuelve a ella al cerrar; sin soporte o con movimiento reducido, abre sin animación.
+- Cada polaroid es un link a `/polaroids#<toma>`: sin JS sigue funcionando.
+
+**Datos:**
+- `src/data/polaroids.ts` (nuevo): lista única de las 4 tomas (`image: null` hasta que lleguen las fotos), usada por la Home y por /polaroids (que ahora tiene anclas `#face-front`, etc.).
+- `profile.ts`: `weightKg` + `formatStatValue()` (71,5 en español, 71.5 en inglés). About muestra el peso en la ficha completa.
+
+**Comprobaciones:** `npm run check` 0 errores / 0 warnings; `npm run build` OK; Chrome a 1536 px, iframes de 390 y 320 px sin scroll horizontal; visor probado con flechas, Esc y click afuera.
+
+**Ajuste (mismo día):** título visible "POLAROIDS" a la izquierda (medidas del "Some works" de Máxima: ~45 px, mayúsculas, tracking cerrado, ~77 px hasta las fotos a 1536 px); "Ver polaroids" sube a la misma línea, a la derecha; las 5 medidas quedan centradas debajo. Sale el string oculto `home.stats.title`.
+
+**Fix (mismo día):** al cerrar el visor quedaba un borde bordó en la polaroid clickeada. Era `:focus-visible`: el `<dialog>` devuelve el foco al link que lo abrió y Chrome lo marcaba como foco visible. Ahora, si se abrió con mouse/toque, el foco vuelve sin contorno (`focus({ focusVisible: false })`, o `blur()` si el navegador no lo soporta); si se abrió con teclado (Enter), el contorno se mantiene para no perder la ubicación.
+
+**Pendiente:** cargar las 4 polaroids reales en `src/assets/polaroids/` y referenciarlas en `polaroids.ts`.

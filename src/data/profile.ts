@@ -11,6 +11,8 @@
  * Age is a manual field, never computed from a birthdate — the site must
  * never store or derive a full date of birth. Update by hand when it changes.
  */
+import type { Lang } from '../i18n/ui';
+
 export interface StatField<T> {
   value: T | null;
   confirmed: boolean;
@@ -25,9 +27,19 @@ function confirmed<T>(value: T): StatField<T> {
 export const profile = {
   age: confirmed(25),
   heightCm: confirmed(180),
+  weightKg: confirmed(71.5),
   chestCm: confirmed(98),
   waistCm: confirmed(75),
   hipCm: confirmed(95),
   clothingSize: confirmed('M'),
   shoeSizeEu: confirmed(42),
 } as const;
+
+/**
+ * Numbers in each language's own notation: 71,5 in Spanish, 71.5 in
+ * English. Text values (clothing size) pass through untouched.
+ */
+export function formatStatValue(value: string | number | null, lang: Lang): string {
+  if (value === null) return '';
+  return typeof value === 'number' ? value.toLocaleString(lang === 'es' ? 'es-UY' : 'en-US') : value;
+}

@@ -2,7 +2,7 @@
 
 ## Stack y por qué
 
-- **Astro 7**, salida estática (`output: "static"`, default). Astro genera HTML en build time; no hay JS de framework en el cliente. Elegido porque el sitio es mayormente contenido + fotografía, no una app interactiva — React/Vue serían peso sin beneficio real. El poco JS que existe es TypeScript vanilla en `<script>` de componentes (Astro lo empaqueta): el menú overlay (`Nav.astro`), el selector de idioma (`LanguageSwitcher.astro`), el scroll-reveal (`BaseLayout.astro`) y el video/slideshow de "Sobre mí" (`home/HomeAbout.astro`).
+- **Astro 7**, salida estática (`output: "static"`, default). Astro genera HTML en build time; no hay JS de framework en el cliente. Elegido porque el sitio es mayormente contenido + fotografía, no una app interactiva — React/Vue serían peso sin beneficio real. El poco JS que existe es TypeScript vanilla en `<script>` de componentes (Astro lo empaqueta): el menú overlay (`Nav.astro`), el selector de idioma (`LanguageSwitcher.astro`), el scroll-reveal (`BaseLayout.astro`) el video/slideshow de "Sobre mí" (`home/HomeAbout.astro`) y el visor de polaroids (`PolaroidLightbox.astro`: `<dialog>` nativo + View Transitions para que la foto crezca desde la miniatura).
 - **TypeScript estricto** (`tsconfig.json` extiende `astro/tsconfigs/strict`).
 - **Node.js ≥22.12.0** — requisito real de Astro 7 (`npm view astro engines`). Se actualizó el entorno de desarrollo de Node 20.17 (EOL desde 2026-03-24) a Node 22.23.3 LTS vía nvm-windows.
 - **Fuentes autohospedadas** vía fontsource en vez de Google Fonts CDN: `@fontsource-variable/inter-tight` (display), `@fontsource-variable/inter` (cuerpo) y `@fontsource/dm-mono` peso 500 (etiquetas y bio; DM Mono no tiene versión variable).
@@ -50,11 +50,13 @@ src/components/
   LanguageSwitcher.astro      — botón con globo que despliega Español / English (switchLocalePath)
   SiteFooter.astro            — Instagram + copyright
   PlaceholderImage.astro      — bloque rayado con aspect-ratio y label visible, para fotos todavía no cargadas
+  PolaroidPrint.astro         — una polaroid como copia física (borde blanco, foto 3:4, nombre de la toma)
+  PolaroidLightbox.astro      — visor a pantalla completa de las 4 polaroids (flechas, Esc, swipe)
   HomeView.astro              — hero + orden de las secciones de la Home (ver abajo)
   home/HomeAbout.astro        — "Sobre mí": video o slideshow + frase y párrafo que se iluminan al scrollear
   home/HomeBrands.astro       — banner de marcas que se desliza (marquee CSS)
   home/HomeWork.astro         — grilla 2×3 de trabajos con hover de Máxima Michaels + botón "Ver más trabajos"
-  home/HomeStats.astro        — ficha (medidas de profile.ts) + 4 polaroids que llevan a /polaroids
+  home/HomeStats.astro        — 4 polaroids grandes que abren el visor + 5 medidas clave (altura, peso, pecho, cintura, cadera)
   home/HomeContact.astro      — cierre "Trabajemos juntos" + Instagram
   WorkView.astro              — lista de proyectos desde la Content Collection `work`
   PolaroidsView.astro         — las 4 tomas fijas de agencia
@@ -63,6 +65,7 @@ src/components/
   WipView.astro               — stub genérico "Próximamente", sin ruta activa hoy
 src/data/
   profile.ts                  — medidas físicas confirmadas/pendientes, edad manual (nunca calculada de fecha de nacimiento)
+  polaroids.ts                — las 4 polaroids de agencia (foto, alt, encuadre); compartido por la Home y /polaroids
   selected-work.ts            — qué 6 marcas y fotos muestra la grilla de trabajos de la Home
   about-media.ts              — video (o fotos) del marco de "Sobre mí"
 src/content/

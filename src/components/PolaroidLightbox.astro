@@ -1,0 +1,304 @@
+---
+import PolaroidPrint from './PolaroidPrint.astro';
+import { polaroids } from '../data/polaroids';
+import { useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+
+<!--
+  Full-screen viewer for the four polaroids. Any element on the page with
+  data-lightbox-open="<index>" opens it at that print (plain links that
+  still work without JS — the script intercepts the click).
+
+  Built on the native <dialog>: showModal() gives focus trapping, Esc and
+  the top layer for free. Arrow keys and swipes move between prints. Where
+  the browser supports View Transitions, the print grows out of the one
+  that was clicked and shrinks back into it on close.
+-->
+<dialog class="lb" aria-label={t('lightbox.label')} data-lightbox>
+  <div class="lb__bar">
+    <p class="lb__count">
+      <span data-lightbox-current>01</span> / {pad(polaroids.length)}
+    </p>
+    <button type="button" class="lb__button" data-lightbox-close>{t('lightbox.close')}</button>
+  </div>
+
+  <div class="lb__stage" data-lightbox-stage>
+    {
+      polaroids.map((polaroid, index) => (
+        <div class="lb__slide" data-lightbox-slide hidden={index !== 0}>
+          <PolaroidPrint
+            polaroid={polaroid}
+            lang={lang}
+            sizes="min(92vw, calc((100svh - 9rem) / 1.42))"
+            class="lb__print"
+          />
+        </div>
+      ))
+    }
+  </div>
+
+  <div class="lb__nav">
+    <button type="button" class="lb__button" data-lightbox-prev>{t('lightbox.prev')}</button>
+    <button type="button" class="lb__button" data-lightbox-next>{t('lightbox.next')}</button>
+  </div>
+</dialog>
+
+<style>
+  .lb {
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+    margin: 0;
+    padding: var(--space-3) var(--page-margin);
+    border: 0;
+    color: var(--color-paper);
+    background: rgb(12 12 13 / 92%);
+    backdrop-filter: blur(8px);
+  }
+
+  .lb[open] {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    gap: var(--space-3);
+  }
+
+  .lb::backdrop {
+    background: transparent;
+  }
+
+  .lb__bar,
+  .lb__nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .lb__count {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-smoke);
+  }
+
+  .lb__count span {
+    color: var(--color-paper);
+  }
+
+  /* Text buttons in the site's mono voice, like the header. */
+  .lb__button {
+    padding: 0.6rem 0;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-paper);
+    background: none;
+    border: 0;
+    cursor: pointer;
+  }
+
+  .lb__button:hover {
+    color: var(--color-smoke);
+  }
+
+  .lb__stage {
+    display: grid;
+    place-items: center;
+    min-height: 0;
+    touch-action: pan-y;
+    user-select: none;
+  }
+
+  /* As large as the screen allows: the print is ~1.42× taller than wide
+     (3:4 photo plus the paper border and caption strip). The width goes on
+     the slide, not the print, because the print's percentage border is
+     measured against its container. */
+  .lb__slide {
+    width: min(100%, calc((100svh - 9rem) / 1.42));
+  }
+
+  .lb__slide[hidden] {
+    display: none;
+  }
+
+  .lb__slide :global(.lb__print .print__caption) {
+    font-size: clamp(0.66rem, 0.55rem + 0.3vw, 0.85rem);
+  }
+
+  :global(html:has(.lb[open])) {
+    overflow: hidden;
+    scrollbar-gutter: stable;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* Changing print: the new one slides in from the side it came from. */
+    .lb__slide.is-entering {
+      animation: lb-enter 450ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes lb-enter {
+      from {
+        opacity: 0;
+        translate: calc(var(--lb-direction, 1) * 2.5rem) 0;
+      }
+    }
+
+    /* The open/close morph (View Transitions, see the script). */
+    :global(::view-transition-group(polaroid)) {
+      animation-duration: 550ms;
+      animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    :global(::view-transition-old(root)),
+    :global(::view-transition-new(root)) {
+      animation-duration: 350ms;
+    }
+  }
+</style>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('[data-lightbox]');
+
+  if (dialog) {
+    const slides = [...dialog.querySelectorAll<HTMLElement>('[data-lightbox-slide]')];
+    const current = dialog.querySelector<HTMLElement>('[data-lightbox-current]')!;
+    const stage = dialog.querySelector<HTMLElement>('[data-lightbox-stage]')!;
+    const triggers = [...document.querySelectorAll<HTMLElement>('[data-lightbox-open]')];
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let index = 0;
+    // Which print opened the viewer, and whether by keyboard (Enter) or by
+    // a pointer (mouse or tap). See restoreFocus below.
+    let opener: HTMLElement | null = null;
+    let openedByKeyboard = false;
+
+    const printOf = (element: Element | undefined) => element?.querySelector<HTMLElement>('.print') ?? null;
+
+    // Runs `update` as a View Transition in which `from` morphs into `to`
+    // (both get the same view-transition-name, one on each side).
+    const morph = (from: HTMLElement | null, update: () => HTMLElement | null) => {
+      if (!document.startViewTransition || reduceMotion.matches || !from) {
+        update();
+        return;
+      }
+      from.style.viewTransitionName = 'polaroid';
+      let to: HTMLElement | null = null;
+      const transition = document.startViewTransition(() => {
+        from.style.viewTransitionName = '';
+        to = update();
+        if (to) to.style.viewTransitionName = 'polaroid';
+      });
+      transition.finished.finally(() => {
+        if (to) to.style.viewTransitionName = '';
+      });
+    };
+
+    const show = (next: number, direction = 0) => {
+      index = (next + slides.length) % slides.length;
+      slides.forEach((slide, i) => {
+        slide.hidden = i !== index;
+        slide.classList.remove('is-entering');
+      });
+      if (direction) {
+        const slide = slides[index];
+        slide.style.setProperty('--lb-direction', String(direction));
+        void slide.offsetWidth; // restart the animation on quick repeats
+        slide.classList.add('is-entering');
+      }
+      current.textContent = String(index + 1).padStart(2, '0');
+    };
+
+    const open = (at: number, trigger: HTMLElement) => {
+      morph(printOf(trigger), () => {
+        show(at);
+        dialog.showModal();
+        return printOf(slides[index]);
+      });
+    };
+
+    // Shrinks back into the print it came from, if that one is on screen.
+    // Closing a <dialog> hands focus back to whatever opened it, and Chrome
+    // then draws the :focus-visible outline on that print. Keyboard users
+    // need that marker to know where they are; after a click it's just a
+    // stray red frame, so for pointer users focus comes back without it
+    // (or, where the browser can't do that, is let go).
+    const restoreFocus = () => {
+      if (!opener || openedByKeyboard) return;
+      opener.focus({ preventScroll: true, focusVisible: false } as FocusOptions);
+      if (opener.matches(':focus-visible')) opener.blur();
+    };
+
+    const close = () => {
+      const target = printOf(triggers[index]);
+      const rect = target?.getBoundingClientRect();
+      const onScreen = rect && rect.bottom > 0 && rect.top < window.innerHeight;
+      morph(onScreen ? printOf(slides[index]) : null, () => {
+        dialog.close();
+        restoreFocus();
+        return onScreen ? target : null;
+      });
+    };
+
+    triggers.forEach((trigger) => {
+      trigger.addEventListener('click', (event) => {
+        event.preventDefault();
+        opener = trigger;
+        openedByKeyboard = event.detail === 0; // a click from Enter has no pointer clicks
+        open(Number(trigger.dataset.lightboxOpen), trigger);
+      });
+    });
+
+    dialog.querySelector('[data-lightbox-close]')!.addEventListener('click', close);
+    dialog.querySelector('[data-lightbox-prev]')!.addEventListener('click', () => show(index - 1, -1));
+    dialog.querySelector('[data-lightbox-next]')!.addEventListener('click', () => show(index + 1, 1));
+
+    // Esc: close with the same animation instead of the instant default.
+    dialog.addEventListener('cancel', (event) => {
+      event.preventDefault();
+      close();
+    });
+
+    dialog.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') show(index - 1, -1);
+      if (event.key === 'ArrowRight') show(index + 1, 1);
+    });
+
+    // Swipe left/right on touch screens.
+    let startX: number | null = null;
+    let swiped = false;
+    stage.addEventListener('pointerdown', (event) => {
+      swiped = false;
+      if (event.pointerType !== 'mouse') startX = event.clientX;
+    });
+    stage.addEventListener('pointerup', (event) => {
+      if (startX === null) return;
+      const distance = event.clientX - startX;
+      startX = null;
+      if (Math.abs(distance) > 50) {
+        swiped = true; // the click that follows this pointerup isn't a tap
+        show(index + (distance < 0 ? 1 : -1), distance < 0 ? 1 : -1);
+      }
+    });
+
+    // A click on the empty dark area (not on the print or a button) closes.
+    dialog.addEventListener('click', (event) => {
+      if (swiped) {
+        swiped = false;
+        return;
+      }
+      const target = event.target as HTMLElement;
+      if (target === dialog || target === stage || target.matches('[data-lightbox-slide]')) close();
+    });
+  }
+</script>

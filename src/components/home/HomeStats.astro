@@ -1,6 +1,8 @@
 ---
-import PlaceholderImage from '../PlaceholderImage.astro';
-import { profile, type StatField } from '../../data/profile';
+import PolaroidPrint from '../PolaroidPrint.astro';
+import PolaroidLightbox from '../PolaroidLightbox.astro';
+import { polaroids } from '../../data/polaroids';
+import { profile, formatStatValue, type StatField } from '../../data/profile';
 import { useTranslations } from '../../i18n/utils';
 import type { Lang } from '../../i18n/ui';
 
@@ -11,207 +13,202 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 
-// What a casting director looks for first, in comp-card order: height
-// leads, then measurements, sizes, colouring. Values come from
-// src/data/profile.ts; unconfirmed ones show "to be confirmed".
-const format = (field: StatField<string | number>, unit = '') =>
-  field.confirmed ? `${field.value}${unit ? ` ${unit}` : ''}` : t('about.stats.pending');
-
-const stats = [
-  { label: t('about.stats.height'), value: format(profile.heightCm, 'cm') },
-  { label: t('about.stats.chest'), value: format(profile.chestCm, 'cm') },
-  { label: t('about.stats.waist'), value: format(profile.waistCm, 'cm') },
-  { label: t('about.stats.hip'), value: format(profile.hipCm, 'cm') },
-  { label: t('about.stats.clothing'), value: format(profile.clothingSize) },
-  { label: t('about.stats.shoe'), value: format(profile.shoeSizeEu, 'EU') },
-  { label: t('about.stats.hair'), value: t('about.stats.hairValue') },
-  { label: t('about.stats.eyes'), value: t('about.stats.eyesValue') },
-];
-
-const polaroids = [
-  t('polaroids.shot.faceFront'),
-  t('polaroids.shot.faceProfile'),
-  t('polaroids.shot.bodyFront'),
-  t('polaroids.shot.bodyProfile'),
+// The polaroids lead; under them, only the five numbers a casting asks
+// for first. The full sheet (sizes, colouring, age) lives on /about.
+const stats: { label: string; field: StatField<number>; unit: string }[] = [
+  { label: t('about.stats.height'), field: profile.heightCm, unit: 'cm' },
+  { label: t('about.stats.weight'), field: profile.weightKg, unit: 'kg' },
+  { label: t('about.stats.chest'), field: profile.chestCm, unit: 'cm' },
+  { label: t('about.stats.waist'), field: profile.waistCm, unit: 'cm' },
+  { label: t('about.stats.hip'), field: profile.hipCm, unit: 'cm' },
 ];
 ---
 
 <section class="stats" aria-labelledby="stats-title">
-  <div class="stats__info">
-    <!-- No visible label, like the other Home sections; screen readers
-         still get the heading. -->
-    <h2 id="stats-title" class="visually-hidden">{t('home.stats.title')}</h2>
-    <p class="stats__intro">{t('home.stats.intro')}</p>
+  <!-- Section title on the left, as Máxima Michaels titles "Some works";
+     the link to the full page sits on the same line, on the right. -->
+  <header class="stats__head">
+    <h2 id="stats-title" class="stats__title">{t('nav.polaroids')}</h2>
+    <a class="stats__cta link-sweep" href={`/${lang}/polaroids`}>{t('home.stats.cta')}</a>
+  </header>
 
-    <dl class="stats__list">
+  <!-- Each print is a link to its place on /polaroids; with JS it opens
+       the full-screen viewer instead (PolaroidLightbox). -->
+  <ul class="stats__prints" role="list">
+    {
+      polaroids.map((polaroid, index) => (
+        <li>
+          <a
+            class="stats__print"
+            href={`/${lang}/polaroids#${polaroid.id}`}
+            data-lightbox-open={index}
+            aria-label={`${t('home.stats.open')}: ${t(`polaroids.shot.${polaroid.shot}`)}`}
+          >
+            <PolaroidPrint
+              polaroid={polaroid}
+              lang={lang}
+              sizes="(min-width: 48rem) 24vw, 46vw"
+            />
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+
+  <dl class="stats__list">
       {
-        stats.map(({ label, value }) => (
+        stats.map(({ label, field, unit }) => (
           <div class="stats__item">
             <dt>{label}</dt>
-            <dd>{value}</dd>
+            <dd>
+              {field.confirmed ? (
+                <>
+                  {formatStatValue(field.value, lang)}
+                  <span class="stats__unit">{unit}</span>
+                </>
+              ) : (
+                <span class="stats__unit">{t('about.stats.pending')}</span>
+              )}
+            </dd>
           </div>
         ))
       }
-    </dl>
-  </div>
+  </dl>
 
-  <a class="stats__polaroids" href={`/${lang}/polaroids`}>
-    <ul class="stats__frames" role="list">
-      {
-        polaroids.map((label) => (
-          <li class="stats__frame">
-            <PlaceholderImage ratio="3 / 4" label={t('placeholder.label')} />
-            <span class="stats__frame-label">{label}</span>
-          </li>
-        ))
-      }
-    </ul>
-    <span class="stats__cta link-sweep">{t('home.stats.cta')}</span>
-  </a>
+  <PolaroidLightbox lang={lang} />
 </section>
 
 <style>
   .stats {
-    display: grid;
-    gap: var(--space-6);
     padding: 0 var(--page-margin) var(--section-gap);
   }
 
-  .stats__intro {
-    max-width: 34ch;
-    margin: 0 0 var(--space-5);
-    font-size: var(--step-1);
-    line-height: 1.35;
+  .stats__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-bottom: clamp(2rem, 1rem + 4vw, 5.4rem);
   }
 
-  /* Two columns of label-over-value pairs, like the back of a comp card. */
-  .stats__list {
+  /* Measured on Máxima's "Some works": 45px, uppercase, tight tracking. */
+  .stats__title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(1.9rem, 1.3rem + 1.6vw, 2.8rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+  }
+
+  /* The four prints across the full width (two by two on phones): they
+     are the section. */
+  .stats__prints {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-4) var(--space-4);
+    gap: var(--space-3) 0.75rem;
     margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .stats__print {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    cursor: zoom-in;
+  }
+
+  /* Under the prints, a single quiet line of numbers, centred, like the
+     edge of a comp card: small mono labels, the values in the display face.
+     Columns are as wide as their content, so even on a 320px phone the
+     five fit side by side. */
+  .stats__list {
+    display: grid;
+    grid-template-columns: repeat(5, auto);
+    justify-content: space-between;
+    gap: var(--space-2);
+    margin: var(--space-5) 0 0;
+    text-align: center;
   }
 
   .stats__item {
     min-width: 0;
-    padding-top: var(--space-2);
-    border-top: 1px solid var(--color-hairline);
   }
 
   .stats__item dt {
     font-family: var(--font-mono);
-    font-size: 0.72rem;
-    letter-spacing: 0.04em;
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--color-smoke);
   }
 
   .stats__item dd {
-    margin: 0.2rem 0 0;
+    margin: 0.3rem 0 0;
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: var(--step-2);
-    letter-spacing: -0.02em;
+    font-size: var(--step-0);
+    letter-spacing: -0.01em;
+    white-space: nowrap;
   }
 
-  .stats__polaroids {
-    display: block;
-    text-decoration: none;
-  }
-
-  .stats__frames {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-3);
-    margin: 0 0 var(--space-4);
-    padding: 0;
-    list-style: none;
-  }
-
-  /* Printed like an actual polaroid: white border, deeper at the bottom,
-     with the shot's name written in that strip. */
-  .stats__frame {
-    min-width: 0;
-    padding: 0.4rem 0.4rem 0;
-    background: var(--color-paper);
-  }
-
-  .stats__frame :global(.placeholder) {
-    border: 0;
-  }
-
-  .stats__frame-label {
-    display: block;
-    padding: 0.55rem 0.1rem 0.6rem;
+  .stats__unit {
+    margin-left: 0.2em;
     font-family: var(--font-mono);
-    font-size: 0.66rem;
-    letter-spacing: 0.02em;
-    line-height: 1.3;
+    font-weight: 500;
+    font-size: 0.62rem;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: var(--color-ink);
+    color: var(--color-smoke);
   }
 
   .stats__cta {
+    flex-shrink: 0;
     font-size: 0.95rem;
   }
 
-  .stats__polaroids:hover .stats__cta,
-  .stats__polaroids:focus-visible .stats__cta {
-    background-size: 100% 1px;
-  }
+  @media (min-width: 48rem) {
+    .stats__prints {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-4);
+    }
 
-  @media (min-width: 40rem) {
     .stats__list {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      justify-content: center;
+      column-gap: clamp(var(--space-4), 4vw, var(--space-6));
     }
 
-    .stats__frames {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-  }
-
-  /* Desktop: the card's facts on the left, the four polaroids on the right. */
-  @media (min-width: 64rem) {
-    .stats {
-      grid-template-columns: repeat(12, minmax(0, 1fr));
-      column-gap: var(--space-4);
-      align-items: end;
-    }
-
-    .stats__info {
-      grid-column: 1 / 7;
-    }
-
-    .stats__polaroids {
-      grid-column: 7 / 13;
+    .stats__item dd {
+      font-size: var(--step-1);
     }
   }
 
-  /* The polaroids fan out slightly on hover, like prints picked up from a
-     table, then settle back. */
+  /* Hover: the print under the cursor is picked up off the table (lifted,
+     slightly tilted) while the others step back. */
   @media (prefers-reduced-motion: no-preference) and (hover: hover) {
-    .stats__frame {
-      transition: rotate 500ms cubic-bezier(0.16, 1, 0.3, 1), translate 500ms cubic-bezier(0.16, 1, 0.3, 1);
+    .stats__print {
+      transition:
+        rotate 500ms cubic-bezier(0.16, 1, 0.3, 1),
+        translate 500ms cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 400ms ease;
     }
 
-    .stats__polaroids:hover .stats__frame:nth-child(1) {
-      rotate: -2deg;
-      translate: -0.3rem -0.3rem;
+    .stats__prints:has(.stats__print:hover) .stats__print:not(:hover) {
+      opacity: 0.55;
     }
 
-    .stats__polaroids:hover .stats__frame:nth-child(2) {
-      rotate: 1.5deg;
-      translate: 0.3rem -0.4rem;
+    .stats__print:hover {
+      translate: 0 -0.6rem;
     }
 
-    .stats__polaroids:hover .stats__frame:nth-child(3) {
-      rotate: 1deg;
-      translate: -0.2rem 0.3rem;
-    }
-
-    .stats__polaroids:hover .stats__frame:nth-child(4) {
+    li:nth-child(odd) .stats__print:hover {
       rotate: -1.5deg;
-      translate: 0.3rem 0.2rem;
+    }
+
+    li:nth-child(even) .stats__print:hover {
+      rotate: 1.5deg;
     }
   }
 </style>
