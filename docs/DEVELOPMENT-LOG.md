@@ -266,3 +266,18 @@
 - Cada foto de la página es un link al archivo en tamaño completo: sin JS (o con Ctrl/⌘-clic) se abre sola. Cursor de lupa.
 - Bug encontrado y corregido: las flechas, además de cambiar de foto, movían el foco a un botón y le dibujaban el contorno bordó (acción por defecto de Chrome). Ahora `preventDefault()`. Mismo arreglo aplicado al visor de polaroids, que tenía el mismo código.
 - Comprobaciones: `npm run check` 0 errores; `npm run build` OK; probado en Chrome (clic, flechas, Esc, Cerrar) a 1536 px y en iframe de 390 px.
+
+## 2026-10-19 (noche) — Forum Industries, segunda página de marca
+
+**Fotos (15):** con tantas fotos, de a pares la página quedaba larguísima. Nuevo `layout: 'trios'` en `work-pages.ts`: tres por fila (dos en celular, la primera a todo el ancho), todas recortadas a 4:5 para que las filas queden parejas; el visor sigue mostrando cada foto entera. 15 = 5 filas justas. Cada foto puede llevar `position` (qué parte deja a la vista el recorte) y `zoom` (acercar hacia `position`, con `scale` + `transform-origin`). Las fotos de Forum quedaron en una tabla numerada como sus archivos (`forumIndustriesPhotos`) y el orden en una lista (`inOrder(...)`), para que el usuario las ordene y encuadre a mano: así lo hizo (orden final 1, 3, 2, 14, 13, 15, 7, 8, 9, 10, 11, 12, 5, 4, 6; encuadre propio en la 5 y la 6).
+
+**Backstage (5 clips):** la tira acepta hasta 5 en una fila (`--clips`); en celular, de a dos, con el último solo y centrado. Orden pedido por el usuario: el 3.º y el 5.º intercambiados. Los `.mov` del iPhone eran HDR HLG (`arib-std-b67`): convertidos como siempre salían lavados (el fondo azul del estudio quedaba lila), así que se convierten con mapeo de tonos a SDR (comando en `ASSET-GUIDE.md` §6). 85 MB → 5,8 MB. Los clips de Rent the Look se convirtieron sin ese paso y se ven algo planos: reconvertirlos si el usuario reenvía los originales.
+
+**Bug: el nombre de la marca se cortaba** (la S final de "FORUM INDUSTRIES"). Dos causas:
+- El tamaño salía de `largo × 0,55 em`, pero en Inter Tight 900 las letras van de 0,27 em (I) a 1,07 em (W). Rabanne y Vans Uruguay se iban a cortar más. Ahora `src/lib/display-name.ts` tiene el avance de cada carácter y los pares con kerning, medidos en Chrome; da el ancho real del nombre (coincide con el navegador al milésimo de em) y `font-size: 100cqi / --name-width`. Si cambia la tipografía, el peso o el tracking del título, hay que volver a medir.
+- El `clip-path` de la animación de entrada recortaba justo en los bordes de la caja, y letras como K, A o V sobresalen unos píxeles: ahora llega 0,1 em más allá a los costados.
+- Comprobado con los 11 nombres a 7 anchos (320–1536 px): ninguno se corta; el nombre empieza alineado con "02 / 11" y termina alineado con "Todos los trabajos".
+
+**Comprobaciones:** `npm run check` 0 errores; `npm run build` OK (16 páginas); Chrome 1536 px e iframe de 390 px sin scroll horizontal; los 5 clips se reproducen.
+
+**Pendiente:** siguiente marca por prioridad (Original Penguin); reconvertir los clips de Rent the Look si llegan los originales; lo que sigue abierto de la entrada anterior (polaroids, Armani, Meller, etc.).
