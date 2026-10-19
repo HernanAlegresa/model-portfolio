@@ -1,7 +1,7 @@
 ---
 import PlaceholderImage from './PlaceholderImage.astro';
 import { useTranslations } from '../i18n/utils';
-import { profile } from '../data/profile';
+import { profile, formatStatValue } from '../data/profile';
 import type { Lang } from '../i18n/ui';
 
 interface Props {
@@ -14,6 +14,7 @@ const t = useTranslations(lang);
 const stats = [
   { label: t('about.stats.age'), field: profile.age, unit: t('about.stats.ageUnit') },
   { label: t('about.stats.height'), field: profile.heightCm, unit: 'cm' },
+  { label: t('about.stats.weight'), field: profile.weightKg, unit: 'kg' },
   { label: t('about.stats.chest'), field: profile.chestCm, unit: 'cm' },
   { label: t('about.stats.waist'), field: profile.waistCm, unit: 'cm' },
   { label: t('about.stats.hip'), field: profile.hipCm, unit: 'cm' },
@@ -49,7 +50,7 @@ const stats = [
             <dd>
               {field.confirmed ? (
                 <>
-                  {field.value}
+                  {formatStatValue(field.value, lang)}
                   {unit ? ` ${unit}` : ''}
                 </>
               ) : (

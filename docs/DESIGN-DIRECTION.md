@@ -31,7 +31,7 @@ La fotografía del hero va en blanco y negro (`filter: grayscale(1)`); el video 
 
 - **Hero:** una pantalla exacta (`100svh`), foto a sangre, nombre enorme centrado a todo el ancho en la base, bio en mono a la izquierda (sobre la pared vacía de la foto). Valores ajustables en HERO CONTROLS.
 - **Header:** selector de idioma con globo (izq.), "MODELO" en mono (centro), hamburguesa (der.) que abre un overlay a pantalla completa. **No tocar la hamburguesa**: el usuario la aprobó tal cual.
-- **Secciones sin título visible.** El usuario prefiere que cada sección se explique sola (la frase de "Sobre mí", el banner de marcas sobre la grilla). Títulos solo para lectores de pantalla.
+- **Secciones sin título visible.** El usuario prefiere que cada sección se explique sola (la frase de "Sobre mí", el banner de marcas sobre la grilla). Títulos solo para lectores de pantalla. Excepción pedida por el usuario: "POLAROIDS" sobre las polaroids de la Home, a la izquierda como el "Some works" de Máxima (Inter Tight 900, ~45 px, mayúsculas, tracking −0.04em), con "Ver polaroids" en la misma línea a la derecha.
 - **Grilla de trabajos a sangre**, sin gutter entre fotos; los textos sí respetan `--page-margin`.
 - Cero radios de borde en superficies (la única forma redonda es el puntito separador del banner de marcas). Separadores con líneas de 1 px, no sombras (excepción: la sombra suave del borde superior de la hoja que tapa el hero).
 - Margen de página fluido (`--page-margin`, 1.25–2.25rem) y ritmo vertical generoso (`--space-8`, 9rem).
