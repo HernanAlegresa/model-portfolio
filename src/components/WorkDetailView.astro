@@ -35,7 +35,9 @@ const photos = await Promise.all(
   })),
 );
 
-// Two photos per row; an odd one out closes the gallery on its own.
+// `pairs`: two photos per row, an odd one out closes the gallery on its
+// own. `trios`: one grid, three across, every photo in the same 4:5 crop.
+const trios = page.layout === 'trios';
 const rows: (typeof photos)[] = [];
 for (let i = 0; i < photos.length; i += 2) rows.push(photos.slice(i, i + 2));
 
@@ -61,8 +63,31 @@ const nameLength = brand.length;
     <h1 class="project__name" style={`view-transition-name: work-${slug}`}>{brand}</h1>
   </header>
 
-  <section class="project__gallery" aria-label={t('work.detail.gallery')}>
+  <section
+    class={`project__gallery${trios ? ' project__gallery--trios' : ''}`}
+    aria-label={t('work.detail.gallery')}
+  >
     {
+      trios &&
+        photos.map((photo) => (
+          <figure class="project__frame" data-reveal>
+            <a class="project__open" href={photo.full} data-photo-open={photo.at}>
+              <Image
+                src={photo.image}
+                alt={photo.alt[lang]}
+                widths={[480, 720, 960, 1280]}
+                sizes={photo.at === 0 ? '(min-width: 48rem) 33vw, 100vw' : '(min-width: 48rem) 33vw, 50vw'}
+                loading={photo.at < 3 ? 'eager' : 'lazy'}
+                fetchpriority={photo.at === 0 ? 'high' : undefined}
+                style={`object-position: ${photo.position ?? '50% 50%'}; transform-origin: ${photo.position ?? '50% 50%'}; --zoom: ${photo.zoom ?? 1}`}
+              />
+              <span class="visually-hidden">{t('work.photo.open')}</span>
+            </a>
+          </figure>
+        ))
+    }
+    {
+      !trios &&
       rows.map((row, index) => (
         <div class={`project__row${row.length === 1 ? ' project__row--single' : ''}`}>
           {row.map((photo) => (
@@ -91,7 +116,7 @@ const nameLength = brand.length;
         <h2 id="backstage-title" class="project__label">
           {t('work.detail.backstage')}
         </h2>
-        <ul class="project__clips" role="list">
+        <ul class="project__clips" role="list" style={`--clips: ${Math.min(clips.length, 5)}`}>
           {clips.map((clip) => (
             <li class="project__clip" data-reveal>
               {/* Controls by default, so the clips work without JS or with
@@ -224,7 +249,42 @@ const nameLength = brand.length;
     }
   }
 
-  /* ---- Backstage: four vertical clips in one row ---- */
+  /* Trios: three across (two on phones, the first photo spanning both),
+     all cropped to the same 4:5 frame so every row lines up. */
+  .project__gallery--trios {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .project__gallery--trios .project__frame {
+    aspect-ratio: 4 / 5;
+  }
+
+  .project__gallery--trios .project__frame:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .project__gallery--trios .project__open {
+    height: 100%;
+  }
+
+  /* `zoom` scales towards `position` (both set per photo on the img). */
+  .project__gallery--trios .project__frame :global(img) {
+    height: 100%;
+    object-fit: cover;
+    scale: var(--zoom, 1);
+  }
+
+  @media (min-width: 48rem) {
+    .project__gallery--trios {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .project__gallery--trios .project__frame:first-child {
+      grid-column: auto;
+    }
+  }
+
+  /* ---- Backstage: the vertical clips in one row ---- */
 
   .project__backstage {
     padding-top: var(--section-gap);
@@ -250,9 +310,19 @@ const nameLength = brand.length;
     list-style: none;
   }
 
+  /* On phones, an odd last clip sits alone in the middle of its row. */
+  @media (max-width: 47.99rem) {
+    .project__clip:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+      justify-self: center;
+      width: calc(50% - var(--frame) / 2);
+    }
+  }
+
+  /* From tablet up, every clip in one row (up to five). */
   @media (min-width: 48rem) {
     .project__clips {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(var(--clips), minmax(0, 1fr));
     }
   }
 
@@ -383,6 +453,24 @@ const nameLength = brand.length;
       transition-delay: 140ms;
     }
 
+    /* In a trio, each photo arrives a beat after the one to its left. */
+    @media (min-width: 48rem) {
+      .project__gallery--trios .project__frame[data-reveal]:nth-child(3n + 1),
+      .project__gallery--trios .project__frame[data-reveal]:nth-child(3n + 1) :global(img) {
+        transition-delay: 0ms;
+      }
+
+      .project__gallery--trios .project__frame[data-reveal]:nth-child(3n + 2),
+      .project__gallery--trios .project__frame[data-reveal]:nth-child(3n + 2) :global(img) {
+        transition-delay: 140ms;
+      }
+
+      .project__gallery--trios .project__frame[data-reveal]:nth-child(3n),
+      .project__gallery--trios .project__frame[data-reveal]:nth-child(3n) :global(img) {
+        transition-delay: 280ms;
+      }
+    }
+
     .project__clip:nth-child(2) {
       transition-delay: 80ms;
     }
@@ -393,6 +481,10 @@ const nameLength = brand.length;
 
     .project__clip:nth-child(4) {
       transition-delay: 240ms;
+    }
+
+    .project__clip:nth-child(5) {
+      transition-delay: 320ms;
     }
 
     .project__next-link::after {
@@ -408,8 +500,9 @@ const nameLength = brand.length;
     /* A slow drift inside each frame while it crosses the screen. The
        photo is scaled up a little so the drift never shows an edge. */
     @supports (animation-timeline: view()) {
-      .project__frame :global(img) {
-        scale: 1.1;
+      .project__frame :global(img),
+      .project__gallery--trios .project__frame :global(img) {
+        scale: calc(1.1 * var(--zoom, 1));
         animation: project-drift linear both;
         animation-timeline: view();
       }
