@@ -3,6 +3,7 @@ import { Image, getImage } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import WorkLightbox from './WorkLightbox.astro';
 import { workPages, workHref } from '../data/work-pages';
+import { displayNameWidth } from '../lib/display-name';
 import { useTranslations } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
 
@@ -48,11 +49,12 @@ const clips = await Promise.all(
   })),
 );
 
-// The brand name is fitted to the full width by its length (see .project__name).
-const nameLength = brand.length;
+// The brand name's real width in em, letter by letter, so it can be sized
+// to fill the page width exactly (see .project__name).
+const nameWidth = displayNameWidth(brand).toFixed(4);
 ---
 
-<article class="project" style={`--name-chars: ${nameLength}`}>
+<article class="project" style={`--name-width: ${nameWidth}`}>
   <header class="project__head">
     <p class="project__index">
       <span>{pad(position + 1)} / {pad(projects.length)}</span>
@@ -182,14 +184,16 @@ const nameLength = brand.length;
     color: var(--color-paper);
   }
 
-  /* Sized from the name's length so any brand spans the width, like the
-     name on the Home hero (~0.55em per uppercase letter or space in Inter
-     Tight 900 at this tracking, measured on "RENT THE LOOK"). */
+  /* Sized so any brand spans the full width, like the name on the Home
+     hero: available width / the name's real width in em (measured letter
+     by letter, src/lib/display-name.ts). The first letter lines up with
+     the index line above (the -0.04em margin makes up for its side
+     bearing); the last ends just inside the right margin. */
   .project__name {
     margin: 0 0 0 -0.04em;
     font-family: var(--font-display);
     font-weight: 900;
-    font-size: min(calc(100cqi / (var(--name-chars) * 0.55)), 16rem);
+    font-size: min(calc(100cqi / var(--name-width)), 16rem);
     line-height: 0.85;
     letter-spacing: -0.045em;
     text-transform: uppercase;
@@ -418,13 +422,16 @@ const nameLength = brand.length;
       animation: none;
     }
 
+    /* The clip only hides the name below its baseline: it reaches 0.1em
+       past the sides so no letter whose stroke overhangs its box (K, A,
+       V) loses its edge. */
     @keyframes project-rise {
       from {
-        clip-path: inset(0 0 100% 0);
+        clip-path: inset(0 -0.1em 100% -0.1em);
         translate: 0 0.35em;
       }
       to {
-        clip-path: inset(0 0 -0.2em 0);
+        clip-path: inset(0 -0.1em -0.2em -0.1em);
         translate: 0 0;
       }
     }
