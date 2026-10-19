@@ -27,6 +27,35 @@ const alternatePath = switchLocalePath(pathname, lang === 'es' ? 'en' : 'es');
     <meta name="description" content={description} />
     <link rel="alternate" hreflang="es" href={lang === 'es' ? pathname : alternatePath} />
     <link rel="alternate" hreflang="en" href={lang === 'en' ? pathname : alternatePath} />
+    <!-- Cross-document View Transitions: pages cross-fade into each other,
+         and elements sharing a view-transition-name morph across the
+         navigation (a brand's name from its card into its page's title).
+         Inline in the head, not in global.css: in the bundled stylesheet
+         Chrome skipped the transition into the heavier pages (Home, a
+         brand's page). Browsers without support just navigate normally. -->
+    <style is:inline>
+      @view-transition {
+        navigation: auto;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        @view-transition {
+          navigation: none;
+        }
+      }
+    </style>
+    <!-- Flags a page that arrived through one of those transitions, so its
+         own entrance animations can step aside for the morph. In the head
+         so it's listening before the first frame. -->
+    <script is:inline>
+      addEventListener(
+        'pagereveal',
+        (event) => {
+          if (event.viewTransition) document.documentElement.classList.add('arrived-by-transition');
+        },
+        { once: true },
+      );
+    </script>
   </head>
   <body>
     <Nav lang={lang} />

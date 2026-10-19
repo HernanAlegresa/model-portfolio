@@ -7,6 +7,7 @@
 - **Node.js ≥22.12.0** — requisito real de Astro 7 (`npm view astro engines`). Se actualizó el entorno de desarrollo de Node 20.17 (EOL desde 2026-03-24) a Node 22.23.3 LTS vía nvm-windows.
 - **Fuentes autohospedadas** vía fontsource en vez de Google Fonts CDN: `@fontsource-variable/inter-tight` (display), `@fontsource-variable/inter` (cuerpo) y `@fontsource/dm-mono` peso 500 (etiquetas y bio; DM Mono no tiene versión variable).
 - **Sin dependencias de animación.** Todo el movimiento es CSS (transiciones, keyframes y animaciones ligadas al scroll con `animation-timeline`) más `IntersectionObserver` nativo — ver "Sistema de movimiento" abajo.
+- **View Transitions entre páginas.** `@view-transition { navigation: auto }` va en un `<style is:inline>` del `<head>` de `BaseLayout` (en `global.css` Chrome cancelaba la transición al entrar a la Home y a las páginas de marca con "ViewTransition opt-in disabled"). El nombre de una marca comparte `view-transition-name: work-<slug>` en la tarjeta de la Home, en `/work` y en el título de su página, así crece de uno al otro. Un script en el mismo `<head>` marca `html.arrived-by-transition` (evento `pagereveal`) para que la animación propia del título no se superponga al morph. Con movimiento reducido: `navigation: none`.
 
 ## i18n
 
@@ -34,7 +35,8 @@ i18n: {
 |---|---|
 | `/` | Redirect automático a `/es/` |
 | `/es/`, `/en/` | Home completa |
-| `/es/work`, `/en/work` | Completa — 11 proyectos reales desde Content Collections, con placeholders de foto/video |
+| `/es/work`, `/en/work` | Completa — 11 proyectos reales desde Content Collections; las marcas con página propia muestran sus fotos y linkean a ella, el resto sigue con placeholders |
+| `/es/work/<slug>`, `/en/work/<slug>` | Una página por marca con media en `src/data/work-pages.ts` (`getStaticPaths`). Hoy: `rent-the-look` |
 | `/es/polaroids`, `/en/polaroids` | Completa — 4 tomas fijas de agencia, con placeholders |
 | `/es/about`, `/en/about` | Completa — bio real + ficha técnica (`src/data/profile.ts`) |
 | `/es/contact`, `/en/contact` | Completa — Instagram + email pendiente, sin formulario (ver `PROJECT-BRIEF.md` §Contacto) |
@@ -52,13 +54,16 @@ src/components/
   PlaceholderImage.astro      — bloque rayado con aspect-ratio y label visible, para fotos todavía no cargadas
   PolaroidPrint.astro         — una polaroid como copia física (borde blanco, foto 3:4, nombre de la toma)
   PolaroidLightbox.astro      — visor a pantalla completa de las 4 polaroids (flechas, Esc, swipe)
+  WorkLightbox.astro          — visor de las fotos de una página de marca: foto entera sobre negro, contador, Cerrar/Anterior/Siguiente, flechas, Esc, swipe, crece desde la foto clickeada
   HomeView.astro              — hero + orden de las secciones de la Home (ver abajo)
   home/HomeAbout.astro        — "Sobre mí": video o slideshow + frase y párrafo que se iluminan al scrollear
   home/HomeBrands.astro       — banner de marcas que se desliza (marquee CSS)
-  home/HomeWork.astro         — grilla 2×3 de trabajos con hover de Máxima Michaels + botón "Ver más trabajos"
+  home/HomeWork.astro         — las 6 tarjetas de `selected-work.ts` (vía `WorkGrid`) + botón "Ver más trabajos"
+  WorkGrid.astro              — la grilla de tarjetas de trabajos (1,45:1, dos por fila, a sangre, hover de Máxima Michaels); la usan la Home y /work
   home/HomeStats.astro        — 4 polaroids grandes que abren el visor + 5 medidas clave (altura, peso, pecho, cintura, cadera)
   home/HomeContact.astro      — cierre "Trabajemos juntos" + Instagram
-  WorkView.astro              — lista de proyectos desde la Content Collection `work`
+  WorkView.astro              — /work: frase grande + "(WORK)" (como la página Work de Máxima), banner de marcas y las 11 tarjetas de `WorkGrid`
+  WorkDetailView.astro        — página de una marca: nombre a todo el ancho, fotos de a pares con un borde parejo alrededor, backstage en video, siguiente trabajo (sin texto: tipo de trabajo y año van en la tarjeta de /work)
   PolaroidsView.astro         — las 4 tomas fijas de agencia
   AboutView.astro             — bio (corta + extendida) + ficha técnica desde src/data/profile.ts
   ContactView.astro           — Instagram + email pendiente, estático
@@ -67,6 +72,7 @@ src/data/
   profile.ts                  — medidas físicas confirmadas/pendientes, edad manual (nunca calculada de fecha de nacimiento)
   polaroids.ts                — las 4 polaroids de agencia (foto, alt, encuadre); compartido por la Home y /polaroids
   selected-work.ts            — qué 6 marcas y fotos muestra la grilla de trabajos de la Home
+  work-pages.ts               — fotos y videos de la página propia de cada marca + `workHref()` (a dónde linkea cada tarjeta)
   about-media.ts              — video (o fotos) del marco de "Sobre mí"
 src/content/
   work/*.yaml                 — una entrada por marca/colaboración (ver content.config.ts)
@@ -109,7 +115,7 @@ Implementado 2026-10-15 (segunda sesión) cuando llegó contenido real de las 11
 - `brand`, `year` — datos simples, no traducidos (nombre propio / número).
 - `roles`, `categories` — arrays de claves en inglés (`model`, `ecommerce`, etc.); las etiquetas visibles están en `src/i18n/ui.ts` (`work.categories.*`), nunca hardcodeadas en el `.yaml` ni en el componente.
 - `summary`, `note` — texto libre por proyecto, con claves `es`/`en` dentro del mismo archivo. Esto es contenido real (como el body de un Markdown), por eso vive en la Collection y no en `ui.ts` — distinto tipo de string que el "chrome" de la interfaz.
-- `material.photos` — valor cualitativo (`pending`/`one`/`few`/`some`/`many`), no un conteo exacto — la mayoría de las marcas no tienen un inventario preciso todavía (ver `PROJECT-BRIEF.md`). `WorkView.astro` lo usa para decidir cuántos placeholders renderizar por proyecto.
+- `material.photos` — valor cualitativo (`pending`/`one`/`few`/`some`/`many`), no un conteo exacto — la mayoría de las marcas no tienen un inventario preciso todavía (ver `PROJECT-BRIEF.md`). Hoy no lo usa ningún componente; queda como dato de inventario.
 - `priority` — orden de curación manual, no alfabético ni cronológico — así la selección puede priorizar fuerza visual sin listar las 11 marcas con el mismo peso.
 - `link` — siempre `null` hasta que el usuario confirme una URL real; nunca se inventa.
 

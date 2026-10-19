@@ -1,0 +1,224 @@
+---
+import { Image } from 'astro:assets';
+import { getEntry } from 'astro:content';
+import PlaceholderImage from './PlaceholderImage.astro';
+import { workHref } from '../data/work-pages';
+import type { SelectedShot } from '../data/selected-work';
+import { useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  /** One card per shot, in order: the Home's six, or every brand on /work. */
+  shots: SelectedShot[];
+  /** Heading level of the brand names: h3 under the Home's section title, h2 on /work. */
+  headingLevel?: 'h2' | 'h3';
+}
+
+const { lang, shots: list, headingLevel: Heading = 'h3' } = Astro.props;
+const t = useTranslations(lang);
+
+// The Máxima Michaels reference: landscape cards, two per row, edge to
+// edge. Its cards are 760×523 on a 1520px screen, i.e. a 1.45 ratio.
+const RATIO = '1.45 / 1';
+
+const shots = await Promise.all(
+  list.map(async (shot) => {
+    const entry = await getEntry('work', shot.work);
+    // Fail the build on a typo'd slug instead of shipping an empty card.
+    if (!entry) throw new Error(`WorkGrid: no work entry "${shot.work}" in src/content/work/`);
+    const { brand, categories, year } = entry.data;
+    return {
+      ...shot,
+      brand,
+      year,
+      category: t(`work.categories.${categories[0]}`),
+      alt: shot.alt?.[lang] ?? t('home.work.shot.alt').replace('{brand}', brand),
+    };
+  }),
+);
+---
+
+<ul class="works__grid" role="list">
+  {
+    shots.map((shot) => (
+      <li class="works__item" data-reveal>
+        <a class="works__card" href={workHref(lang, shot.work)}>
+          <div class="works__media">
+            {/* The photo twice: a full-bleed copy that blurs and darkens on
+                hover, and a sharp copy on top that shrinks into a framed
+                print over it. At rest the two line up exactly, so only
+                one photo is seen. The browser downloads the file once. */}
+            <div class="works__layer works__layer--back">
+              {shot.image ? (
+                <Image
+                  src={shot.image}
+                  alt={shot.alt}
+                  widths={[640, 960, 1280, 1600]}
+                  sizes="(min-width: 48rem) 50vw, 100vw"
+                  style={shot.position && `object-position: ${shot.position}`}
+                />
+              ) : (
+                <PlaceholderImage ratio={RATIO} label={t('placeholder.label')} />
+              )}
+            </div>
+            <div class="works__layer works__layer--front" aria-hidden="true">
+              {shot.image ? (
+                <Image
+                  src={shot.image}
+                  alt=""
+                  widths={[640, 960, 1280, 1600]}
+                  sizes="(min-width: 48rem) 38vw, 76vw"
+                  style={shot.position && `object-position: ${shot.position}`}
+                />
+              ) : (
+                <PlaceholderImage ratio={RATIO} label={t('placeholder.label')} />
+              )}
+            </div>
+          </div>
+
+          <div class="works__caption">
+            <p class="works__category">
+              <span>{shot.category}</span>
+              <span aria-hidden="true">•</span>
+              <span>{shot.year}</span>
+            </p>
+            {/* Same view-transition-name as the brand page's title: the name
+                grows into it on the way there. */}
+            <Heading class="works__brand" style={`view-transition-name: work-${shot.work}`}>
+              {shot.brand}
+            </Heading>
+          </div>
+        </a>
+      </li>
+    ))
+  }
+</ul>
+
+<style>
+  /* Edge to edge, no gutter between the photos — the captions keep the
+     page margin. One column on phones, two from tablets up. Every card is
+     the same size, so a new brand simply takes the next slot. */
+  .works__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: var(--space-5);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 48rem) {
+    .works__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      row-gap: var(--space-6);
+    }
+  }
+
+  .works__card {
+    display: block;
+    text-decoration: none;
+  }
+
+  .works__media {
+    position: relative;
+    aspect-ratio: 1.45 / 1;
+    overflow: hidden;
+    background: var(--color-ink-raised);
+  }
+
+  .works__layer {
+    position: absolute;
+    inset: 0;
+  }
+
+  .works__layer :global(img),
+  .works__layer :global(.placeholder) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Dark veil over the back copy; invisible until hover. */
+  .works__layer--back::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgb(0 0 0 / 59%);
+    opacity: 0;
+  }
+
+  .works__caption {
+    padding: 1.25rem var(--page-margin) 0;
+  }
+
+  /* The kind of work, a dot, then its year (the dot asked for by the user). */
+  .works__category {
+    display: flex;
+    gap: 0.75em;
+    margin: 0 0 0.5rem;
+    font-family: var(--font-mono);
+    font-size: clamp(0.8rem, 0.7rem + 0.35vw, 1.1rem);
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: #a6a6a6;
+  }
+
+  .works__brand {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(1.4rem, 1rem + 1.2vw, 2rem);
+    line-height: 1.1;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+  }
+
+  /* The hover: the back copy blurs and darkens while the front copy shrinks
+     to 76% — a sharp print lifted off its own blurred photo. Keyboard
+     focus gets the same treatment. Hover-capable screens only; on touch
+     the cards just link. */
+  @media (hover: hover) {
+    .works__card:hover .works__layer--back :global(img),
+    .works__card:hover .works__layer--back :global(.placeholder),
+    .works__card:focus-visible .works__layer--back :global(img),
+    .works__card:focus-visible .works__layer--back :global(.placeholder) {
+      filter: blur(8px);
+      /* Slight zoom so the blur's soft edge stays outside the frame. */
+      transform: scale(1.06);
+    }
+
+    .works__card:hover .works__layer--back::after,
+    .works__card:focus-visible .works__layer--back::after {
+      opacity: 1;
+    }
+
+    .works__card:hover .works__layer--front,
+    .works__card:focus-visible .works__layer--front {
+      transform: scale(0.76);
+    }
+  }
+
+  .works__card:focus-visible {
+    outline-offset: -2px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .works__layer--back :global(img),
+    .works__layer--back :global(.placeholder),
+    .works__layer--front {
+      transition:
+        transform 700ms cubic-bezier(0.16, 1, 0.3, 1),
+        filter 700ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .works__layer--back::after {
+      transition: opacity 500ms ease;
+    }
+
+    /* Right-hand cards arrive a beat after their left neighbour. */
+    .works__item:nth-child(even) {
+      transition-delay: 120ms;
+    }
+  }
+</style>
