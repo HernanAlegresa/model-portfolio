@@ -1,0 +1,26 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import WorkDetailView from '../../../components/WorkDetailView.astro';
+import { workPages } from '../../../data/work-pages';
+import { useTranslations } from '../../../i18n/utils';
+
+// One page per brand that has media in src/data/work-pages.ts.
+export function getStaticPaths() {
+  return Object.keys(workPages).map((slug) => ({ params: { slug } }));
+}
+
+const { slug } = Astro.params;
+const entry = await getEntry('work', slug);
+if (!entry) throw new Error(`work-pages.ts: no work entry "${slug}" in src/content/work/`);
+
+const t = useTranslations('en');
+---
+
+<BaseLayout
+  lang="en"
+  title={t('work.detail.title').replace('{brand}', entry.data.brand)}
+  description={entry.data.summary.en}
+>
+  <WorkDetailView lang="en" slug={slug} />
+</BaseLayout>

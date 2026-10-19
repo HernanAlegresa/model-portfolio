@@ -65,9 +65,9 @@ El nombre de cada carpeta bajo `work/` coincide exactamente con el `slug` del ar
 
 ## 2. Cantidad recomendada por sección
 
-La cantidad de placeholders que ya genera cada página de `/work` depende del campo `material.photos` de cada entrada en `src/content/work/*.yaml` — no hace falta tocar código para ajustar la cantidad, **alcanza con editar ese campo** y el sitio regenera la galería:
+`/work` muestra una tarjeta por marca, todas iguales (como la grilla de la Home). La foto de cada tarjeta sale de `src/data/selected-work.ts`: las 6 marcas de la Home reusan su foto y encuadre; las demás muestran un placeholder hasta que se cargue su foto. El campo `material.photos` de cada `.yaml` quedó como referencia de cuánto material hay por marca:
 
-| Valor de `material.photos` | Placeholders que genera | Marcas con ese valor hoy |
+| Valor de `material.photos` | Fotos aproximadas | Marcas con ese valor hoy |
 |---|---|---|
 | `many` | 6 | Rent the Look, Forum Industries, Original Penguin, Armani Beauty |
 | `some` | 4 | Vans Uruguay, Meller |
@@ -127,15 +127,16 @@ Subí el archivo en su proporción real/sin recortar cuando sea posible — no h
 
 ## 6. Caso particular: Work ya usa Content Collections
 
-A diferencia de Home/Polaroids/About, `/work` ya no tiene imágenes hardcodeadas en el componente — las 11 marcas viven como datos en `src/content/work/*.yaml` (ver `src/content.config.ts` para el schema), y `WorkView.astro` genera la cantidad de placeholders a partir del campo `material.photos` de cada una (tabla en sección 2).
+Las 11 marcas viven como datos en `src/content/work/*.yaml` (schema en `src/content.config.ts`). En `/work` cada una es una tarjeta (`WorkGrid.astro`); su foto se elige en `src/data/selected-work.ts`.
 
-Cuando tengas fotos reales para una marca:
+Cuando tengas fotos reales para una marca, se le arma **su propia página** (`/es/work/<slug>`), como ya tiene Rent the Look:
 
-1. Colocá los archivos en `src/assets/work/<slug>/` (mismo `slug` que el nombre del archivo `.yaml`, sección 1).
-2. En `WorkView.astro`, el bloque que itera `Array.from({ length: count })` generando placeholders es el que hay que reemplazar por un loop sobre las imágenes reales de esa marca (vas a necesitar un mapa `slug → imágenes importadas`, igual que cualquier galería de Astro con `astro:assets`).
-3. Si la cantidad real de fotos difiere del placeholder sugerido, actualizá `material.photos` en el `.yaml` de esa marca para que quede coherente con lo que hay (no hace falta que coincida exacto, pero evitá un desfasaje grande).
-4. Si confirmás un enlace a la publicación oficial, completá el campo `link` del `.yaml` (hoy todos están en `null`) — nunca inventes una URL.
-5. Video: cuando haya un archivo de video real para una marca, se agrega como un elemento adicional dentro de la galería de esa marca (no hay componente de video dedicado todavía — es la próxima pieza a construir cuando llegue el primer archivo real, ver `docs/DEVELOPMENT-LOG.md`).
+1. Fotos en `src/assets/work/<slug>/<slug>-01.jpg`, `-02`… (mismo `slug` que el `.yaml`). JPG del tamaño original; Astro genera las versiones WebP livianas en el build.
+2. Videos: los `.mov` del iPhone son HEVC 4K y pesan 10–30 MB; Chrome en Windows y Firefox no los reproducen. Se convierten a MP4 H.264 720×1280, sin audio, con `ffmpeg` (instalado solo en el scratchpad de la sesión con `ffmpeg-static`, no como dependencia):
+   `ffmpeg -i in.mov -an -vf "scale=720:1280,format=yuv420p" -c:v libx264 -preset slow -crf 24 -movflags +faststart <slug>-01.mp4`
+   y el primer cuadro como póster: `ffmpeg -i <slug>-01.mp4 -frames:v 1 <slug>-01-poster.jpg`. Van en `src/assets/video/work/`. Los 4 clips de Rent the Look bajaron de 89 MB a 4,4 MB.
+3. En `src/data/work-pages.ts`, una entrada por marca: `photos` (todas, en orden, de a pares: el mejor par primero y juntas las del mismo look) y `videos` (la tira de "Backstage"), cada uno con su descripción ES/EN. Con esa entrada la página se genera sola, y la tarjeta de la Home y la de /work pasan a linkear ahí.
+4. Ajustá `material.photos` en el `.yaml` si la cantidad real cambió mucho, y completá `link` solo con una URL confirmada.
 
 ## 7. ES/EN
 

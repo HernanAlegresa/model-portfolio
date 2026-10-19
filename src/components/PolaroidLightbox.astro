@@ -269,7 +269,11 @@ const pad = (n: number) => String(n).padStart(2, '0');
       close();
     });
 
+    // The arrows only change print: their default would also move focus to
+    // a button (and draw the keyboard outline on it).
     dialog.addEventListener('keydown', (event) => {
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      event.preventDefault();
       if (event.key === 'ArrowLeft') show(index - 1, -1);
       if (event.key === 'ArrowRight') show(index + 1, 1);
     });

@@ -218,3 +218,51 @@
 **Fix (mismo día):** al cerrar el visor quedaba un borde bordó en la polaroid clickeada. Era `:focus-visible`: el `<dialog>` devuelve el foco al link que lo abrió y Chrome lo marcaba como foco visible. Ahora, si se abrió con mouse/toque, el foco vuelve sin contorno (`focus({ focusVisible: false })`, o `blur()` si el navegador no lo soporta); si se abrió con teclado (Enter), el contorno se mantiene para no perder la ubicación.
 
 **Pendiente:** cargar las 4 polaroids reales en `src/assets/polaroids/` y referenciarlas en `polaroids.ts`.
+
+## 2026-10-19 — Página propia de Rent the Look (primera marca)
+
+**Material recibido** (adjunto desde el celular por Remote Control): 7 fotos de estudio (1717×2576) y 4 clips de backstage (.mov HEVC 4K vertical, 4–10 s, 89 MB en total).
+- Fotos: `src/assets/work/rent-the-look/rent-the-look-01…07.jpg`. La 01 ya era la de la Home (traje marrón, sentado) y se mantuvo; el resto, numerado en el orden de la página. Astro las sirve en WebP (de ~700 KB a 50–170 KB según el ancho).
+- Videos: convertidos a MP4 H.264 720×1280 sin audio + póster (primer cuadro), en `src/assets/video/work/`: 4,4 MB los cuatro. Completos, sin recortar.
+
+**Nueva ruta `/es/work/<slug>` y `/en/work/<slug>`** (`WorkDetailView.astro` + `src/data/work-pages.ts`). Estructura:
+1. Índice `01 / 11` + "Todos los trabajos", y el nombre de la marca a todo el ancho (Inter Tight 900; el tamaño sale del largo del nombre, así sirve para cualquier marca).
+2. Intro: resumen grande + ficha (año, rol, formato, material) a la izquierda, fija mientras pasa la portada a la derecha (traje azul marino, primer plano).
+3. Fotos de a pares a sangre, sin gutter, agrupadas por look: azul de cuerpo entero + lino beige, verde oliva cuerpo entero + primer plano, lino con lentes + sentado.
+4. "BACKSTAGE": los 4 clips en una tira (2×2 en celular), en silencio y en loop, que se reproducen solo mientras están en pantalla. Con movimiento reducido o sin JS quedan con controles.
+5. "Siguiente trabajo" (por `priority`; hoy Forum Industries, que lleva a su lugar en /work) + botón a todos los trabajos.
+
+**Movimiento:** el nombre sube desde su línea base al cargar; cada foto se descubre de abajo hacia arriba al entrar en pantalla (la de la derecha un instante después) y se desplaza levemente dentro de su marco mientras se scrollea (`animation-timeline: view()`). Entre páginas: el nombre de la marca crece desde la tarjeta de la Home (o de /work) hasta el título (View Transitions entre documentos, ver ARCHITECTURE.md).
+
+**También:** la tarjeta de la Home y /work linkean a la página (`workHref()`); /work muestra las 4 primeras fotos reales de Rent the Look. Nuevos strings `work.roles.*` y `work.detail.*`.
+
+**Problemas encontrados:**
+- `IntersectionObserver` tiene en cuenta el `clip-path` del propio elemento: con la foto recortada al 100 % nunca se "veía" y no se revelaba. El recorte pasó a la `<img>` de adentro.
+- Chrome cancelaba la transición al entrar a la Home y a la página de marca ("ViewTransition opt-in disabled") con `@view-transition` en `global.css`; inline en el `<head>` de `BaseLayout` funciona.
+
+**Comprobaciones:** `npm run check` 0 errores / 0 warnings; `npm run build` 14 páginas; Chrome a 1536 px e iframe de 390 px sin scroll horizontal; Home → Rent the Look con transición y sin errores de consola.
+
+**Pendiente:** confirmar año (2025), rol y si hay crédito de fotógrafo o productora para nombrar; ¿visor a pantalla completa para las fotos de marca (como el de polaroids)?; siguiente marca.
+
+**/work rediseñada (mismo día):** pedido del usuario: que se vea como los trabajos de la Home, con todas las marcas.
+- Medido en la página Work de Máxima (1536 px): frase centrada de 90 px en mayúsculas ("I SHOOT COOL SHIT."), debajo "(SOME WORK)" en DM Mono 18 px gris, ~100 px hasta la grilla.
+- Arriba: frase "Solo presencia." / "Nothing but presence." (elegida por el usuario) (`work.statement`, Inter Tight 900, 90 px a 1536 px) y "(WORK)" en mono gris como `h1`. Después el banner de marcas (`HomeBrands`) y la grilla con las 11 marcas por `priority`.
+- La grilla de la Home pasó a `WorkGrid.astro`, compartida: las tarjetas son idénticas en las dos páginas y una marca nueva ocupa el lugar siguiente. Las 5 marcas sin foto (Vans Uruguay, Urban Haus, Chivas Regal, VCP Uruguay, Salus Uruguay) muestran placeholder.
+- Sale la lista anterior (etiquetas, resumen, galerías de placeholders) y sus strings (`work.kicker`, `work.lead`, `work.card.*`, `work.detail.open`).
+- Comprobaciones: `npm run check` 0 errores; `npm run build` OK; Chrome 1536 px y iframe 390 px sin scroll horizontal; la Home sin cambios visibles (hover incluido).
+- Frase definitiva elegida por el usuario.
+
+**Ajustes pedidos por el usuario (mismo día):**
+- Tarjetas de trabajos (`WorkGrid`, o sea /work y la Home): el año a la derecha de la categoría ("MODELAJE   2025"). Todos los trabajos del sitio son de 2025: el usuario arrancó este año.
+- Página de Rent the Look: sin el texto de la izquierda (resumen + ficha). El usuario quiere mostrar solo fotos y videos; el tipo de trabajo ya está en /work. Sale el campo `cover` de `work-pages.ts`: todas las fotos van en `photos`.
+- Borde exterior en cada foto y cada clip: el mismo espacio entre fotos y contra los bordes de la pantalla (`--frame`, 8–14 px).
+- Nuevo orden: arriba el par favorito del usuario (lino con lentes + sentado), después verde oliva, después azul de cuerpo entero + lino beige; la que era portada (azul, primer plano) cierra sola, centrada.
+- Strings sin uso eliminados: `work.roles.*` y la ficha (`work.detail.year/role/format/material/photos.*/videos.*`).
+- Comprobaciones: `npm run check` 0 errores; `npm run build` OK; Chrome 1536 px e iframe 390 px sin scroll horizontal.
+
+**Visor de fotos en las páginas de marca (mismo día).** Requisito del usuario para todos los trabajos: poder hacer clic en cada foto y verla entera.
+- `WorkLightbox.astro`, mismo comportamiento que el de polaroids: `<dialog>` nativo, la foto crece desde la que se clickeó (View Transitions), contador "02 / 07", Cerrar / Anterior / Siguiente, flechas del teclado, Esc, swipe en celular y clic en el fondo para cerrar.
+- Fondo negro sólido, solo la foto. La foto se dimensiona con una container query (`min(100cqw, 100cqh * ratio)`): ocupa todo el alto o todo el ancho disponible, nunca recortada. Carga la versión grande solo al abrir, y precarga las de al lado.
+- Cada foto de la página es un link al archivo en tamaño completo: sin JS (o con Ctrl/⌘-clic) se abre sola. Cursor de lupa.
+- Bug encontrado y corregido: las flechas, además de cambiar de foto, movían el foco a un botón y le dibujaban el contorno bordó (acción por defecto de Chrome). Ahora `preventDefault()`. Mismo arreglo aplicado al visor de polaroids, que tenía el mismo código.
+- Comprobaciones: `npm run check` 0 errores; `npm run build` OK; probado en Chrome (clic, flechas, Esc, Cerrar) a 1536 px y en iframe de 390 px.

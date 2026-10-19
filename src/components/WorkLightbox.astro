@@ -1,0 +1,341 @@
+---
+import { Image } from 'astro:assets';
+import type { WorkPhoto } from '../data/work-pages';
+import { useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  photos: WorkPhoto[];
+}
+
+const { lang, photos } = Astro.props;
+const t = useTranslations(lang);
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+
+<!--
+  Full-screen viewer for a brand page's photos: the whole photo, uncropped,
+  as large as the screen allows, on black. Any element with
+  data-photo-open="<index>" opens it at that photo; those are plain links
+  to the full-size file, so without JS the photo still opens on its own.
+
+  Same behaviour as the polaroid viewer (PolaroidLightbox.astro): native
+  <dialog> (focus trap, Esc, top layer), arrow keys and swipes between
+  photos, a click on the dark area closes, and with View Transitions the
+  photo grows out of the one clicked and shrinks back into it.
+-->
+<dialog class="pv" aria-label={t('lightbox.photos')} data-photo-viewer>
+  <div class="pv__bar">
+    <p class="pv__count">
+      <span data-photo-current>01</span> / {pad(photos.length)}
+    </p>
+    <button type="button" class="pv__button" data-photo-close>{t('lightbox.close')}</button>
+  </div>
+
+  <!-- The script focuses this on open, not the first button: otherwise that
+       button shows the keyboard outline as soon as an arrow key is pressed. -->
+  <div class="pv__stage" data-photo-stage tabindex="-1">
+    {
+      photos.map((photo, index) => (
+        <div
+          class="pv__slide"
+          data-photo-slide
+          hidden={index !== 0}
+          style={`--ratio: ${photo.image.width / photo.image.height}`}
+        >
+          {/* Lazy, and hidden until shown, so a photo only downloads when
+              it's opened (or is next to the one open, see the script). */}
+          <Image
+            class="pv__image"
+            src={photo.image}
+            alt={photo.alt[lang]}
+            widths={[960, 1280, 1717]}
+            sizes={`min(100vw, calc((100svh - 8rem) * ${(photo.image.width / photo.image.height).toFixed(3)}))`}
+            loading="lazy"
+          />
+        </div>
+      ))
+    }
+  </div>
+
+  {
+    photos.length > 1 && (
+      <div class="pv__nav">
+        <button type="button" class="pv__button" data-photo-prev>
+          {t('lightbox.prev')}
+        </button>
+        <button type="button" class="pv__button" data-photo-next>
+          {t('lightbox.next')}
+        </button>
+      </div>
+    )
+  }
+</dialog>
+
+<style>
+  .pv {
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+    margin: 0;
+    padding: var(--space-3) var(--page-margin);
+    border: 0;
+    color: var(--color-paper);
+    /* Solid black: nothing but the photo. */
+    background: #060607;
+  }
+
+  .pv[open] {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    gap: var(--space-3);
+  }
+
+  .pv::backdrop {
+    background: transparent;
+  }
+
+  .pv__bar,
+  .pv__nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .pv__count {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-smoke);
+  }
+
+  .pv__count span {
+    color: var(--color-paper);
+  }
+
+  /* Text buttons in the site's mono voice, like the polaroid viewer. */
+  .pv__button {
+    padding: 0.6rem 0;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-paper);
+    background: none;
+    border: 0;
+    cursor: pointer;
+  }
+
+  .pv__button:hover {
+    color: var(--color-smoke);
+  }
+
+  .pv__stage {
+    display: grid;
+    min-height: 0;
+    outline: none;
+    touch-action: pan-y;
+    user-select: none;
+  }
+
+  /* The photo fills as much of the stage as its proportions allow, whole:
+     as wide as the stage, or as tall, whichever runs out first. The slide
+     is a size container so the photo can be measured against both. */
+  .pv__slide {
+    display: grid;
+    place-items: center;
+    min-height: 0;
+    container-type: size;
+  }
+
+  .pv__slide[hidden] {
+    display: none;
+  }
+
+  .pv__slide :global(.pv__image) {
+    width: min(100cqw, 100cqh * var(--ratio));
+    height: auto;
+  }
+
+  :global(html:has(.pv[open])) {
+    overflow: hidden;
+    scrollbar-gutter: stable;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* Changing photo: the new one slides in from the side it came from. */
+    .pv__slide.is-entering {
+      animation: pv-enter 450ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes pv-enter {
+      from {
+        opacity: 0;
+        translate: calc(var(--pv-direction, 1) * 2.5rem) 0;
+      }
+    }
+
+    /* The open/close morph (View Transitions, see the script). */
+    :global(::view-transition-group(work-photo)) {
+      animation-duration: 550ms;
+      animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+  }
+</style>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('[data-photo-viewer]');
+
+  if (dialog) {
+    const slides = [...dialog.querySelectorAll<HTMLElement>('[data-photo-slide]')];
+    const current = dialog.querySelector<HTMLElement>('[data-photo-current]')!;
+    const stage = dialog.querySelector<HTMLElement>('[data-photo-stage]')!;
+    const triggers = [...document.querySelectorAll<HTMLElement>('[data-photo-open]')];
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let index = 0;
+    // Which photo opened the viewer, and whether by keyboard (Enter) or by
+    // a pointer. See restoreFocus below.
+    let opener: HTMLElement | null = null;
+    let openedByKeyboard = false;
+
+    const imageOf = (slide: Element | undefined) => slide?.querySelector<HTMLElement>('img') ?? null;
+    // On the page the morph starts from the whole framed photo, not the
+    // <img>, which drifts inside its frame while scrolling.
+    const frameOf = (trigger: Element | undefined) => trigger?.closest<HTMLElement>('figure') ?? null;
+
+    // Runs `update` as a View Transition in which `from` morphs into `to`
+    // (both get the same view-transition-name, one on each side).
+    const morph = (from: HTMLElement | null, update: () => HTMLElement | null) => {
+      if (!document.startViewTransition || reduceMotion.matches || !from) {
+        update();
+        return;
+      }
+      from.style.viewTransitionName = 'work-photo';
+      let to: HTMLElement | null = null;
+      const transition = document.startViewTransition(() => {
+        from.style.viewTransitionName = '';
+        to = update();
+        if (to) to.style.viewTransitionName = 'work-photo';
+      });
+      transition.finished.finally(() => {
+        if (to) to.style.viewTransitionName = '';
+      });
+    };
+
+    // The photos either side of the open one start downloading, so moving
+    // to them is instant.
+    const preloadAround = (at: number) => {
+      [at - 1, at + 1].forEach((i) => {
+        const image = imageOf(slides[(i + slides.length) % slides.length]) as HTMLImageElement | null;
+        if (image) image.loading = 'eager';
+      });
+    };
+
+    const show = (next: number, direction = 0) => {
+      index = (next + slides.length) % slides.length;
+      slides.forEach((slide, i) => {
+        slide.hidden = i !== index;
+        slide.classList.remove('is-entering');
+      });
+      if (direction) {
+        const slide = slides[index];
+        slide.style.setProperty('--pv-direction', String(direction));
+        void slide.offsetWidth; // restart the animation on quick repeats
+        slide.classList.add('is-entering');
+      }
+      current.textContent = String(index + 1).padStart(2, '0');
+      preloadAround(index);
+    };
+
+    const open = (at: number, trigger: HTMLElement) => {
+      morph(frameOf(trigger), () => {
+        show(at);
+        dialog.showModal();
+        stage.focus({ preventScroll: true });
+        return imageOf(slides[index]);
+      });
+    };
+
+    // After a click, focus comes back to the photo without the keyboard
+    // outline (see the same fix in PolaroidLightbox.astro).
+    const restoreFocus = () => {
+      if (!opener || openedByKeyboard) return;
+      opener.focus({ preventScroll: true, focusVisible: false } as FocusOptions);
+      if (opener.matches(':focus-visible')) opener.blur();
+    };
+
+    // Shrinks back into the photo now showing, if that one is on screen.
+    const close = () => {
+      const target = frameOf(triggers[index]);
+      const rect = target?.getBoundingClientRect();
+      const onScreen = rect && rect.bottom > 0 && rect.top < window.innerHeight;
+      morph(onScreen ? imageOf(slides[index]) : null, () => {
+        dialog.close();
+        restoreFocus();
+        return onScreen ? target : null;
+      });
+    };
+
+    triggers.forEach((trigger) => {
+      trigger.addEventListener('click', (event) => {
+        // Ctrl/⌘/Shift-click keeps the browser's own "open in new tab".
+        if (event.ctrlKey || event.metaKey || event.shiftKey) return;
+        event.preventDefault();
+        opener = trigger;
+        openedByKeyboard = event.detail === 0; // a click from Enter has no pointer clicks
+        open(Number(trigger.dataset.photoOpen), trigger);
+      });
+    });
+
+    dialog.querySelector('[data-photo-close]')!.addEventListener('click', close);
+    dialog.querySelector('[data-photo-prev]')?.addEventListener('click', () => show(index - 1, -1));
+    dialog.querySelector('[data-photo-next]')?.addEventListener('click', () => show(index + 1, 1));
+
+    // Esc: close with the same animation instead of the instant default.
+    dialog.addEventListener('cancel', (event) => {
+      event.preventDefault();
+      close();
+    });
+
+    // The arrows only change photo: their default would also move focus to
+    // a button (and draw the keyboard outline on it).
+    dialog.addEventListener('keydown', (event) => {
+      if (slides.length < 2 || (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight')) return;
+      event.preventDefault();
+      if (event.key === 'ArrowLeft') show(index - 1, -1);
+      if (event.key === 'ArrowRight') show(index + 1, 1);
+    });
+
+    // Swipe left/right on touch screens.
+    let startX: number | null = null;
+    let swiped = false;
+    stage.addEventListener('pointerdown', (event) => {
+      swiped = false;
+      if (event.pointerType !== 'mouse') startX = event.clientX;
+    });
+    stage.addEventListener('pointerup', (event) => {
+      if (startX === null) return;
+      const distance = event.clientX - startX;
+      startX = null;
+      if (slides.length > 1 && Math.abs(distance) > 50) {
+        swiped = true; // the click that follows this pointerup isn't a tap
+        show(index + (distance < 0 ? 1 : -1), distance < 0 ? 1 : -1);
+      }
+    });
+
+    // A click on the dark area around the photo (not the photo or a
+    // button) closes.
+    dialog.addEventListener('click', (event) => {
+      if (swiped) {
+        swiped = false;
+        return;
+      }
+      const target = event.target as HTMLElement;
+      if (target === dialog || target === stage || target.matches('[data-photo-slide]')) close();
+    });
+  }
+</script>

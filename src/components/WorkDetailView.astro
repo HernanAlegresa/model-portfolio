@@ -1,0 +1,459 @@
+---
+import { Image, getImage } from 'astro:assets';
+import { getCollection } from 'astro:content';
+import WorkLightbox from './WorkLightbox.astro';
+import { workPages, workHref } from '../data/work-pages';
+import { useTranslations } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  lang: Lang;
+  slug: string;
+}
+
+const { lang, slug } = Astro.props;
+const t = useTranslations(lang);
+
+const projects = (await getCollection('work')).sort((a, b) => a.data.priority - b.data.priority);
+const position = projects.findIndex((project) => project.id === slug);
+const project = projects[position];
+const page = workPages[slug];
+if (!project || !page) throw new Error(`WorkDetailView: no work entry or media for "${slug}"`);
+
+const { brand } = project.data;
+const next = projects[(position + 1) % projects.length];
+
+const pad = (n: number) => String(n).padStart(2, '0');
+
+// Each photo links to its full-size file (what opens without JS; with JS
+// the viewer opens instead). `at` is its place in the viewer.
+const photos = await Promise.all(
+  page.photos.map(async (photo, at) => ({
+    ...photo,
+    at,
+    full: (await getImage({ src: photo.image, width: photo.image.width, format: 'webp' })).src,
+  })),
+);
+
+// Two photos per row; an odd one out closes the gallery on its own.
+const rows: (typeof photos)[] = [];
+for (let i = 0; i < photos.length; i += 2) rows.push(photos.slice(i, i + 2));
+
+const clips = await Promise.all(
+  page.videos.map(async (clip) => ({
+    ...clip,
+    poster: (await getImage({ src: clip.poster, width: 720, format: 'webp' })).src,
+  })),
+);
+
+// The brand name is fitted to the full width by its length (see .project__name).
+const nameLength = brand.length;
+---
+
+<article class="project" style={`--name-chars: ${nameLength}`}>
+  <header class="project__head">
+    <p class="project__index">
+      <span>{pad(position + 1)} / {pad(projects.length)}</span>
+      <a class="link-sweep" href={`/${lang}/work`}>{t('work.detail.all')}</a>
+    </p>
+    <!-- Shares a view-transition-name with this brand's card on the Home and
+         on /work, so the name grows into place when coming from there. -->
+    <h1 class="project__name" style={`view-transition-name: work-${slug}`}>{brand}</h1>
+  </header>
+
+  <section class="project__gallery" aria-label={t('work.detail.gallery')}>
+    {
+      rows.map((row, index) => (
+        <div class={`project__row${row.length === 1 ? ' project__row--single' : ''}`}>
+          {row.map((photo) => (
+            <figure class="project__frame" data-reveal>
+              <a class="project__open" href={photo.full} data-photo-open={photo.at}>
+                <Image
+                  src={photo.image}
+                  alt={photo.alt[lang]}
+                  widths={[640, 960, 1280, 1717]}
+                  sizes="(min-width: 48rem) 50vw, 100vw"
+                  loading={index === 0 ? 'eager' : 'lazy'}
+                  fetchpriority={index === 0 ? 'high' : undefined}
+                />
+                <span class="visually-hidden">{t('work.photo.open')}</span>
+              </a>
+            </figure>
+          ))}
+        </div>
+      ))
+    }
+  </section>
+
+  {
+    clips.length > 0 && (
+      <section class="project__backstage" aria-labelledby="backstage-title">
+        <h2 id="backstage-title" class="project__label">
+          {t('work.detail.backstage')}
+        </h2>
+        <ul class="project__clips" role="list">
+          {clips.map((clip) => (
+            <li class="project__clip" data-reveal>
+              {/* Controls by default, so the clips work without JS or with
+                  reduced motion; the script swaps them for silent autoplay
+                  while each clip is on screen. */}
+              <video
+                data-clip
+                controls
+                muted
+                loop
+                playsinline
+                preload="none"
+                poster={clip.poster}
+                aria-label={clip.label[lang]}
+              >
+                <source src={clip.src} type="video/mp4" />
+              </video>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  <WorkLightbox lang={lang} photos={page.photos} />
+
+  <nav class="project__next" aria-label={t('work.detail.nav')}>
+    <p class="project__label-small">{t('work.detail.next')}</p>
+    <a class="project__next-link" href={workHref(lang, next.id)}>
+      <span style={`view-transition-name: work-${next.id}`}>{next.data.brand}</span>
+    </a>
+    <a class="project__button" href={`/${lang}/work`}>{t('work.detail.all')}</a>
+  </nav>
+</article>
+
+<style>
+  .project {
+    /* The border of page colour around every photo and clip. */
+    --frame: clamp(0.5rem, 0.8vw, 0.875rem);
+    padding-top: var(--nav-clearance);
+  }
+
+  /* ---- Head: index line + the brand name across the full width ---- */
+
+  .project__head {
+    padding: 0 var(--page-margin);
+    container-type: inline-size;
+  }
+
+  .project__index {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin: 0 0 var(--space-3);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--color-smoke);
+  }
+
+  .project__index a {
+    color: var(--color-paper);
+  }
+
+  /* Sized from the name's length so any brand spans the width, like the
+     name on the Home hero (~0.55em per uppercase letter or space in Inter
+     Tight 900 at this tracking, measured on "RENT THE LOOK"). */
+  .project__name {
+    margin: 0 0 0 -0.04em;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: min(calc(100cqi / (var(--name-chars) * 0.55)), 16rem);
+    line-height: 0.85;
+    letter-spacing: -0.045em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* ---- Photos: two per row, each in a thin frame of page colour ---- */
+
+  /* The same gap between photos and around the outside edge, so every
+     photo sits in an even border instead of touching its neighbour. */
+  .project__gallery {
+    display: grid;
+    gap: var(--frame);
+    margin-top: var(--space-5);
+    padding: 0 var(--frame);
+  }
+
+  .project__frame {
+    margin: 0;
+    overflow: hidden;
+    background: var(--color-ink-raised);
+  }
+
+  .project__frame :global(img) {
+    width: 100%;
+    height: auto;
+  }
+
+  /* Each photo opens in the full-screen viewer. */
+  .project__open {
+    display: block;
+    cursor: zoom-in;
+  }
+
+  .project__open:focus-visible {
+    outline-offset: -4px;
+  }
+
+  .project__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--frame);
+  }
+
+  @media (min-width: 48rem) {
+    .project__row {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .project__row--single {
+      grid-template-columns: minmax(0, 1fr);
+      justify-items: center;
+    }
+
+    .project__row--single .project__frame {
+      width: calc(50% - var(--frame) / 2);
+    }
+  }
+
+  /* ---- Backstage: four vertical clips in one row ---- */
+
+  .project__backstage {
+    padding-top: var(--section-gap);
+  }
+
+  .project__label {
+    margin: 0 var(--page-margin) var(--space-5);
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(1.9rem, 1.3rem + 1.6vw, 2.8rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+  }
+
+  /* Framed like the photos. */
+  .project__clips {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--frame);
+    margin: 0;
+    padding: 0 var(--frame);
+    list-style: none;
+  }
+
+  @media (min-width: 48rem) {
+    .project__clips {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .project__clip video {
+    display: block;
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    object-fit: cover;
+    background: var(--color-ink-raised);
+  }
+
+  /* ---- Next work ---- */
+
+  .project__next {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+    padding: var(--section-gap) var(--page-margin);
+  }
+
+  .project__label-small {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--color-smoke);
+  }
+
+  .project__next-link {
+    position: relative;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: var(--step-5);
+    line-height: 0.9;
+    letter-spacing: -0.045em;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+
+  .project__next-link span {
+    display: inline-block;
+  }
+
+  /* A wine rule draws under the name on hover. */
+  .project__next-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.12em;
+    height: 3px;
+    background: var(--color-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  .project__next-link:hover::after,
+  .project__next-link:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  .project__button {
+    padding: 0.7rem 1.1rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--color-ink);
+    background: var(--color-paper);
+    border: 1px solid var(--color-paper);
+  }
+
+  .project__button:hover,
+  .project__button:focus-visible {
+    color: var(--color-paper);
+    background: transparent;
+  }
+
+  /* ---- Motion ---- */
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* The name rises out of its own baseline on load. */
+    .project__name {
+      animation: project-rise 1100ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    /* Arriving through a View Transition (flag set in BaseLayout), the
+       name is already morphing in from the card: skip its own rise. */
+    :global(.arrived-by-transition) .project__name {
+      animation: none;
+    }
+
+    @keyframes project-rise {
+      from {
+        clip-path: inset(0 0 100% 0);
+        translate: 0 0.35em;
+      }
+      to {
+        clip-path: inset(0 0 -0.2em 0);
+        translate: 0 0;
+      }
+    }
+
+    /* Photos: instead of the site-wide fade-up, each one is uncovered
+       from the bottom edge as it scrolls in. The clip goes on the photo,
+       not the frame: IntersectionObserver counts the observed element's
+       own clip-path, so a fully clipped frame would never be "seen". */
+    .project__frame[data-reveal] {
+      transform: none;
+      transition: opacity 900ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .project__frame[data-reveal] :global(img) {
+      clip-path: inset(100% 0 0 0);
+      transition: clip-path 1300ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .project__frame[data-reveal].is-visible :global(img) {
+      clip-path: inset(0 0 0 0);
+    }
+
+    /* The right-hand photo of a pair arrives a beat later. */
+    .project__frame[data-reveal]:nth-child(2),
+    .project__frame[data-reveal]:nth-child(2) :global(img) {
+      transition-delay: 140ms;
+    }
+
+    .project__clip:nth-child(2) {
+      transition-delay: 80ms;
+    }
+
+    .project__clip:nth-child(3) {
+      transition-delay: 160ms;
+    }
+
+    .project__clip:nth-child(4) {
+      transition-delay: 240ms;
+    }
+
+    .project__next-link::after {
+      transition: transform 500ms cubic-bezier(0.65, 0, 0.35, 1);
+    }
+
+    .project__button {
+      transition:
+        background-color 250ms ease,
+        color 250ms ease;
+    }
+
+    /* A slow drift inside each frame while it crosses the screen. The
+       photo is scaled up a little so the drift never shows an edge. */
+    @supports (animation-timeline: view()) {
+      .project__frame :global(img) {
+        scale: 1.1;
+        animation: project-drift linear both;
+        animation-timeline: view();
+      }
+
+      @keyframes project-drift {
+        from {
+          translate: 0 -4%;
+        }
+        to {
+          translate: 0 4%;
+        }
+      }
+    }
+  }
+</style>
+
+<script>
+  // Backstage clips: silent autoplay only while on screen (so four videos
+  // never play at once off-screen), unless the visitor prefers reduced
+  // motion — then they keep their controls and play on demand.
+  const clips = document.querySelectorAll<HTMLVideoElement>('[data-clip]');
+
+  if (clips.length > 0 && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const video = entry.target as HTMLVideoElement;
+          if (entry.isIntersecting) {
+            video.play().catch(() => {
+              // Autoplay refused (e.g. data saver): give the controls back.
+              video.controls = true;
+            });
+          } else {
+            video.pause();
+          }
+        }
+      },
+      { threshold: 0.25 },
+    );
+
+    clips.forEach((video) => {
+      video.controls = false;
+      video.preload = 'auto';
+      observer.observe(video);
+    });
+  }
+</script>

@@ -55,6 +55,6 @@ Detalle técnico en `docs/ARCHITECTURE.md` → "Sistema de movimiento". Principi
 
 ## Qué evitar
 
-- Plantillas de "modelo genérico" o adornos que no sirvan a la jerarquía: eyebrows en mayúsculas sobre cada título, separadores con punto medio, flechas pegadas a los CTA.
+- Plantillas de "modelo genérico" o adornos que no sirvan a la jerarquía: eyebrows en mayúsculas sobre cada título, separadores con punto medio (excepción pedida por el usuario: "MODELAJE • 2025" en las tarjetas de trabajos), flechas pegadas a los CTA.
 - Animación para impresionar sin aportar continuidad.
 - Inventar contenido (ver `docs/PROJECT-BRIEF.md`).
