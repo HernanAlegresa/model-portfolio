@@ -38,9 +38,17 @@ const photos = await Promise.all(
 
 // `pairs`: two photos per row, an odd one out closes the gallery on its
 // own. `trios`: one grid, three across, every photo in the same 4:5 crop.
+// `rows`: rows of two or three as listed in the page's `rows`, every photo
+// in the same 2:3 crop.
 const trios = page.layout === 'trios';
+const mixed = page.layout === 'rows';
+const sizes = mixed ? (page.rows ?? []) : Array.from({ length: Math.ceil(photos.length / 2) }, () => 2);
 const rows: (typeof photos)[] = [];
-for (let i = 0; i < photos.length; i += 2) rows.push(photos.slice(i, i + 2));
+let start = 0;
+for (const size of sizes) {
+  rows.push(photos.slice(start, start + size));
+  start += size;
+}
 
 const clips = await Promise.all(
   page.videos.map(async (clip) => ({
@@ -66,7 +74,7 @@ const nameWidth = displayNameWidth(brand).toFixed(4);
   </header>
 
   <section
-    class={`project__gallery${trios ? ' project__gallery--trios' : ''}`}
+    class={`project__gallery${trios ? ' project__gallery--trios' : ''}${mixed ? ' project__gallery--rows' : ''}`}
     aria-label={t('work.detail.gallery')}
   >
     {
@@ -91,17 +99,32 @@ const nameWidth = displayNameWidth(brand).toFixed(4);
     {
       !trios &&
       rows.map((row, index) => (
-        <div class={`project__row${row.length === 1 ? ' project__row--single' : ''}`}>
-          {row.map((photo) => (
+        <div
+          class={`project__row${row.length === 1 ? ' project__row--single' : ''}${row.length === 3 ? ' project__row--three' : ''}`}
+        >
+          {row.map((photo, place) => (
             <figure class="project__frame" data-reveal>
               <a class="project__open" href={photo.full} data-photo-open={photo.at}>
                 <Image
                   src={photo.image}
                   alt={photo.alt[lang]}
-                  widths={[640, 960, 1280, 1717]}
-                  sizes="(min-width: 48rem) 50vw, 100vw"
+                  widths={[480, 640, 960, 1280, 1717]}
+                  sizes={
+                    !mixed
+                      ? '(min-width: 48rem) 50vw, 100vw'
+                      : row.length === 3
+                        ? place === 0
+                          ? '(min-width: 48rem) 33vw, 100vw'
+                          : '(min-width: 48rem) 33vw, 50vw'
+                        : '50vw'
+                  }
                   loading={index === 0 ? 'eager' : 'lazy'}
                   fetchpriority={index === 0 ? 'high' : undefined}
+                  style={
+                    mixed
+                      ? `object-position: ${photo.position ?? '50% 50%'}; transform-origin: ${photo.position ?? '50% 50%'}; --zoom: ${photo.zoom ?? 1}`
+                      : undefined
+                  }
                 />
                 <span class="visually-hidden">{t('work.photo.open')}</span>
               </a>
@@ -118,7 +141,11 @@ const nameWidth = displayNameWidth(brand).toFixed(4);
         <h2 id="backstage-title" class="project__label">
           {t('work.detail.backstage')}
         </h2>
-        <ul class="project__clips" role="list" style={`--clips: ${Math.min(clips.length, 5)}`}>
+        <ul
+          class="project__clips"
+          role="list"
+          style={`--clips: ${Math.min(clips.length, 5)}; --slots: ${Math.min(Math.max(clips.length, 4), 5)}`}
+        >
           {clips.map((clip) => (
             <li class="project__clip" data-reveal>
               {/* Controls by default, so the clips work without JS or with
@@ -288,6 +315,41 @@ const nameWidth = displayNameWidth(brand).toFixed(4);
     }
   }
 
+  /* Rows: pairs and trios as listed, every photo in the same 2:3 frame so
+     a row always lines up. On phones a pair stays two across and a trio
+     opens with its first photo across the full width. */
+  .project__gallery--rows .project__row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .project__gallery--rows .project__row--three .project__frame:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .project__gallery--rows .project__frame {
+    aspect-ratio: 2 / 3;
+  }
+
+  .project__gallery--rows .project__open {
+    height: 100%;
+  }
+
+  .project__gallery--rows .project__frame :global(img) {
+    height: 100%;
+    object-fit: cover;
+    scale: var(--zoom, 1);
+  }
+
+  @media (min-width: 48rem) {
+    .project__gallery--rows .project__row--three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .project__gallery--rows .project__row--three .project__frame:first-child {
+      grid-column: auto;
+    }
+  }
+
   /* ---- Backstage: the vertical clips in one row ---- */
 
   .project__backstage {
@@ -308,7 +370,9 @@ const nameWidth = displayNameWidth(brand).toFixed(4);
   .project__clips {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--frame);
+    /* Wider than the photos' frame: the clips are small, and need air. */
+    --clip-gap: clamp(1rem, 2.4vw, 2.5rem);
+    gap: var(--clip-gap);
     margin: 0;
     padding: 0 var(--frame);
     list-style: none;
@@ -319,14 +383,20 @@ const nameWidth = displayNameWidth(brand).toFixed(4);
     .project__clip:last-child:nth-child(odd) {
       grid-column: 1 / -1;
       justify-self: center;
-      width: calc(50% - var(--frame) / 2);
+      width: calc(50% - var(--clip-gap) / 2);
     }
   }
 
-  /* From tablet up, every clip in one row (up to five). */
+  /* From tablet up, every clip in one row (up to five). Each clip is never
+     wider than a quarter of the row (Rent the Look's four), so a brand with
+     one to three clips shows them at that size, centred. */
   @media (min-width: 48rem) {
     .project__clips {
-      grid-template-columns: repeat(var(--clips), minmax(0, 1fr));
+      grid-template-columns: repeat(
+        var(--clips),
+        calc((100% - (var(--slots) - 1) * var(--clip-gap)) / var(--slots))
+      );
+      justify-content: center;
     }
   }
 
@@ -458,6 +528,11 @@ const nameWidth = displayNameWidth(brand).toFixed(4);
     .project__frame[data-reveal]:nth-child(2),
     .project__frame[data-reveal]:nth-child(2) :global(img) {
       transition-delay: 140ms;
+    }
+
+    .project__row .project__frame[data-reveal]:nth-child(3),
+    .project__row .project__frame[data-reveal]:nth-child(3) :global(img) {
+      transition-delay: 280ms;
     }
 
     /* In a trio, each photo arrives a beat after the one to its left. */
