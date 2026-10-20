@@ -24,7 +24,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '');
   <div class="site-nav__row">
     <LanguageSwitcher lang={lang} />
     <a class="site-nav__role" href={`/${lang}/`} aria-label={t('nav.home.label')}>
-      {t('nav.role')}
+      {t('site.brand')}
     </a>
     <div class="site-nav__controls">
       <button
