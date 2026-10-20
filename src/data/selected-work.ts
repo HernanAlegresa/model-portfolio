@@ -6,6 +6,7 @@ import originalPenguin01 from '../assets/work/original-penguin/original-penguin-
 import rabanne01 from '../assets/work/rabanne/rabanne-01.jpg';
 import armaniBeauty01 from '../assets/work/armani-beauty/armani-beauty-01.jpg';
 import meller01 from '../assets/work/meller/meller-01.jpg';
+import urbanHaus06 from '../assets/work/urban-haus/urban-haus-06.jpg';
 
 /**
  * The photos in Home's brand-work grid, in order. This is the file to
@@ -88,6 +89,23 @@ export const selectedWork: SelectedShot[] = [
     alt: {
       es: 'Hernán Alegresa con lentes de sol espejados y buzo tejido a rayas, sosteniendo dos paletas de playa.',
       en: 'Hernán Alegresa in mirrored sunglasses and a striped knit sweater, holding two beach paddles.',
+    },
+  },
+];
+
+/**
+ * Cards for the brands that are on /work but not among the Home's six.
+ * Same fields as above; /work takes a brand's card from `selectedWork`
+ * first, then from here, else shows a placeholder.
+ */
+export const workOnlyShots: SelectedShot[] = [
+  {
+    work: 'urban-haus',
+    image: urbanHaus06,
+    position: '50% 80%',
+    alt: {
+      es: 'Primer plano desde arriba de Hernán Alegresa acostado en el pasto, con camisa blanca, bucket hat negro y lentes de sol.',
+      en: 'Close-up from above of Hernán Alegresa lying on the grass, in a white shirt, black bucket hat and sunglasses.',
     },
   },
 ];

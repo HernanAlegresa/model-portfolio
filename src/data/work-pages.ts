@@ -70,6 +70,33 @@ import meller02 from '../assets/work/meller/meller-02.jpg';
 import meller03 from '../assets/work/meller/meller-03.jpg';
 import meller04 from '../assets/work/meller/meller-04.jpg';
 import meller05 from '../assets/work/meller/meller-05.jpg';
+import urbanHaus01 from '../assets/work/urban-haus/urban-haus-01.jpg';
+import urbanHaus02 from '../assets/work/urban-haus/urban-haus-02.jpg';
+import urbanHaus03 from '../assets/work/urban-haus/urban-haus-03.jpg';
+import urbanHaus04 from '../assets/work/urban-haus/urban-haus-04.jpg';
+import urbanHaus05 from '../assets/work/urban-haus/urban-haus-05.jpg';
+import urbanHaus06 from '../assets/work/urban-haus/urban-haus-06.jpg';
+import urbanHaus07 from '../assets/work/urban-haus/urban-haus-07.jpg';
+import urbanHaus08 from '../assets/work/urban-haus/urban-haus-08.jpg';
+import urbanHaus09 from '../assets/work/urban-haus/urban-haus-09.jpg';
+import urbanHaus10 from '../assets/work/urban-haus/urban-haus-10.jpg';
+import urbanHaus11 from '../assets/work/urban-haus/urban-haus-11.jpg';
+import urbanHaus12 from '../assets/work/urban-haus/urban-haus-12.jpg';
+import urbanHaus13 from '../assets/work/urban-haus/urban-haus-13.jpg';
+import urbanHaus14 from '../assets/work/urban-haus/urban-haus-14.jpg';
+import urbanHaus15 from '../assets/work/urban-haus/urban-haus-15.jpg';
+import urbanHaus16 from '../assets/work/urban-haus/urban-haus-16.jpg';
+import urbanHaus17 from '../assets/work/urban-haus/urban-haus-17.jpg';
+import urbanHaus18 from '../assets/work/urban-haus/urban-haus-18.jpg';
+import urbanHaus19 from '../assets/work/urban-haus/urban-haus-19.jpg';
+import urbanHaus20 from '../assets/work/urban-haus/urban-haus-20.jpg';
+import urbanHaus21 from '../assets/work/urban-haus/urban-haus-21.jpg';
+import urbanHaus22 from '../assets/work/urban-haus/urban-haus-22.jpg';
+import urbanHaus23 from '../assets/work/urban-haus/urban-haus-23.jpg';
+import urbanHaus24 from '../assets/work/urban-haus/urban-haus-24.jpg';
+import urbanHaus25 from '../assets/work/urban-haus/urban-haus-25.jpg';
+import urbanHaus26 from '../assets/work/urban-haus/urban-haus-26.jpg';
+import urbanHaus27 from '../assets/work/urban-haus/urban-haus-27.jpg';
 import rentTheLookClip01 from '../assets/video/work/rent-the-look-01.mp4?url';
 import rentTheLookClip02 from '../assets/video/work/rent-the-look-02.mp4?url';
 import rentTheLookClip03 from '../assets/video/work/rent-the-look-03.mp4?url';
@@ -572,6 +599,199 @@ const mellerPhotos: Record<number, WorkPhoto> = {
   },
 };
 
+/** Urban Haus' photos, numbered like their files: 01–14 in the city, 15–27 in the countryside. */
+const urbanHausPhotos: Record<number, WorkPhoto> = {
+  1: {
+    image: urbanHaus01,
+    alt: {
+      es: 'Hernán Alegresa con bucket hat negro, lentes de sol y camisa de lino verde, sentado en un murito junto a una bolsa de tela.',
+      en: 'Hernán Alegresa in a black bucket hat, sunglasses and a green linen shirt, sitting on a low wall beside a tote bag.',
+    },
+  },
+  2: {
+    image: urbanHaus02,
+    alt: {
+      es: 'Hernán Alegresa de perfil, con bucket hat negro, lentes de sol y camisa de lino verde, haciendo la V detrás de un poste.',
+      en: 'Hernán Alegresa in profile, in a black bucket hat, sunglasses and a green linen shirt, making a peace sign behind a post.',
+    },
+  },
+  3: {
+    image: urbanHaus03,
+    alt: {
+      es: 'Detalle de la camisa de lino verde, el pantalón azul y las zapatillas blancas y verdes sobre un piso de baldosas caladas.',
+      en: 'Detail of the green linen shirt, navy trousers and white and green sneakers on open paving tiles.',
+    },
+  },
+  4: {
+    image: urbanHaus04,
+    alt: {
+      es: 'Hernán Alegresa con camisa blanca de manga corta y pantalón verde, sentado en una silla de madera en un interior.',
+      en: 'Hernán Alegresa in a white short-sleeved shirt and green trousers, sitting on a wooden chair indoors.',
+    },
+  },
+  5: {
+    image: urbanHaus05,
+    alt: {
+      es: 'Hernán Alegresa acostado en el pasto, visto desde arriba, con camisa blanca y pantalón verde, sosteniendo unos lentes de sol.',
+      en: 'Hernán Alegresa lying on the grass, seen from above, in a white shirt and green trousers, holding a pair of sunglasses.',
+    },
+  },
+  6: {
+    image: urbanHaus06,
+    alt: {
+      es: 'Primer plano desde arriba de Hernán Alegresa acostado en el pasto, con camisa blanca, bucket hat negro y lentes de sol.',
+      en: 'Close-up from above of Hernán Alegresa lying on the grass, in a white shirt, black bucket hat and sunglasses.',
+    },
+  },
+  7: {
+    image: urbanHaus07,
+    alt: {
+      es: 'Hernán Alegresa con remera blanca, gorra negra, lentes de sol y short de baño estampado, frente a una pared de cañas.',
+      en: 'Hernán Alegresa in a white T-shirt, black cap, sunglasses and printed swim shorts, in front of a bamboo wall.',
+    },
+  },
+  8: {
+    image: urbanHaus08,
+    alt: {
+      es: 'Hernán Alegresa de perfil con remera blanca, gorra negra y short de baño estampado, frente a una pared de cañas.',
+      en: 'Hernán Alegresa in profile in a white T-shirt, black cap and printed swim shorts, in front of a bamboo wall.',
+    },
+  },
+  9: {
+    image: urbanHaus09,
+    alt: {
+      es: 'Detalle de Hernán Alegresa con remera a rayas verdes, poniéndose unas zapatillas blancas y verdes con medias blancas.',
+      en: 'Detail of Hernán Alegresa in a green-striped T-shirt, putting on white and green sneakers with white socks.',
+    },
+  },
+  10: {
+    image: urbanHaus10,
+    alt: {
+      es: 'Hernán Alegresa caminando de perfil frente a una pared, con remera a rayas verdes, bermuda cargo y zapatillas blancas.',
+      en: 'Hernán Alegresa walking in profile past a wall, in a green-striped T-shirt, cargo shorts and white sneakers.',
+    },
+  },
+  11: {
+    image: urbanHaus11,
+    alt: {
+      es: 'Hernán Alegresa con remera a rayas verdes, haciéndose sombra con la mano y mirando a lo lejos frente a un edificio.',
+      en: 'Hernán Alegresa in a green-striped T-shirt, shading his eyes with his hand and looking into the distance by a building.',
+    },
+  },
+  12: {
+    image: urbanHaus12,
+    alt: {
+      es: 'Hernán Alegresa con remera a rayas verdes, haciéndose sombra con la mano bajo un cielo blanco, con una fachada naranja detrás.',
+      en: 'Hernán Alegresa in a green-striped T-shirt, shading his eyes under a white sky, with an orange façade behind.',
+    },
+  },
+  13: {
+    image: urbanHaus13,
+    alt: {
+      es: 'Hernán Alegresa de espaldas, acomodándose la gorra, con una remera blanca estampada que dice OFFLINE, junto a una pared de ladrillo.',
+      en: 'Hernán Alegresa from behind, adjusting his cap, in a white T-shirt printed with OFFLINE, by a brick wall.',
+    },
+  },
+  14: {
+    image: urbanHaus14,
+    alt: {
+      es: 'Detalle de la espalda de la remera blanca estampada OFFLINE, con flores violetas, junto a una pared de ladrillo.',
+      en: 'Close-up of the back of the white OFFLINE T-shirt, with purple flowers, by a brick wall.',
+    },
+  },
+  15: {
+    image: urbanHaus15,
+    alt: {
+      es: 'Hernán Alegresa con campera marrón, apoyado en una tranquera detrás de otra modelo con campera beige, en el campo.',
+      en: 'Hernán Alegresa in a brown jacket, leaning on a farm gate behind another model in a beige jacket, in the countryside.',
+    },
+  },
+  16: {
+    image: urbanHaus16,
+    alt: {
+      es: 'Hernán Alegresa con campera beige, apoyado en una tranquera con la mano en el mentón, junto a otra modelo sentada.',
+      en: 'Hernán Alegresa in a beige jacket, leaning on a farm gate with his hand on his chin, beside another model sitting on it.',
+    },
+  },
+  17: {
+    image: urbanHaus17,
+    alt: {
+      es: 'Hernán Alegresa con campera beige de cuello de corderoy y jean claro, con un buzo en el brazo, en un corral.',
+      en: 'Hernán Alegresa in a beige jacket with a corduroy collar and light jeans, a sweater over his arm, in a paddock.',
+    },
+  },
+  18: {
+    image: urbanHaus18,
+    alt: {
+      es: 'Foto en blanco y negro de Hernán Alegresa con buzo negro de cierre, acariciando a un caballo por encima del cerco.',
+      en: 'Black-and-white photo of Hernán Alegresa in a black zip-up sweater, stroking a horse over the fence.',
+    },
+  },
+  19: {
+    image: urbanHaus19,
+    alt: {
+      es: 'Foto en blanco y negro, movida, de Hernán Alegresa sonriendo con un caballo que le apoya la cabeza, junto al cerco.',
+      en: 'Blurred black-and-white photo of Hernán Alegresa smiling as a horse rests its head on him, by the fence.',
+    },
+  },
+  20: {
+    image: urbanHaus20,
+    alt: {
+      es: 'Foto en blanco y negro de Hernán Alegresa con buzo negro, mirando a un caballo que se asoma por encima del cerco.',
+      en: 'Black-and-white photo of Hernán Alegresa in a black sweater, looking at a horse leaning over the fence.',
+    },
+  },
+  21: {
+    image: urbanHaus21,
+    alt: {
+      es: 'Foto en blanco y negro de Hernán Alegresa sonriendo con los dientes apretados mientras un caballo le muerde la manga.',
+      en: 'Black-and-white photo of Hernán Alegresa grinning as a horse nibbles his sleeve.',
+    },
+  },
+  22: {
+    image: urbanHaus22,
+    alt: {
+      es: 'Foto en blanco y negro, movida, de Hernán Alegresa riéndose con un caballo detrás, en el corral.',
+      en: 'Blurred black-and-white photo of Hernán Alegresa laughing with a horse behind him, in the paddock.',
+    },
+  },
+  23: {
+    image: urbanHaus23,
+    alt: {
+      es: 'Hernán Alegresa con gorro tejido marrón, buzo blanco con capucha y campera acolchada marrón, sentado contra la rueda de un tractor.',
+      en: 'Hernán Alegresa in a brown knit beanie, white hoodie and brown quilted jacket, sitting against a tractor wheel.',
+    },
+  },
+  24: {
+    image: urbanHaus24,
+    alt: {
+      es: 'Hernán Alegresa con gorro tejido y campera acolchada marrón, apoyado en un tractor verde, visto desde abajo.',
+      en: 'Hernán Alegresa in a knit beanie and brown quilted jacket, leaning on a green tractor, seen from below.',
+    },
+  },
+  25: {
+    image: urbanHaus25,
+    alt: {
+      es: 'Hernán Alegresa con buzo tejido bordó, recostado contra un tronco con las manos detrás de la cabeza y una campera beige al lado.',
+      en: 'Hernán Alegresa in a burgundy knit sweater, reclining against a tree trunk with his hands behind his head and a beige jacket beside him.',
+    },
+  },
+  26: {
+    image: urbanHaus26,
+    alt: {
+      es: 'Hernán Alegresa de perfil con campera beige bordada, frente a unos fardos de pasto.',
+      en: 'Hernán Alegresa in profile in an embroidered beige jacket, in front of hay bales.',
+    },
+  },
+  27: {
+    image: urbanHaus27,
+    alt: {
+      es: 'Hernán Alegresa con campera beige abierta sobre un buzo tejido marrón, apoyado en unos fardos de pasto.',
+      en: 'Hernán Alegresa in an open beige jacket over a brown knit sweater, leaning on hay bales.',
+    },
+  },
+};
+
 export const workPages: Record<string, WorkPage> = {
   'rent-the-look': {
     photos: [
@@ -767,6 +987,24 @@ export const workPages: Record<string, WorkPage> = {
     ...inRows(mellerPhotos, [
       [1, 2, 3], //  KUL paddles, party, Rio from the hill
       [4, 5], //     Rio, on the beach
+    ]),
+    videos: [],
+  },
+  'urban-haus': {
+    layout: 'rows',
+    // Two shoots, the countryside one first. Many photos, so mostly rows
+    // of four to keep the page short. Each number is a photo in
+    // urbanHausPhotos above (= its file urban-haus-NN.jpg): move the
+    // numbers to reorder.
+    ...inRows(urbanHausPhotos, [
+      [15, 17, 16, 27], // countryside: the gate, the beige jacket
+      [20, 18, 21], //     with the horse
+      [19, 22], //         with the horse, in motion
+      [23, 24, 25, 26], // the tractor, the tree, the hay bales
+      [1, 2, 3], //        city: linen shirt and bucket hat
+      [7, 8, 13, 14], //   white T-shirts: bamboo wall, OFFLINE
+      [4, 5, 6], //        white shirt, on the grass
+      [10, 11, 12, 9], //  striped T-shirt
     ]),
     videos: [],
   },
