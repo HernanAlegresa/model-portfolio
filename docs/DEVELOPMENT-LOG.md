@@ -331,3 +331,15 @@ Pedido del usuario al curar el portfolio. Quedan 5 fotos + el video, renumeradas
 **Tarjeta en /work:** las tarjetas salían de `selected-work.ts`, que también arma la grilla de la Home (6). Para no sumar tarjetas a la Home, las marcas que solo están en /work toman su foto de `workOnlyShots` (mismo archivo). Urban Haus usa la 06 (acostado en el pasto, encuadre `50% 80%`), elegida por el usuario.
 
 **Comprobaciones:** `npm run check` 0 errores; build OK; Chrome 1536 px e iframe de 390 px (las filas de cuatro se parten en pares, sin scroll horizontal).
+
+## 2026-10-20 — Vans, séptima página de marca (videos dentro de la galería)
+
+**Nombre:** la marca es **Vans**, no "Vans Uruguay" (pedido del usuario): slug `vans`, archivos `vans-NN`, `src/content/work/vans.yaml`. La dirección vieja `/work/vans-uruguay` deja de existir.
+
+**Material:** 9 fotos de celular y 3 videos verticales de un viaje personal a Río (sendero, escalera de la tienda, cima al atardecer). El usuario colaboró como creador de contenido, no como modelo: los videos **no son backstage** y van mezclados con las fotos (`videos: []`).
+
+**Films en filas mixtas:** un `WorkFilm` dentro de una fila con fotos mantiene su proporción, como una foto más. Solo cuando está solo en su fila (`.project__frame--full`) ocupa el alto de la pantalla desde 48rem; Armani no cambia. Filas: `[2, cima, 3, sendero]` · `[1, 4, 6, 5]` · `[9, tienda, 8, 7]`. Galería ~1.650 px a 1536. Videos: 720×1280 H.264, sin audio, CRF 24.
+
+**Tarjeta en /work:** la 02, la primera de la galería (en la cima haciendo la V; `50% 62%`), elegida por el usuario.
+
+**Comprobaciones:** `npm run check` 0 errores; build OK; Chrome 1536 px e iframe de 390 px; los videos se reproducen.
