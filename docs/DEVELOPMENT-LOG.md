@@ -309,3 +309,7 @@
 **Comprobaciones:** `npm run check` 0 errores; `npm run build` OK (20 páginas); Chrome 1536 px (filas a una altura, el video entra justo en 695 px de alto) e iframe de 390 px sin scroll horizontal.
 
 **Pendiente:** siguiente marca por prioridad (Rabanne); reconvertir los clips de Rent the Look si llegan los originales; lo que sigue abierto (polaroids, Meller, etc.).
+
+## 2026-10-20 — Armani Beauty: fuera la foto del perfume sobre la cabeza
+
+Pedido del usuario al curar el portfolio. Quedan 5 fotos + el video, renumeradas `armani-beauty-01…05` (sin huecos). Filas: video a lo ancho · par (perfume al atardecer, caminando por la arena) · trío del evento. La foto de la Home (01) no cambia.
