@@ -98,14 +98,16 @@ import rentTheLookPoster04 from '../assets/video/work/rent-the-look-04-poster.jp
  *     every row. The viewer still shows each photo whole, uncropped.
  *     Each photo can set `position` (what the crop keeps in view) and
  *     `zoom` (to frame it closer, towards `position`).
- *   · `rows`: rows of one to three, chosen one by one with `inRows(...)`
+ *   · `rows`: rows of one to four, chosen one by one with `inRows(...)`
  *     (which also fills `rows`). Every photo keeps its own proportions and
  *     the photos of a row share the same height, so the row fills the
- *     width exactly: two 2:3 photos make a tall pair, three a tighter row.
- *     On phones a pair stays two across and a trio shows its first photo
- *     full width. A row can also hold a film (`WorkFilm`): a video shown
- *     with the same weight as the photos, silent and looping while on
- *     screen; a horizontal one alone in its row spans the full width.
+ *     width exactly: two 2:3 photos make a tall pair, three a tighter row,
+ *     four a short one (for brands with many photos, to keep the page
+ *     short). On phones a pair stays two across, a trio shows its first
+ *     photo full width and a four splits into two pairs. A row can also
+ *     hold a film (`WorkFilm`): a video shown with the same weight as the
+ *     photos, silent and looping while on screen; a horizontal one alone
+ *     in its row spans the full width.
  *     `position` and `zoom` work as in `trios`.
  * - `videos`: the "Backstage" strip, all in one row (up to five; two by
  *   two on phones, an odd last one centred).
@@ -167,7 +169,7 @@ function inOrder(photos: Record<number, WorkPhoto>, order: number[]): WorkPhoto[
 function inRows(photos: Record<number, WorkPhoto>, rows: (number | WorkFilm)[][]): Pick<WorkPage, 'photos' | 'rows'> {
   const order: number[] = [];
   const layout = rows.map((row) => {
-    if (row.length < 1 || row.length > 3) throw new Error(`work-pages: a row takes one to three items, not ${row.length}`);
+    if (row.length < 1 || row.length > 4) throw new Error(`work-pages: a row takes one to four items, not ${row.length}`);
     return row.map((item): WorkRowItem => {
       if (typeof item !== 'number') return { film: item };
       order.push(item);
