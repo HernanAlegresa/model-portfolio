@@ -343,3 +343,15 @@ Pedido del usuario al curar el portfolio. Quedan 5 fotos + el video, renumeradas
 **Tarjeta en /work:** la 02, la primera de la galería (en la cima haciendo la V; `50% 62%`), elegida por el usuario.
 
 **Comprobaciones:** `npm run check` 0 errores; build OK; Chrome 1536 px e iframe de 390 px; los videos se reproducen.
+
+## 2026-10-20 — Curaduría: un portfolio de modelaje, 8 marcas
+
+**Decisión del usuario** ("este portfolio es un portfolio de modelaje"): salen **VCP Uruguay** (selfies de probador), **Chivas Regal** (invitado a un evento, 2 fotos casi iguales) y **Salus Uruguay** (actor en un comercial de TV, sin material). Se borraron sus `.yaml`, sus fotos y video, y las categorías/roles que solo usaba Salus (`tv-commercial`, `commercial-participant`, en `content.config.ts` y `ui.ts`). Brief, guía de assets, arquitectura y `CLAUDE.md` pasan a 8 marcas; el brief deja anotado que no se vuelven a agregar.
+
+Quedan: modelaje (Rent the Look, Forum Industries, Original Penguin, Urban Haus, Rabanne) y, en segundo plano, eventos/contenido (Armani Beauty, Meller, Vans).
+
+**Header:** el texto central decía "Modelo"; ahora dice el nombre (`site.brand`, "Hernán Alegresa"), pedido del usuario. Se quitó `nav.role`.
+
+**Comprobaciones:** `npm run check` 0 errores; build OK (26 páginas); las páginas de las marcas quitadas dan 404; /work y la Home sin rastros de ellas.
+
+**Pendiente:** el usuario manda las 4 polaroids; crea un email profesional (lo crea él) para Contacto; fotos que faltan de Rabanne (página propia) y Armani; revisar About y Contacto; ver el header a 390 px en Chrome (el nombre debería entrar entre idioma y hamburguesa).
