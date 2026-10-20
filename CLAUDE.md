@@ -37,7 +37,7 @@ Corré `npm run check` y `npm run build` antes de dar por terminada cualquier ta
 - `src/components/` — piezas reutilizables (`Nav`, `LanguageSwitcher`, `PlaceholderImage`, `SiteFooter`, `WipView`) y una vista por página (`HomeView`, `WorkView`, `PolaroidsView`, `AboutView`, `ContactView`).
 - `src/components/home/` — una sección de la Home por archivo (`HomeAbout`, `HomeBrands`, `HomeWork`, `HomeStats`, `HomeContact`); `HomeView.astro` tiene el hero y el orden.
 - `src/data/` — datos editables sin tocar componentes: `profile.ts` (medidas), `polaroids.ts` (las 4 polaroids), `selected-work.ts` (marcas/fotos de la grilla de la Home), `about-media.ts` (video de "Sobre mí").
-- `src/content/work/*.yaml` + `src/content.config.ts` — Content Collection con las 11 marcas.
+- `src/content/work/*.yaml` + `src/content.config.ts` — Content Collection con las 8 marcas.
 - `src/pages/es/*` y `src/pages/en/*` — una página por idioma, sin lógica de contenido embebida (la vista real vive en `src/components/*View.astro`).
 - `src/pages/index.astro` — vacío a propósito; Astro genera el redirect `/ → /es/` automáticamente (`astro.config.mjs`, `i18n.routing.redirectToDefaultLocale`).
 - `src/styles/global.css` — tokens de color/tipografía como custom properties, reset mínimo, reglas de `prefers-reduced-motion`.

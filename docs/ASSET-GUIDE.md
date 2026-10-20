@@ -46,12 +46,6 @@ src/assets/
       urban-haus-01.jpg
     rabanne/
       rabanne-01.jpg
-    chivas-regal/
-      chivas-regal-01.jpg
-    vcp-uruguay/
-      vcp-uruguay-01.jpg
-    salus-uruguay/
-      salus-uruguay-01.jpg       → la única foto confirmada para esta marca
   video/
     work/
       rent-the-look-01.mp4
@@ -61,7 +55,7 @@ src/assets/
       vans-01.mp4
 ```
 
-El nombre de cada carpeta bajo `work/` coincide exactamente con el `slug` del archivo de contenido en `src/content/work/<slug>.yaml` (ver sección 6) — así no hay ambigüedad sobre qué carpeta corresponde a cuál marca. **Nombres de marca correctos, no usar variantes viejas:** Urban Haus (no "Urban House"), VCP Uruguay (no "BSP Uruguay"), Rent the Look (no "Rent Deluxe").
+El nombre de cada carpeta bajo `work/` coincide exactamente con el `slug` del archivo de contenido en `src/content/work/<slug>.yaml` (ver sección 6) — así no hay ambigüedad sobre qué carpeta corresponde a cuál marca. **Nombres de marca correctos, no usar variantes viejas:** Urban Haus (no "Urban House"), Vans (no "Vans Uruguay"), Rent the Look (no "Rent Deluxe").
 
 ## 2. Cantidad recomendada por sección
 
@@ -71,9 +65,7 @@ El nombre de cada carpeta bajo `work/` coincide exactamente con el `slug` del ar
 |---|---|---|
 | `many` | 6 | Rent the Look, Forum Industries, Original Penguin, Armani Beauty |
 | `some` | 4 | Vans, Meller |
-| `few` | 2 | Urban Haus, Rabanne, Chivas Regal |
-| `one` | 1 | Salus Uruguay |
-| `pending` | 1 | VCP Uruguay |
+| `few` | 2 | Urban Haus, Rabanne |
 
 No hace falta llenar exactamente esa cantidad de fotos reales — es un punto de partida curado según lo que cada marca efectivamente tiene, no una grilla obligatoria. Si terminás usando menos o más fotos que el placeholder sugerido, ajustá el valor de `material.photos` (ver sección 6) en vez de forzar la cantidad.
 

@@ -35,7 +35,7 @@ i18n: {
 |---|---|
 | `/` | Redirect automático a `/es/` |
 | `/es/`, `/en/` | Home completa |
-| `/es/work`, `/en/work` | Completa — 11 proyectos reales desde Content Collections; las marcas con página propia muestran sus fotos y linkean a ella, el resto sigue con placeholders |
+| `/es/work`, `/en/work` | Completa — 8 proyectos reales desde Content Collections; las marcas con página propia muestran sus fotos y linkean a ella, el resto sigue con placeholders |
 | `/es/work/<slug>`, `/en/work/<slug>` | Una página por marca con media en `src/data/work-pages.ts` (`getStaticPaths`). Hoy: `rent-the-look` |
 | `/es/polaroids`, `/en/polaroids` | Completa — 4 tomas fijas de agencia, con placeholders |
 | `/es/about`, `/en/about` | Completa — bio real + ficha técnica (`src/data/profile.ts`) |
@@ -62,7 +62,7 @@ src/components/
   WorkGrid.astro              — la grilla de tarjetas de trabajos (1,45:1, dos por fila, a sangre, hover de Máxima Michaels); la usan la Home y /work
   home/HomeStats.astro        — 4 polaroids grandes que abren el visor + 5 medidas clave (altura, peso, pecho, cintura, cadera)
   home/HomeContact.astro      — cierre "Trabajemos juntos" + Instagram
-  WorkView.astro              — /work: frase grande + "(WORK)" (como la página Work de Máxima), banner de marcas y las 11 tarjetas de `WorkGrid`
+  WorkView.astro              — /work: frase grande + "(WORK)" (como la página Work de Máxima), banner de marcas y las 8 tarjetas de `WorkGrid`
   WorkDetailView.astro        — página de una marca: nombre a todo el ancho, fotos de a pares con un borde parejo alrededor, backstage en video, siguiente trabajo (sin texto: tipo de trabajo y año van en la tarjeta de /work)
   PolaroidsView.astro         — las 4 tomas fijas de agencia
   AboutView.astro             — bio (corta + extendida) + ficha técnica desde src/data/profile.ts
@@ -90,7 +90,7 @@ Orden (en `HomeView.astro`), pensado como las preguntas que se hace una marca o 
 
 1. **Hero** — foto B&W a pantalla completa (`100svh`), nombre enorme abajo, bio a la izquierda. Ajustable a mano desde el bloque **HERO CONTROLS** (variables CSS para celular y para ≥56rem).
 2. **Sobre mí** (`HomeAbout`) — es la "hoja" que sube tapando el hero.
-3. **Banner de marcas** (`HomeBrands`) — las 11 marcas de la Collection, sutil; hace de encabezado de la grilla.
+3. **Banner de marcas** (`HomeBrands`) — las 8 marcas de la Collection, sutil; hace de encabezado de la grilla.
 4. **Trabajos** (`HomeWork`) — 6 marcas de `selected-work.ts`, réplica de la sección "Some works" de Máxima Michaels.
 5. **Ficha + polaroids** (`HomeStats`), 6. **Contacto** (`HomeContact`). ("Qué hago" se sacó en 2026-10: repetía las categorías y marcas que ya muestran el banner y la grilla.)
 
@@ -116,7 +116,7 @@ Implementado 2026-10-15 (segunda sesión) cuando llegó contenido real de las 11
 - `roles`, `categories` — arrays de claves en inglés (`model`, `ecommerce`, etc.); las etiquetas visibles están en `src/i18n/ui.ts` (`work.categories.*`), nunca hardcodeadas en el `.yaml` ni en el componente.
 - `summary`, `note` — texto libre por proyecto, con claves `es`/`en` dentro del mismo archivo. Esto es contenido real (como el body de un Markdown), por eso vive en la Collection y no en `ui.ts` — distinto tipo de string que el "chrome" de la interfaz.
 - `material.photos` — valor cualitativo (`pending`/`one`/`few`/`some`/`many`), no un conteo exacto — la mayoría de las marcas no tienen un inventario preciso todavía (ver `PROJECT-BRIEF.md`). Hoy no lo usa ningún componente; queda como dato de inventario.
-- `priority` — orden de curación manual, no alfabético ni cronológico — así la selección puede priorizar fuerza visual sin listar las 11 marcas con el mismo peso.
+- `priority` — orden de curación manual, no alfabético ni cronológico — así la selección puede priorizar fuerza visual sin listar todas las marcas con el mismo peso.
 - `link` — siempre `null` hasta que el usuario confirme una URL real; nunca se inventa.
 
 Carga vía `glob()` loader (`astro/loaders`) apuntando a `src/content/work/*.yaml` — Astro 7 usa `src/content.config.ts` en la raíz de `src/`, no `src/content/config.ts` (convención de versiones anteriores de Astro).
