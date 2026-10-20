@@ -38,7 +38,7 @@ const photos = await Promise.all(
 
 // `pairs`: two photos per row, an odd one out closes the gallery on its
 // own. `trios`: one grid, three across, every photo in the same 4:5 crop.
-// `rows`: rows of one to three as listed in the page's `rows`, photos and
+// `rows`: rows of one to four as listed in the page's `rows`, photos and
 // films each at its own proportions, all of a row at the same height.
 const trios = page.layout === 'trios';
 const mixed = page.layout === 'rows';
@@ -137,11 +137,14 @@ const nameWidth = displayNameWidth(brand).toFixed(4);
       mixedRows.map((row, index) => (
         // Each column as wide as its photo's proportions, so every photo of
         // the row ends up the same height and the row fills the width.
+        // A four splits in two pairs, which only take over on phones.
         <div
-          class={`project__row${row.length === 3 ? ' project__row--three' : ''}`}
+          class={`project__row${row.length === 3 ? ' project__row--three' : ''}${row.length === 4 ? ' project__row--four' : ''}`}
           style={`--cols: ${columns(row)}; --cols-rest: ${columns(row.slice(1))}`}
         >
-          {row.map((item, place) =>
+          {(row.length === 4 ? [row.slice(0, 2), row.slice(2)] : [row]).map((group) => (
+          <div class="project__group" style={`--pair: ${columns(group)}`}>
+          {group.map((item, place) =>
             item.kind === 'film' ? (
               <figure
                 class="project__frame project__frame--film"
@@ -177,7 +180,9 @@ const nameWidth = displayNameWidth(brand).toFixed(4);
                     sizes={
                       row.length === 1
                         ? '100vw'
-                        : row.length === 3
+                        : row.length === 4
+                          ? '(min-width: 48rem) 25vw, 50vw'
+                          : row.length === 3
                           ? place === 0
                             ? '(min-width: 48rem) 33vw, 100vw'
                             : '(min-width: 48rem) 33vw, 50vw'
@@ -192,6 +197,8 @@ const nameWidth = displayNameWidth(brand).toFixed(4);
               </figure>
             ),
           )}
+          </div>
+          ))}
         </div>
       ))
     }
@@ -386,7 +393,23 @@ const nameWidth = displayNameWidth(brand).toFixed(4);
     grid-template-columns: var(--cols);
   }
 
+  /* A group is only a box on phones, for the two pairs of a four; from
+     tablet up its pieces sit straight in the row. */
+  .project__group {
+    display: contents;
+  }
+
   @media (max-width: 47.99rem) {
+    .project__gallery--rows .project__row--four {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .project__row--four .project__group {
+      display: grid;
+      grid-template-columns: var(--pair);
+      gap: var(--frame);
+    }
+
     .project__gallery--rows .project__row--three {
       grid-template-columns: var(--cols-rest);
     }
@@ -613,8 +636,18 @@ const nameWidth = displayNameWidth(brand).toFixed(4);
       transition-delay: 280ms;
     }
 
-    /* In a trio, each photo arrives a beat after the one to its left. */
+    /* In a trio or a four, each photo arrives a beat after the one to its left. */
     @media (min-width: 48rem) {
+      .project__row--four .project__group:nth-child(2) .project__frame[data-reveal]:nth-child(1),
+      .project__row--four .project__group:nth-child(2) .project__frame[data-reveal]:nth-child(1) :global(img) {
+        transition-delay: 280ms;
+      }
+
+      .project__row--four .project__group:nth-child(2) .project__frame[data-reveal]:nth-child(2),
+      .project__row--four .project__group:nth-child(2) .project__frame[data-reveal]:nth-child(2) :global(img) {
+        transition-delay: 420ms;
+      }
+
       .project__gallery--trios .project__frame[data-reveal]:nth-child(3n + 1),
       .project__gallery--trios .project__frame[data-reveal]:nth-child(3n + 1) :global(img) {
         transition-delay: 0ms;
