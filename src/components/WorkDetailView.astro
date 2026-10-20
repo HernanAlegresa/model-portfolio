@@ -147,7 +147,7 @@ const nameWidth = displayNameWidth(brand).toFixed(4);
           {group.map((item, place) =>
             item.kind === 'film' ? (
               <figure
-                class="project__frame project__frame--film"
+                class={`project__frame project__frame--film${row.length === 1 ? ' project__frame--full' : ''}`}
                 data-reveal
                 style={`--ratio: ${item.film.width} / ${item.film.height}`}
               >
@@ -419,7 +419,8 @@ const nameWidth = displayNameWidth(brand).toFixed(4);
     }
   }
 
-  /* A film keeps its proportions on phones. From tablet up it fills the
+  /* A film keeps its proportions, like a photo, so it lines up with the
+     photos of its row. Alone in its row, from tablet up it fills the
      screen instead: as wide as the page and as tall as the window (less
      the frame above and below), so it is seen whole, edge to edge, with
      its top and bottom trimmed a little if the screen is wider than it. */
@@ -428,7 +429,7 @@ const nameWidth = displayNameWidth(brand).toFixed(4);
   }
 
   @media (min-width: 48rem) {
-    .project__frame--film {
+    .project__frame--full {
       aspect-ratio: auto;
       height: calc(100svh - 2 * var(--frame));
     }

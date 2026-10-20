@@ -134,7 +134,8 @@ import rentTheLookPoster04 from '../assets/video/work/rent-the-look-04-poster.jp
  *     photo full width and a four splits into two pairs. A row can also
  *     hold a film (`WorkFilm`): a video shown with the same weight as the
  *     photos, silent and looping while on screen; a horizontal one alone
- *     in its row spans the full width.
+ *     in its row spans the full width, a vertical one sits among the
+ *     photos like one more of them.
  *     `position` and `zoom` work as in `trios`.
  * - `videos`: the "Backstage" strip, all in one row (up to five; two by
  *   two on phones, an odd last one centred).
