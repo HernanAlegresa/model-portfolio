@@ -46,33 +46,31 @@ Fuente real, sin inventar nada adicional — usar como base para redactar, no co
 
 ## Historial profesional y marcas
 
-Todo corresponde a 2025 salvo que se confirme otra fecha. Distinguir explícitamente entre trabajo como **modelo**, como **creador de contenido** y como **invitado a eventos** — no convertir automáticamente cada colaboración en "campaña de modelaje". Categorías disponibles (un proyecto puede tener varias): `modelaje`, `ecommerce`, `contenido`, `eventos`, `comercial-tv`.
+Todo corresponde a 2025 salvo que se confirme otra fecha. Distinguir explícitamente entre trabajo como **modelo**, como **creador de contenido** y como **invitado a eventos** — no convertir automáticamente cada colaboración en "campaña de modelaje". Categorías disponibles (un proyecto puede tener varias): `modelaje`, `ecommerce`, `contenido`, `eventos`.
 
 | Marca | Año | Actividad | Rol | Categorías | Material disponible |
 |---|---|---|---|---|---|
 | **Meller** (Meller Uruguay) | 2025 | Colaboraciones en redes mostrando productos | Creador de contenido | contenido | Fotos — algunas buenas |
 | **Urban Haus** *(no "Urban House")* | 2025 | Modelaje para e-commerce y contenido | Modelo, creador de contenido | modelaje, ecommerce, contenido | ~4 fotos |
-| **VCP Uruguay** *(no "BSP Uruguay")* | 2025 | Contenido para redes sociales | Creador de contenido | contenido | Fotos — cantidad pendiente de revisar |
 | **Original Penguin** | 2025 | E-commerce, fotos y reels para web/redes | Modelo | modelaje, ecommerce, contenido | Bastante material: fotos + algunos videos |
 | **Rent the Look** *(no "Rent Deluxe")* | 2025 | Fotos y videos para e-commerce y redes | Modelo | modelaje, ecommerce, contenido | Bastante material: fotos + videos |
 | **Forum Industries** | 2025 | E-commerce, fotos y videos para web/redes | Modelo | modelaje, ecommerce, contenido | Bastante material: fotos + videos |
 | **Vans** *(no "Vans Uruguay")* | 2025 | Contenido durante un viaje personal a Río de Janeiro usando producto de la marca; parte publicada en redes de la marca, parte en redes propias | Creador de contenido | contenido | Hasta ~10 fotos + algunos videos |
 | **Armani Beauty** | 2025 | Eventos y creación de contenido (primer acercamiento al rubro fue un evento suyo en Punta del Este, enero 2025 — no asumir que todo el material es de ese mismo evento) | Creador de contenido, invitado | eventos, contenido | Bastante material: fotos + videos |
 | **Rabanne** *(no "Carolina Herrera")* | 2025 | Modelo e influencer para la marca | Modelo, creador de contenido | modelaje, contenido | ~4 fotos |
-| **Chivas Regal** | 2025 | Asistencia a un evento y contenido | Creador de contenido, invitado | eventos, contenido | ~4 fotos |
-| **Salus Uruguay** | 2025 | Participación en un comercial de televisión | Participante en comercial | comercial-tv | 1 foto propia; **no hay video del comercial disponible** |
+
+**Fuera del portfolio por decisión del dueño (2026-10-20):** VCP Uruguay, Chivas Regal y Salus Uruguay. El portfolio es de modelaje: estas colaboraciones (selfies de contenido, un evento como invitado, un comercial de TV sin material) no suman a ese foco. No volver a agregarlas.
 
 **Reglas de presentación (aplican al contenido y al código):**
 1. El año es dato de referencia del proyecto — no inventar meses/fechas exactas.
 2. Cada proyecto respeta las categorías de la tabla; un proyecto puede tener varias.
 3. No inventar resultados, estadísticas, alcance, premios, créditos, enlaces o testimonios.
-4. No mostrar las 11 marcas con idéntico protagonismo — selección curada, no checklist.
-5. No forzar galerías extensas en proyectos con poco material (Rabanne, Chivas Regal, Urban Haus: ~4 fotos; Salus: 1 foto).
+4. No mostrar las 8 marcas con idéntico protagonismo — selección curada, no checklist.
+5. No forzar galerías extensas en proyectos con poco material (Rabanne: ~4 fotos).
 6. Dejar espacio para enlaces a publicaciones oficiales, pero **no inventar URLs** — todos los `link` quedan `null`/pendientes hasta que el usuario los confirme.
 7. No usar logos o materiales oficiales de marca sin autorización — el nombre de la marca es referencia de un trabajo real, no implica respaldo oficial del sitio.
 8. Vans: no presentar el viaje como campaña internacional oficial ni organizada por la marca.
 9. Armani Beauty: no asumir que todo el contenido es del evento de enero 2025 en Punta del Este.
-10. Salus Uruguay: no inventar nombre de campaña, alcance, fecha de emisión, medio, ni simular tener el video del comercial.
 
 ## Contacto profesional
 

@@ -14,10 +14,10 @@ const work = defineCollection({
     // Keys only — display labels live in src/i18n/ui.ts so copy never
     // forks between the data layer and the translation dictionary.
     roles: z
-      .array(z.enum(['model', 'content-creator', 'guest', 'commercial-participant']))
+      .array(z.enum(['model', 'content-creator', 'guest']))
       .min(1),
     categories: z
-      .array(z.enum(['modeling', 'ecommerce', 'content', 'events', 'tv-commercial']))
+      .array(z.enum(['modeling', 'ecommerce', 'content', 'events']))
       .min(1),
     summary: localizedText,
     // Qualitative, not exact — most brands' material isn't inventoried yet.
