@@ -97,6 +97,21 @@ import urbanHaus24 from '../assets/work/urban-haus/urban-haus-24.jpg';
 import urbanHaus25 from '../assets/work/urban-haus/urban-haus-25.jpg';
 import urbanHaus26 from '../assets/work/urban-haus/urban-haus-26.jpg';
 import urbanHaus27 from '../assets/work/urban-haus/urban-haus-27.jpg';
+import vans01 from '../assets/work/vans/vans-01.jpg';
+import vans02 from '../assets/work/vans/vans-02.jpg';
+import vans03 from '../assets/work/vans/vans-03.jpg';
+import vans04 from '../assets/work/vans/vans-04.jpg';
+import vans05 from '../assets/work/vans/vans-05.jpg';
+import vans06 from '../assets/work/vans/vans-06.jpg';
+import vans07 from '../assets/work/vans/vans-07.jpg';
+import vans08 from '../assets/work/vans/vans-08.jpg';
+import vans09 from '../assets/work/vans/vans-09.jpg';
+import vansClip01 from '../assets/video/work/vans-01.mp4?url';
+import vansClip02 from '../assets/video/work/vans-02.mp4?url';
+import vansClip03 from '../assets/video/work/vans-03.mp4?url';
+import vansPoster01 from '../assets/video/work/vans-01-poster.jpg';
+import vansPoster02 from '../assets/video/work/vans-02-poster.jpg';
+import vansPoster03 from '../assets/video/work/vans-03-poster.jpg';
 import rentTheLookClip01 from '../assets/video/work/rent-the-look-01.mp4?url';
 import rentTheLookClip02 from '../assets/video/work/rent-the-look-02.mp4?url';
 import rentTheLookClip03 from '../assets/video/work/rent-the-look-03.mp4?url';
@@ -793,6 +808,107 @@ const urbanHausPhotos: Record<number, WorkPhoto> = {
   },
 };
 
+/** Vans' photos, numbered like their files. */
+const vansPhotos: Record<number, WorkPhoto> = {
+  1: {
+    image: vans01,
+    alt: {
+      es: 'Hernán Alegresa con gorra Vans, campera negra, bermuda y medias a cuadros, esperando en una esquina de Río de Janeiro junto a un ómnibus naranja.',
+      en: 'Hernán Alegresa in a Vans cap, black jacket, shorts and checkerboard socks, waiting on a Rio de Janeiro corner by an orange bus.',
+    },
+  },
+  2: {
+    image: vans02,
+    alt: {
+      es: 'Hernán Alegresa con gorra Vans y mochila, haciendo la V con las dos manos y sacando la lengua en la cima de un morro de Río.',
+      en: 'Hernán Alegresa in a Vans cap and backpack, making peace signs with both hands and sticking his tongue out on top of a Rio hill.',
+    },
+  },
+  3: {
+    image: vans03,
+    alt: {
+      es: 'Hernán Alegresa de espaldas con gorra y mochila, mirando los morros y las casas de Río desde lo alto de un sendero.',
+      en: 'Hernán Alegresa from behind in a cap and backpack, looking over the hills and houses of Rio from the top of a trail.',
+    },
+  },
+  4: {
+    image: vans04,
+    alt: {
+      es: 'Detalle de las zapatillas Vans de trekking mojadas y las medias Vans a cuadros, con bermuda cargo negra, en una calle de Río.',
+      en: 'Detail of wet Vans hiking shoes and checkerboard Vans socks, with black cargo shorts, on a Rio street.',
+    },
+  },
+  5: {
+    image: vans05,
+    alt: {
+      es: 'Foto en blanco y negro de Hernán Alegresa con campera Vans abierta y un trago en la mano, en un bar.',
+      en: 'Black-and-white photo of Hernán Alegresa in an open Vans jacket with a drink in his hand, in a bar.',
+    },
+  },
+  6: {
+    image: vans06,
+    alt: {
+      es: 'Selfie en el espejo de una tienda Vans: Hernán Alegresa con camisa a cuadros, sosteniendo una zapatilla Old Skool junto a la oreja.',
+      en: 'Mirror selfie in a Vans store: Hernán Alegresa in a plaid shirt, holding an Old Skool sneaker to his ear.',
+    },
+  },
+  7: {
+    image: vans07,
+    alt: {
+      es: 'Hernán Alegresa con una gorra Vans roja tapándole los ojos, frente a una pared a cuadros negros, blancos y rojos.',
+      en: 'Hernán Alegresa with a red Vans cap pulled over his eyes, in front of a black, white and red checkerboard wall.',
+    },
+  },
+  8: {
+    image: vans08,
+    alt: {
+      es: 'Hernán Alegresa con gorra Vans roja, levantando una ceja frente a una pared a cuadros negros, blancos y rojos.',
+      en: 'Hernán Alegresa in a red Vans cap, raising an eyebrow in front of a black, white and red checkerboard wall.',
+    },
+  },
+  9: {
+    image: vans09,
+    alt: {
+      es: 'Selfie en el espejo de una tienda Vans: Hernán Alegresa con gorra roja y campera negra Vans.',
+      en: 'Mirror selfie in a Vans store: Hernán Alegresa in a red cap and a black Vans jacket.',
+    },
+  },
+};
+
+/** Vans' films, vertical phone videos (720×1280 after conversion). */
+const vansFilmTrail: WorkFilm = {
+  src: vansClip01,
+  poster: vansPoster01,
+  width: 720,
+  height: 1280,
+  label: {
+    es: 'Hernán con mochila caminando por un sendero en lo alto de un morro de Río, con las montañas al atardecer detrás.',
+    en: 'Hernán with a backpack walking a trail high on a Rio hill, with the mountains at sunset behind.',
+  },
+};
+
+const vansFilmStore: WorkFilm = {
+  src: vansClip02,
+  poster: vansPoster02,
+  width: 720,
+  height: 1280,
+  label: {
+    es: 'Hernán sin remera, con gorra y mochila, bajando las escaleras de la entrada de una tienda Vans.',
+    en: 'Hernán shirtless, in a cap and backpack, walking down the entrance steps of a Vans store.',
+  },
+};
+
+const vansFilmSummit: WorkFilm = {
+  src: vansClip03,
+  poster: vansPoster03,
+  width: 720,
+  height: 1280,
+  label: {
+    es: 'Hernán sentado en la cima de un morro de Río al atardecer, sonriendo y haciendo señas a cámara entre la gente.',
+    en: 'Hernán sitting on top of a Rio hill at sunset, smiling and gesturing at the camera among the crowd.',
+  },
+};
+
 export const workPages: Record<string, WorkPage> = {
   'rent-the-look': {
     photos: [
@@ -1006,6 +1122,19 @@ export const workPages: Record<string, WorkPage> = {
       [7, 8, 13, 14], //   white T-shirts: bamboo wall, OFFLINE
       [4, 5, 6], //        white shirt, on the grass
       [10, 11, 12, 9], //  striped T-shirt
+    ]),
+    videos: [],
+  },
+  vans: {
+    layout: 'rows',
+    // Content from a trip to Rio de Janeiro: photos and films side by
+    // side, all of it the work itself (no backstage). Each number is a
+    // photo in vansPhotos above (= its file vans-NN.jpg); the films are
+    // the vansFilm… constants. Move them to reorder.
+    ...inRows(vansPhotos, [
+      [2, vansFilmSummit, 3, vansFilmTrail], // the hike
+      [1, 4, 6, 5], //                          the street, the details
+      [9, vansFilmStore, 8, 7], //              the red cap, the store
     ]),
     videos: [],
   },
