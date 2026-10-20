@@ -37,8 +37,8 @@ src/assets/
     armani-beauty/
       armani-beauty-01.jpg
       ...
-    vans-uruguay/
-      vans-uruguay-01.jpg
+    vans/
+      vans-01.jpg
       ...
     meller/
       meller-01.jpg
@@ -58,7 +58,7 @@ src/assets/
       forum-industries-01.mp4
       original-penguin-01.mp4
       armani-beauty-01.mp4
-      vans-uruguay-01.mp4
+      vans-01.mp4
 ```
 
 El nombre de cada carpeta bajo `work/` coincide exactamente con el `slug` del archivo de contenido en `src/content/work/<slug>.yaml` (ver sección 6) — así no hay ambigüedad sobre qué carpeta corresponde a cuál marca. **Nombres de marca correctos, no usar variantes viejas:** Urban Haus (no "Urban House"), VCP Uruguay (no "BSP Uruguay"), Rent the Look (no "Rent Deluxe").
@@ -70,7 +70,7 @@ El nombre de cada carpeta bajo `work/` coincide exactamente con el `slug` del ar
 | Valor de `material.photos` | Fotos aproximadas | Marcas con ese valor hoy |
 |---|---|---|
 | `many` | 6 | Rent the Look, Forum Industries, Original Penguin, Armani Beauty |
-| `some` | 4 | Vans Uruguay, Meller |
+| `some` | 4 | Vans, Meller |
 | `few` | 2 | Urban Haus, Rabanne, Chivas Regal |
 | `one` | 1 | Salus Uruguay |
 | `pending` | 1 | VCP Uruguay |
@@ -105,7 +105,7 @@ Subí el archivo en su proporción real/sin recortar cuando sea posible — no h
 - Formato de origen: **JPG** (foto) o **PNG** (si tiene transparencia, poco probable en fotografía). Astro convierte a WebP/AVIF automáticamente al optimizar — no subas ya convertido.
 - Resolución mínima: **2000px en el lado largo**. Astro genera versiones más chicas para pantallas chicas; de un archivo chico no puede "inventar" resolución.
 - Sin compresión agresiva previa — dejá que el pipeline de Astro decida la calidad final.
-- Video: **MP4 (H.264)**, sin audio si es solo ambientación visual. Los `.mov` de iPhone suelen venir en HEVC, que Chrome en Windows y Firefox no reproducen: hay que convertirlos a H.264 antes (sin cambiar el contenido; así se hizo con `about.mp4`). Nombrá el archivo igual que la carpeta de la marca + número. Marcas con video confirmado hoy: Original Penguin, Rent the Look, Forum Industries, Vans Uruguay, Armani Beauty.
+- Video: **MP4 (H.264)**, sin audio si es solo ambientación visual. Los `.mov` de iPhone suelen venir en HEVC, que Chrome en Windows y Firefox no reproducen: hay que convertirlos a H.264 antes (sin cambiar el contenido; así se hizo con `about.mp4`). Nombrá el archivo igual que la carpeta de la marca + número. Marcas con video confirmado hoy: Original Penguin, Rent the Look, Forum Industries, Vans, Armani Beauty.
 
 ## 5. Cómo sustituir un placeholder por una imagen real
 
