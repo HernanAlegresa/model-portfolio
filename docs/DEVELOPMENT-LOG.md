@@ -313,3 +313,11 @@
 ## 2026-10-20 — Armani Beauty: fuera la foto del perfume sobre la cabeza
 
 Pedido del usuario al curar el portfolio. Quedan 5 fotos + el video, renumeradas `armani-beauty-01…05` (sin huecos). Filas: video a lo ancho · par (perfume al atardecer, caminando por la arena) · trío del evento. La foto de la Home (01) no cambia.
+
+## 2026-10-20 — Meller, quinta página de marca
+
+**Material:** solo las fotos sacadas con cámara profesional, elegidas por el usuario: paletas KUL, fiesta, morro de Río saludando y dos de la playa en Río (`meller-01…05`; 01 sigue siendo la de la Home). Quedaron afuera las selfies de la óptica, las dunas y la rambla.
+
+**Filas:** `[1, 2, 3]` (paletas, fiesta, morro) · `[4, 5]` (playa). Sin backstage.
+
+**Comprobaciones:** `npm run check` 0 errores; build OK; Chrome 1536 px e iframe de 390 px sin scroll horizontal.
