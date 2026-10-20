@@ -321,3 +321,13 @@ Pedido del usuario al curar el portfolio. Quedan 5 fotos + el video, renumeradas
 **Filas:** `[1, 2, 3]` (paletas, fiesta, morro) · `[4, 5]` (playa). Sin backstage.
 
 **Comprobaciones:** `npm run check` 0 errores; build OK; Chrome 1536 px e iframe de 390 px sin scroll horizontal.
+
+## 2026-10-20 — Urban Haus, sexta página de marca, y filas de cuatro
+
+**Material:** 27 fotos de dos sesiones profesionales: 01–14 en la ciudad, 15–27 en el campo (tranquera, caballo en blanco y negro, tractor, fardos). La galería abre con el campo.
+
+**Filas de cuatro:** con tantas fotos, filas de tres hacían la página muy larga (pedido del usuario: que no sea demasiado larga). `inRows` ahora acepta de 1 a 4 piezas por fila. En `WorkDetailView` cada fila agrupa sus piezas en `.project__group` (`display: contents` en compu, así no cambia nada para filas de 1–3); en celular (< 48rem) una fila de cuatro pasa a una columna y cada grupo es un par (`--pair`). `sizes` de 25vw/50vw y la aparición escalonada sigue con el segundo par (280/420 ms). Galería: ~4.600 px a 1536.
+
+**Tarjeta en /work:** las tarjetas salían de `selected-work.ts`, que también arma la grilla de la Home (6). Para no sumar tarjetas a la Home, las marcas que solo están en /work toman su foto de `workOnlyShots` (mismo archivo). Urban Haus usa la 06 (acostado en el pasto, encuadre `50% 80%`), elegida por el usuario.
+
+**Comprobaciones:** `npm run check` 0 errores; build OK; Chrome 1536 px e iframe de 390 px (las filas de cuatro se parten en pares, sin scroll horizontal).
