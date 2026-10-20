@@ -295,3 +295,21 @@
 **Comprobaciones:** `npm run check` 0 errores; `npm run build` OK (18 páginas); HTML del dev server con 9 filas (3 tríos) y 2 videos. Chrome no estaba conectado: la verificación visual la hizo el usuario en su navegador.
 
 **Pendiente:** siguiente marca por prioridad (Armani Beauty); reconvertir los clips de Rent the Look si llegan los originales; lo que sigue abierto (polaroids, Meller, etc.).
+
+## 2026-10-19 (mediodía) — Armani Beauty, cuarta página de marca
+
+**Material:** 6 fotos del evento de Acqua di Giò en la playa (Mare Giorgio Armani, atardecer) y un video horizontal filmado con cámara profesional, 22 s. No hay backstage: el video es parte del trabajo. La foto de la Home (`armani-beauty-01.jpg`) era un recorte de la que sostiene el perfume: se reemplazó por el original (más resolución, la tarjeta se ve igual).
+
+**`rows` ahora respeta la proporción de cada pieza:** las fotos venían en 3:4, 9:16 y 2:3. Cada columna de la fila es `<proporción>fr` (`--cols`) y cada marco lleva su `aspect-ratio`, así todas las piezas de una fila tienen la misma altura y completan el ancho, sin recortar. En celular, el trío abre con la primera a todo el ancho y las otras dos parejas (`--cols-rest`). Original Penguin (todas 2:3) queda idéntico (medido antes/después).
+
+**Films en la grilla:** una fila de `inRows(...)` puede llevar un `WorkFilm` (video + póster + tamaño + descripción ES/EN) en vez de un número de foto. Se reproduce sin sonido y en loop mientras está en pantalla, con el mismo script que los clips del backstage (controles si no hay JS o con movimiento reducido). En compu ocupa la pantalla: ancho de la página × alto de la ventana menos el marco (`100svh`), recortando un poco arriba/abajo; en celular, 16:9. Pedido del usuario: verlo entero en la compu, sin scroll. Conversión: 1280×720 H.264 CRF 22, sin audio, 19,7 MB → 3,1 MB.
+
+**Orden:** video · frasco en la cabeza, sosteniendo el perfume, caminando · cartel Mare, agachado con el perfume, en el parador. Aprobado por el usuario. Sin sección Backstage (`videos: []`).
+
+**Comprobaciones:** `npm run check` 0 errores; `npm run build` OK (20 páginas); Chrome 1536 px (filas a una altura, el video entra justo en 695 px de alto) e iframe de 390 px sin scroll horizontal.
+
+**Pendiente:** siguiente marca por prioridad (Rabanne); reconvertir los clips de Rent the Look si llegan los originales; lo que sigue abierto (polaroids, Meller, etc.).
+
+## 2026-10-20 — Armani Beauty: fuera la foto del perfume sobre la cabeza
+
+Pedido del usuario al curar el portfolio. Quedan 5 fotos + el video, renumeradas `armani-beauty-01…05` (sin huecos). Filas: video a lo ancho · par (perfume al atardecer, caminando por la arena) · trío del evento. La foto de la Home (01) no cambia.
