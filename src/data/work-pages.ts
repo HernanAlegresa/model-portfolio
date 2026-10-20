@@ -63,7 +63,6 @@ import armaniBeauty02 from '../assets/work/armani-beauty/armani-beauty-02.jpg';
 import armaniBeauty03 from '../assets/work/armani-beauty/armani-beauty-03.jpg';
 import armaniBeauty04 from '../assets/work/armani-beauty/armani-beauty-04.jpg';
 import armaniBeauty05 from '../assets/work/armani-beauty/armani-beauty-05.jpg';
-import armaniBeauty06 from '../assets/work/armani-beauty/armani-beauty-06.jpg';
 import armaniBeautyFilmClip from '../assets/video/work/armani-beauty-film.mp4?url';
 import armaniBeautyFilmPoster from '../assets/video/work/armani-beauty-film-poster.jpg';
 import rentTheLookClip01 from '../assets/video/work/rent-the-look-01.mp4?url';
@@ -485,33 +484,26 @@ const armaniBeautyPhotos: Record<number, WorkPhoto> = {
   2: {
     image: armaniBeauty02,
     alt: {
-      es: 'Hernán Alegresa con un frasco de Acqua di Giò Profondo apoyado sobre la cabeza, mirando a cámara con el mar y el atardecer detrás.',
-      en: 'Hernán Alegresa balancing a bottle of Acqua di Giò Profondo on his head, looking into the camera with the sea and sunset behind.',
+      es: 'Hernán Alegresa caminando por la arena con camisa tejida a rayas, pantalón blanco y lentes de sol, durante un evento de Armani en la playa.',
+      en: 'Hernán Alegresa walking on the sand in a striped knit shirt, white trousers and sunglasses, during an Armani beach event.',
     },
   },
   3: {
     image: armaniBeauty03,
     alt: {
-      es: 'Hernán Alegresa caminando por la arena con camisa tejida a rayas, pantalón blanco y lentes de sol, durante un evento de Armani en la playa.',
-      en: 'Hernán Alegresa walking on the sand in a striped knit shirt, white trousers and sunglasses, during an Armani beach event.',
+      es: 'Hernán Alegresa agachado junto al cartel de Armani en la playa, mirando un frasco de perfume a contraluz.',
+      en: 'Hernán Alegresa crouching by the Armani sign on the beach, looking at a perfume bottle against the light.',
     },
   },
   4: {
     image: armaniBeauty04,
     alt: {
-      es: 'Hernán Alegresa agachado junto al cartel de Armani en la playa, mirando un frasco de perfume a contraluz.',
-      en: 'Hernán Alegresa crouching by the Armani sign on the beach, looking at a perfume bottle against the light.',
-    },
-  },
-  5: {
-    image: armaniBeauty05,
-    alt: {
       es: 'Hernán Alegresa de pie junto al cartel Mare Giorgio Armani en la playa, levantando un frasco de perfume al atardecer.',
       en: 'Hernán Alegresa standing by the Mare Giorgio Armani sign on the beach, raising a perfume bottle at sunset.',
     },
   },
-  6: {
-    image: armaniBeauty06,
+  5: {
+    image: armaniBeauty05,
     alt: {
       es: 'Hernán Alegresa con un trago junto a una invitada con abanico, en el parador del evento de Armani al atardecer.',
       en: 'Hernán Alegresa with a drink beside a guest holding a fan, at the Armani event beach bar at sunset.',
@@ -706,14 +698,14 @@ export const workPages: Record<string, WorkPage> = {
   },
   'armani-beauty': {
     layout: 'rows',
-    // The film opens the gallery across the full width, then two rows of
-    // three. Each number is a photo in armaniBeautyPhotos above (= its file
-    // armani-beauty-NN.jpg); move `armaniBeautyFilm` to another row to
-    // change where the film goes.
+    // The film opens the gallery across the full width, then a pair and
+    // a row of three. Each number is a photo in armaniBeautyPhotos above
+    // (= its file armani-beauty-NN.jpg); move `armaniBeautyFilm` to
+    // another row to change where the film goes.
     ...inRows(armaniBeautyPhotos, [
       [armaniBeautyFilm], //  the film, full width
-      [2, 1, 3], //           portraits with the perfume + walking
-      [5, 4, 6], //           at the event
+      [1, 2], //              the perfume at sunset + walking
+      [4, 3, 5], //           at the event
     ]),
     // No backstage for this brand: the film is part of the work itself.
     videos: [],
