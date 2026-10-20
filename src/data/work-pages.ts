@@ -65,6 +65,11 @@ import armaniBeauty04 from '../assets/work/armani-beauty/armani-beauty-04.jpg';
 import armaniBeauty05 from '../assets/work/armani-beauty/armani-beauty-05.jpg';
 import armaniBeautyFilmClip from '../assets/video/work/armani-beauty-film.mp4?url';
 import armaniBeautyFilmPoster from '../assets/video/work/armani-beauty-film-poster.jpg';
+import meller01 from '../assets/work/meller/meller-01.jpg';
+import meller02 from '../assets/work/meller/meller-02.jpg';
+import meller03 from '../assets/work/meller/meller-03.jpg';
+import meller04 from '../assets/work/meller/meller-04.jpg';
+import meller05 from '../assets/work/meller/meller-05.jpg';
 import rentTheLookClip01 from '../assets/video/work/rent-the-look-01.mp4?url';
 import rentTheLookClip02 from '../assets/video/work/rent-the-look-02.mp4?url';
 import rentTheLookClip03 from '../assets/video/work/rent-the-look-03.mp4?url';
@@ -523,6 +528,48 @@ const armaniBeautyFilm: WorkFilm = {
   },
 };
 
+/**
+ * Meller's photos (sunglasses), the ones shot with a professional camera,
+ * numbered like their files. 01 is also the Home card's.
+ */
+const mellerPhotos: Record<number, WorkPhoto> = {
+  1: {
+    image: meller01,
+    alt: {
+      es: 'Hernán Alegresa con lentes deportivos espejados y buzo tejido a rayas, cruzando dos paletas azules KUL frente al pecho.',
+      en: 'Hernán Alegresa in mirrored sport sunglasses and a striped knit sweater, crossing two blue KUL paddles over his chest.',
+    },
+  },
+  2: {
+    image: meller02,
+    alt: {
+      es: 'Hernán Alegresa sonriendo con lentes de sol y campera negra, con un vaso en la mano, en una fiesta iluminada de naranja.',
+      en: 'Hernán Alegresa smiling in sunglasses and a black jacket, cup in hand, at an orange-lit party.',
+    },
+  },
+  3: {
+    image: meller03,
+    alt: {
+      es: 'Hernán Alegresa con camiseta de Flamengo y lentes de sol, con los brazos en alto sobre una vista de Río de Janeiro.',
+      en: 'Hernán Alegresa in a Flamengo jersey and sunglasses, arms raised above a view of Rio de Janeiro.',
+    },
+  },
+  4: {
+    image: meller04,
+    alt: {
+      es: 'Selfie de Hernán Alegresa con lentes de sol rojos tomando agua de coco en la playa de Ipanema.',
+      en: 'Selfie of Hernán Alegresa in red sunglasses drinking from a coconut on Ipanema beach.',
+    },
+  },
+  5: {
+    image: meller05,
+    alt: {
+      es: 'Hernán Alegresa en una reposera de la playa, con la cara tapada por una remera y los lentes de sol encima, frente al morro Dois Irmãos.',
+      en: 'Hernán Alegresa in a beach chair, his face covered by a T-shirt with the sunglasses on top, facing the Dois Irmãos hills.',
+    },
+  },
+};
+
 export const workPages: Record<string, WorkPage> = {
   'rent-the-look': {
     photos: [
@@ -708,6 +755,17 @@ export const workPages: Record<string, WorkPage> = {
       [4, 3, 5], //           at the event
     ]),
     // No backstage for this brand: the film is part of the work itself.
+    videos: [],
+  },
+  meller: {
+    layout: 'rows',
+    // Content wearing the brand's sunglasses, grouped by where it was made.
+    // Each number is a photo in mellerPhotos above (= its file
+    // meller-NN.jpg): move the numbers to reorder.
+    ...inRows(mellerPhotos, [
+      [1, 2, 3], //  KUL paddles, party, Rio from the hill
+      [4, 5], //     Rio, on the beach
+    ]),
     videos: [],
   },
 };
