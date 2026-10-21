@@ -18,7 +18,7 @@ Fuente: brief maestro provisto por el usuario el 2026-10-15 (segunda sesión), q
 - La edad visible es opcional y de actualización manual, nunca calculada automáticamente.
 - No publicar teléfono personal por defecto — queda pendiente de aprobación final del usuario antes de aparecer en el sitio.
 - No mostrar el nombre de la agencia actual ni presentar el sitio como si tuviera representación oficial — el portfolio es una presentación profesional independiente, a su nombre.
-- No agregar medidas, talles, nacionalidades, idiomas o credenciales no confirmados explícitamente acá.
+- No agregar medidas, talles, nacionalidades, idiomas o credenciales no confirmados explícitamente acá (idiomas y pasaporte ya confirmados, ver abajo).
 
 Perfil: modelo y creador de contenido con experiencia en e-commerce, fotografía profesional, contenido para redes sociales, colaboraciones con marcas y participación en eventos. Versatilidad para indumentaria formal, casual y streetwear. Practica deporte y mantiene actividad física constante. Se describe como sociable, adaptable, creativo y comprometido con disfrutar el proceso sin perder profesionalismo.
 
@@ -30,34 +30,48 @@ Frase de posicionamiento: *"Quiero llegar tan lejos como pueda, sin dejar de ser
 
 Fuente real, sin inventar nada adicional — usar como base para redactar, no copiar palabra por palabra si el tono editorial pide ajustes, pero sin alterar los hechos.
 
-**Cómo empezó:** su acercamiento al modelaje comenzó a partir de una invitación a un evento de Armani en Punta del Este, en enero de 2025. Ahí conoció a personas importantes del rubro del modelaje en Uruguay, que mostraron interés en su perfil y le hicieron notar que podía tener potencial como modelo. Fue una oportunidad inesperada que lo llevó a explorar un mundo nuevo.
+**Historia real (contada por el usuario el 2026-10-21, reemplaza la versión anterior que decía 2025):**
 
-**Qué lo atrae:** la posibilidad de entrar en un rubro que en Uruguay tiene un desarrollo diferente al que alcanza internacionalmente; es una actividad exigente, en la que se trabaja con la propia imagen y las oportunidades se construyen con esfuerzo. Lo motiva vivir experiencias nuevas, crecer personalmente, desarrollar confianza en sí mismo, conocer gente y formar parte de experiencias que recordará toda la vida. **No** convertir esto en una crítica a Uruguay ni en una afirmación exagerada sobre el mercado local — es una motivación personal, no un posicionamiento país.
+- **Antes:** trabajaba como programador full stack en una empresa. A principios de 2026 dejó ese trabajo y empezó a buscar otro. Durante el año hizo proyectos freelance para clientes y proyectos propios.
+- **Enero de 2026:** lo invitaron a un evento de Armani en Punta del Este. Fue su primer trabajo con una marca (como invitado). Ahí conoció a mucha gente del ambiente de influencers, moda y modelaje en Uruguay. Empezó a subir contenido a redes: lifestyle y fotos estéticas.
+- **Marzo de 2026 (aprox.):** le empezaron a llegar propuestas para modelar. Lo pensó mucho: tenía dudas y miedo al "qué dirán", porque en Uruguay el rubro está poco desarrollado, y más para hombres.
+- **Mitad de 2026:** decidió animarse: aceptar trabajos con marcas y trabajar con su imagen, sin dejar la programación. Lo disfruta muchísimo.
+- **Hoy (octubre de 2026):** lleva unos tres meses trabajando fuerte. Tiene mucha demanda y muchas propuestas para el poco tiempo que lleva, y se lo reconocen. Está creciendo rápido en Uruguay.
+- **Objetivo:** trabajar a nivel internacional y ser el mejor en lo que hace; profesionalizarse y dedicarse al 100 %.
 
-**Qué lo distingue:** sociable, activo físicamente, deportista, versátil entre estilos de indumentaria (formal, casual, streetwear). Probó distintos cortes de pelo a lo largo de su vida y disfruta explorar diferentes imágenes. Le importa mantener su identidad, ser buena persona, disfrutar del trabajo y aprender en el proceso — sin que la ambición profesional le haga perder autenticidad ni disfrute.
+No usar cantidades de meses fijas en el sitio ("hace tres meses"): quedan viejas. Decir "desde mitad de 2026" o "en pocos meses".
 
-**Programación:** puede mencionarse brevemente que tiene experiencia en programación si aporta algo interesante a la historia, pero **no** debe convertirse en el centro de su identidad profesional en el sitio — el foco es modelaje y creación de contenido. No inventar empresas, cargos, logros tecnológicos ni una "transición profesional" formal que no haya confirmado.
+**Fuera de cámara:**
+- **Fútbol:** jugó fútbol profesional en juveniles y después pasó al amateur, donde sigue jugando.
+- **Deporte en general:** gimnasio, correr; le gustan casi todos los deportes, juega a la mayoría y mira tenis y básquetbol, entre otros.
+- **Programación:** programador full stack. **Este portfolio lo hizo él de cero**, como proyecto propio: código, diseño, estética y selección de fotos. Se destaca en About (decisión del usuario).
+- **Vida social:** familia, amigos, conocer gente. Muy sociable y proactivo; se desenvuelve bien en eventos.
+- **Perros:** tiene una perra, Pipa. (Hace poco falleció Nina, otra perra suya: no mencionarlo en el sitio salvo que él lo pida.)
+
+**Idiomas y documentos (confirmados):** español nativo, inglés fluido/avanzado, portugués (nivel no especificado). Pasaporte italiano (UE) en trámite, a punto de salir: actualizar a "vigente" cuando lo confirme.
+
+**Valores:** cuida su imagen, pero lo que define a una persona es ser buena gente; su prioridad es ser buena persona y fiel a sí mismo. Quiere desafiarse y dar lo mejor de sí.
 
 **Objetivo:** construir una carrera sin ponerse límites de antemano, llegar tan lejos como pueda en el modelaje y dejar que las experiencias, oportunidades y el trabajo lo lleven a ser el mejor profesional posible.
 
-**Tono editorial para la redacción final:** personal, auténtico y profesional; conciso, con voz editorial; ambicioso sin resultar arrogante; cercano sin ser informal en exceso; natural, no biografía corporativa genérica; coherente con un modelo que trabaja para marcas y busca oportunidades internacionales. Admite una versión breve (debe funcionar visualmente sola) y una ampliada si el diseño lo justifica.
+**Tono editorial para la redacción final:** humano y natural, como lo diría él; sin rayas (—) ni giros de texto generado por IA. Personal, auténtico y profesional; conciso, con voz editorial; ambicioso sin resultar arrogante; cercano sin ser informal en exceso; natural, no biografía corporativa genérica; coherente con un modelo que trabaja para marcas y busca oportunidades internacionales. Admite una versión breve (debe funcionar visualmente sola) y una ampliada si el diseño lo justifica.
 
 **No inventar:** citas, premios, campañas, logros, experiencias internacionales profesionales ni afirmaciones sobre su carrera que no estén en este documento.
 
 ## Historial profesional y marcas
 
-Todo corresponde a 2025 salvo que se confirme otra fecha. Distinguir explícitamente entre trabajo como **modelo**, como **creador de contenido** y como **invitado a eventos** — no convertir automáticamente cada colaboración en "campaña de modelaje". Categorías disponibles (un proyecto puede tener varias): `modelaje`, `ecommerce`, `contenido`, `eventos`.
+**Todos los trabajos se muestran como 2026** (decisión del usuario, 2026-10-21). Única excepción real: Urban Haus (fotos con el pelo platinado) fue a fines de 2025, pero el usuario pidió mostrarlo como 2026 (febrero). Distinguir explícitamente entre trabajo como **modelo**, como **creador de contenido** y como **invitado a eventos** — no convertir automáticamente cada colaboración en "campaña de modelaje". Categorías disponibles (un proyecto puede tener varias): `modelaje`, `ecommerce`, `contenido`, `eventos`.
 
 | Marca | Año | Actividad | Rol | Categorías | Material disponible |
 |---|---|---|---|---|---|
-| **Meller** (Meller Uruguay) | 2025 | Colaboraciones en redes mostrando productos | Creador de contenido | contenido | Fotos — algunas buenas |
-| **Urban Haus** *(no "Urban House")* | 2025 | Modelaje para e-commerce y contenido | Modelo, creador de contenido | modelaje, ecommerce, contenido | ~4 fotos |
-| **Original Penguin** | 2025 | E-commerce, fotos y reels para web/redes | Modelo | modelaje, ecommerce, contenido | Bastante material: fotos + algunos videos |
-| **Rent the Look** *(no "Rent Deluxe")* | 2025 | Fotos y videos para e-commerce y redes | Modelo | modelaje, ecommerce, contenido | Bastante material: fotos + videos |
-| **Forum Industries** | 2025 | E-commerce, fotos y videos para web/redes | Modelo | modelaje, ecommerce, contenido | Bastante material: fotos + videos |
-| **Vans** *(no "Vans Uruguay")* | 2025 | Contenido durante un viaje personal a Río de Janeiro usando producto de la marca; parte publicada en redes de la marca, parte en redes propias | Creador de contenido | contenido | Hasta ~10 fotos + algunos videos |
-| **Armani Beauty** | 2025 | Eventos y creación de contenido (primer acercamiento al rubro fue un evento suyo en Punta del Este, enero 2025 — no asumir que todo el material es de ese mismo evento) | Creador de contenido, invitado | eventos, contenido | Bastante material: fotos + videos |
-| **Rabanne** *(no "Carolina Herrera")* | 2025 | Modelo e influencer para la marca | Modelo, creador de contenido | modelaje, contenido | ~4 fotos |
+| **Meller** (Meller Uruguay) | 2026 | Colaboraciones en redes mostrando productos | Creador de contenido | contenido | Fotos — algunas buenas |
+| **Urban Haus** *(no "Urban House")* | 2026 | Modelaje para e-commerce y contenido | Modelo, creador de contenido | modelaje, ecommerce, contenido | ~4 fotos |
+| **Original Penguin** | 2026 | E-commerce, fotos y reels para web/redes | Modelo | modelaje, ecommerce, contenido | Bastante material: fotos + algunos videos |
+| **Rent the Look** *(no "Rent Deluxe")* | 2026 | Fotos y videos para e-commerce y redes | Modelo | modelaje, ecommerce, contenido | Bastante material: fotos + videos |
+| **Forum Industries** | 2026 | E-commerce, fotos y videos para web/redes | Modelo | modelaje, ecommerce, contenido | Bastante material: fotos + videos |
+| **Vans** *(no "Vans Uruguay")* | 2026 | Contenido durante un viaje personal a Río de Janeiro usando producto de la marca; parte publicada en redes de la marca, parte en redes propias | Creador de contenido | contenido | Hasta ~10 fotos + algunos videos |
+| **Armani Beauty** | 2026 | Eventos y creación de contenido (su primer trabajo con una marca fue como invitado a un evento suyo en Punta del Este, en enero de 2026; no asumir que todo el material es de ese evento) | Creador de contenido, invitado | eventos, contenido | Bastante material: fotos + videos |
+| **Rabanne** *(no "Carolina Herrera")* | 2026 | Modelo e influencer para la marca | Modelo, creador de contenido | modelaje, contenido | ~4 fotos |
 
 **Fuera del portfolio por decisión del dueño (2026-10-20):** VCP Uruguay, Chivas Regal y Salus Uruguay. El portfolio es de modelaje: estas colaboraciones (selfies de contenido, un evento como invitado, un comercial de TV sin material) no suman a ese foco. No volver a agregarlas.
 
@@ -70,7 +84,7 @@ Todo corresponde a 2025 salvo que se confirme otra fecha. Distinguir explícitam
 6. Dejar espacio para enlaces a publicaciones oficiales, pero **no inventar URLs** — todos los `link` quedan `null`/pendientes hasta que el usuario los confirme.
 7. No usar logos o materiales oficiales de marca sin autorización — el nombre de la marca es referencia de un trabajo real, no implica respaldo oficial del sitio.
 8. Vans: no presentar el viaje como campaña internacional oficial ni organizada por la marca.
-9. Armani Beauty: no asumir que todo el contenido es del evento de enero 2025 en Punta del Este.
+9. Armani Beauty: no asumir que todo el contenido es del evento de enero de 2026 en Punta del Este.
 
 ## Contacto profesional
 

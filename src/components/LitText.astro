@@ -1,0 +1,65 @@
+---
+interface Props {
+  text: string;
+  /** Where in the paragraph's trip across the screen the first word lights. */
+  from?: string;
+  /** How much of that trip the whole run of words takes. */
+  span?: string;
+}
+
+const { text, from = '10%', span = '35%' } = Astro.props;
+
+// Split into words so each one can light up in turn as the reader scrolls.
+const words = text.split(' ');
+---
+
+<!-- A paragraph that reads in as you scroll, as on the Home's "Sobre mí":
+     every word starts dim and turns white in order while the paragraph
+     crosses the screen. Font, size and colour come from the parent (wrap it
+     in an element and style that). The word spans exist for the effect
+     only; screen readers get the text once, from the hidden copy. -->
+<p class="lit" style={`--lit-from: ${from}; --lit-span: ${span};`}>
+  <span class="visually-hidden">{text}</span>
+  <span aria-hidden="true">
+    {
+      words.map((word, i) => (
+        <span class="lit__word" style={`--i: ${i}; --n: ${words.length};`}>
+          {word}{' '}
+        </span>
+      ))
+    }
+  </span>
+</p>
+
+<style>
+  .lit {
+    margin: 0;
+  }
+
+  /* Without scroll-timeline support (or with reduced motion) the text is
+     simply white. */
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      .lit {
+        view-timeline: --lit block;
+      }
+
+      .lit__word {
+        animation: lit-word linear both;
+        animation-timeline: --lit;
+        animation-range:
+          cover calc(var(--lit-from) + var(--lit-span) * var(--i) / var(--n))
+          cover calc(var(--lit-from) + var(--lit-span) * (var(--i) + 1) / var(--n));
+      }
+    }
+  }
+
+  @keyframes lit-word {
+    from {
+      color: rgb(242 241 238 / 18%);
+    }
+    to {
+      color: var(--color-paper);
+    }
+  }
+</style>

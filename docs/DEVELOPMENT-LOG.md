@@ -355,3 +355,21 @@ Quedan: modelaje (Rent the Look, Forum Industries, Original Penguin, Urban Haus,
 **Comprobaciones:** `npm run check` 0 errores; build OK (26 páginas); las páginas de las marcas quitadas dan 404; /work y la Home sin rastros de ellas.
 
 **Pendiente:** el usuario manda las 4 polaroids; crea un email profesional (lo crea él) para Contacto; fotos que faltan de Rabanne (página propia) y Armani; revisar About y Contacto; ver el header a 390 px en Chrome (el nombre debería entrar entre idioma y hamburguesa).
+
+## 2026-10-21 — Polaroids reales, títulos, footer, About completa y corrección de fechas
+
+**Polaroids:** 6 fotos reales en `src/assets/polaroids/` (3:4, entran justo en el marco). `src/data/polaroids.ts`: las 4 clave con `home: true` (rostro de frente, rostro de perfil, medio cuerpo de frente, medio cuerpo de perfil) van a la Home; /polaroids muestra las 6 (+ cuerpo completo de frente y torso) en una sola grilla, con el visor. `PolaroidLightbox` recibe la lista por prop. El usuario sacó la de brazos cruzados.
+
+**Títulos de página:** `PageHead.astro`, un título grande centrado compartido por Work, Polaroids, About y Contacto (mismo tamaño que "SOLO PRESENCIA."), con el borde superior a `--nav-clearance` (antes quedaba ~100 px más abajo). About dice "About me" (el nombre ya está en el header); se quitaron los kickers repetidos.
+
+**Footer:** `SiteFooter.astro` rehecho: frase corta, Páginas (con la actual marcada), Contacto, Redes (Instagram), el nombre a todo el ancho (medido con `display-name.ts`), idioma ES/EN y "volver arriba". Los canales salen de `src/data/contact.ts` (también lo usan la Home y Contacto): `email` y `phone` en `null` hasta que el usuario los confirme; el teléfono no aparece hasta entonces.
+
+**About:** video de backstage cuadrado (`about-session.mp4`, HLG convertido a SDR) + presentación; línea de tiempo de 2026 en 4 momentos; "Fuera de cámara" con 3 fotos (fútbol, programación, Pipa) alineadas con subgrid; lema y valores; ficha con idiomas y pasaporte italiano en trámite; links a Polaroids/Work/Contacto. El texto se ilumina palabra por palabra con `LitText.astro` (mismo efecto que la Home). Prioridad del usuario: presentarse como modelo; la programación va como parte de su vida fuera de cámara.
+
+**Fechas corregidas:** el usuario empezó en **enero de 2026** (no 2025). Las 8 marcas pasan a `year: 2026` (Urban Haus fue a fines de 2025 pero se muestra 2026 por pedido suyo). La historia real quedó en `docs/PROJECT-BRIEF.md`.
+
+**Textos:** sin rayas (—) ni frases que suenen a IA en todo el sitio (títulos de pestaña con "|"). Nuevo párrafo de "Sobre mí" en la Home (el usuario eligió la opción B: "No me pongo techo…").
+
+**Comprobaciones:** `npm run check` 0 errores; build OK (26 páginas); Chrome 1536 px e iframe de 390 px sin scroll horizontal; ningún "2025" ni "—" visible en el HTML generado.
+
+**Pendiente:** email profesional (lo crea el usuario) → `src/data/contact.ts`; fotos de Rabanne y Armani; nivel de portugués; pasaporte a "vigente" cuando salga; el hero todavía dice "apunto a trabajar a nivel internacional" (se repite con el párrafo nuevo, sin decidir).

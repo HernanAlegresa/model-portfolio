@@ -1,7 +1,7 @@
 ---
 import PolaroidPrint from '../PolaroidPrint.astro';
 import PolaroidLightbox from '../PolaroidLightbox.astro';
-import { polaroids } from '../../data/polaroids';
+import { homePolaroids } from '../../data/polaroids';
 import { profile, formatStatValue, type StatField } from '../../data/profile';
 import { useTranslations } from '../../i18n/utils';
 import type { Lang } from '../../i18n/ui';
@@ -36,7 +36,7 @@ const stats: { label: string; field: StatField<number>; unit: string }[] = [
        the full-screen viewer instead (PolaroidLightbox). -->
   <ul class="stats__prints" role="list">
     {
-      polaroids.map((polaroid, index) => (
+      homePolaroids.map((polaroid, index) => (
         <li>
           <a
             class="stats__print"
@@ -75,7 +75,7 @@ const stats: { label: string; field: StatField<number>; unit: string }[] = [
       }
   </dl>
 
-  <PolaroidLightbox lang={lang} />
+  <PolaroidLightbox lang={lang} polaroids={homePolaroids} />
 </section>
 
 <style>

@@ -1,4 +1,6 @@
 ---
+import PageHead from './PageHead.astro';
+import { contact, whatsappUrl } from '../data/contact';
 import { useTranslations } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
 
@@ -10,26 +12,45 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 ---
 
+<PageHead title={t('nav.contact')} />
+
 <section class="contact">
-  <header class="contact__head">
-    <p class="contact__kicker">{t('contact.kicker')}</p>
-    <h1 class="contact__heading">{t('nav.contact')}</h1>
-    <p class="contact__lead">{t('contact.lead')}</p>
-  </header>
+  <p class="contact__lead">{t('contact.lead')}</p>
 
   <dl class="contact__list" data-reveal-group>
     <div class="contact__row" data-reveal>
       <dt>{t('contact.instagram.label')}</dt>
       <dd>
-        <a class="contact__link link-sweep" href="https://instagram.com/hernanalegresa" target="_blank" rel="noopener noreferrer">
-          @hernanalegresa
+        <a class="contact__link link-sweep" href={contact.instagram.url} target="_blank" rel="noopener noreferrer">
+          {contact.instagram.handle}
         </a>
       </dd>
     </div>
     <div class="contact__row" data-reveal>
       <dt>{t('contact.email.label')}</dt>
-      <dd class="contact__pending">{t('contact.email.pending')}</dd>
+      {
+        contact.email ? (
+          <dd><a class="link-sweep" href={`mailto:${contact.email}`}>{contact.email}</a></dd>
+        ) : (
+          <dd class="contact__pending">{t('contact.email.pending')}</dd>
+        )
+      }
     </div>
+    {
+      contact.phone && (
+        <div class="contact__row" data-reveal>
+          <dt>{t('contact.phone.label')}</dt>
+          <dd>
+            <a class="contact__link link-sweep" href={`tel:${contact.phone.tel}`}>{contact.phone.display}</a>
+            {contact.phone.whatsapp && (
+              <a class="contact__whatsapp link-sweep" href={whatsappUrl(contact.phone.tel)} target="_blank" rel="noopener noreferrer">
+                WhatsApp ↗
+              </a>
+            )}
+          </dd>
+        </div>
+      )
+    }
   </dl>
 </section>
 
@@ -38,30 +59,15 @@ const t = useTranslations(lang);
     display: flex;
     flex-direction: column;
     gap: var(--space-6);
-    min-height: 60svh;
-    padding: var(--nav-clearance) var(--page-margin) var(--space-7);
-  }
-
-  .contact__kicker {
-    margin: 0 0 var(--space-2);
-    font-size: 0.8rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--color-smoke);
-  }
-
-  .contact__heading {
-    margin: 0;
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
-    letter-spacing: -0.02em;
-    text-transform: uppercase;
+    align-items: center;
+    min-height: 40svh;
+    padding: 0 var(--page-margin) var(--space-7);
+    text-align: center;
   }
 
   .contact__lead {
     max-width: 48ch;
-    margin: var(--space-3) 0 0;
+    margin: 0;
     color: var(--color-smoke);
     font-size: var(--step-0);
   }
@@ -70,8 +76,8 @@ const t = useTranslations(lang);
     display: flex;
     flex-direction: column;
     gap: var(--space-4);
+    width: min(100%, 32rem);
     margin: 0;
-    max-width: 32rem;
   }
 
   .contact__row {
@@ -102,5 +108,12 @@ const t = useTranslations(lang);
   .contact__pending {
     color: var(--color-smoke);
     font-style: italic;
+  }
+
+  .contact__whatsapp {
+    display: block;
+    margin-top: var(--space-2);
+    font-size: var(--step-0);
+    text-decoration: none;
   }
 </style>

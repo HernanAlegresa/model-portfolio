@@ -1,6 +1,8 @@
 ---
-import { useTranslations } from '../i18n/utils';
-import type { Lang } from '../i18n/ui';
+import { contact, whatsappUrl } from '../data/contact';
+import { displayNameWidth } from '../lib/display-name';
+import { languages, type Lang } from '../i18n/ui';
+import { switchLocalePath, useTranslations } from '../i18n/utils';
 
 interface Props {
   lang: Lang;
@@ -9,35 +11,285 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 const year = new Date().getFullYear();
+const brand = t('site.brand');
+const nameWidth = displayNameWidth(brand).toFixed(4);
+
+const pages = [
+  { href: `/${lang}/`, label: t('nav.home') },
+  { href: `/${lang}/work`, label: t('nav.work') },
+  { href: `/${lang}/polaroids`, label: t('nav.polaroids') },
+  { href: `/${lang}/about`, label: t('nav.about') },
+  { href: `/${lang}/contact`, label: t('nav.contact') },
+];
+
+// The current page, and its section for brand pages (/es/work/vans → Work).
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isCurrent = (href: string) => path === href.replace(/\/$/, '');
+const isSection = (href: string) => href !== `/${lang}/` && path.startsWith(href.replace(/\/$/, '') + '/');
 ---
 
-<footer class="site-footer">
-  <p>
-    <a class="link-sweep" href="https://instagram.com/hernanalegresa" target="_blank" rel="noopener noreferrer">
-      {t('contact.instagram.label')} @hernanalegresa
-    </a>
-  </p>
-  <p>© {year} — {t('footer.rights')}</p>
+<!-- Site-wide footer: who he is, every page, every way to reach him, then
+     the name across the full width as the signature, and a last line with
+     the copyright, the language and a way back up. -->
+<footer class="footer">
+  <div class="footer__columns">
+    <div class="footer__intro">
+      <p class="footer__pitch">{t('footer.pitch')}</p>
+      <a class="footer__cta link-sweep" href={`/${lang}/contact`}>{t('home.contact.title')} →</a>
+    </div>
+
+    <nav class="footer__group" aria-labelledby="footer-pages">
+      <h2 id="footer-pages" class="footer__label">{t('footer.pages')}</h2>
+      <ul class="footer__list" role="list">
+        {
+          pages.map(({ href, label }) => (
+            <li>
+              <a
+                class="footer__link link-sweep"
+                href={href}
+                aria-current={isCurrent(href) ? 'page' : isSection(href) ? 'true' : undefined}
+              >
+                {label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="footer__group">
+      <h2 class="footer__label">{t('footer.contact')}</h2>
+      <ul class="footer__list" role="list">
+        <li>
+          {
+            contact.email ? (
+              <a class="footer__link link-sweep" href={`mailto:${contact.email}`}>{contact.email}</a>
+            ) : (
+              <span class="footer__pending">{t('contact.email.label')} ({t('footer.soon')})</span>
+            )
+          }
+        </li>
+        {
+          contact.phone && (
+            <li>
+              <a class="footer__link link-sweep" href={`tel:${contact.phone.tel}`}>{contact.phone.display}</a>
+            </li>
+          )
+        }
+        {
+          contact.phone?.whatsapp && (
+            <li>
+              <a class="footer__link link-sweep" href={whatsappUrl(contact.phone.tel)} target="_blank" rel="noopener noreferrer">
+                WhatsApp ↗
+              </a>
+            </li>
+          )
+        }
+        <li>
+          <a class="footer__link link-sweep" href={contact.instagram.url} target="_blank" rel="noopener noreferrer">
+            {t('footer.dm')} ↗
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="footer__group">
+      <h2 class="footer__label">{t('footer.social')}</h2>
+      <ul class="footer__list" role="list">
+        <li>
+          <a class="footer__link link-sweep" href={contact.instagram.url} target="_blank" rel="noopener noreferrer">
+            Instagram ↗
+          </a>
+          <span class="footer__handle">{contact.instagram.handle}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- The name, sized to span the width exactly (src/lib/display-name.ts).
+       Decorative: the name is already in the header and the copyright. -->
+  <p class="footer__name" style={`--name-width: ${nameWidth}`} aria-hidden="true">{brand}</p>
+
+  <div class="footer__bottom">
+    <p class="footer__legal">© {year} {brand}</p>
+
+    <ul class="footer__langs" role="list" aria-label={t('nav.lang.label')}>
+      {
+        Object.keys(languages).map((code) => (
+          <li>
+            <a
+              class="footer__lang"
+              href={switchLocalePath(Astro.url.pathname, code as Lang)}
+              hreflang={code}
+              lang={code}
+              aria-current={code === lang ? 'true' : undefined}
+            >
+              {code}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <a class="footer__top link-sweep" href="#top">{t('footer.top')} ↑</a>
+  </div>
 </footer>
 
 <style>
-  .site-footer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: var(--space-3);
-    padding: var(--space-5) var(--page-margin);
-    font-size: 0.75rem;
-    letter-spacing: 0.02em;
-    color: var(--color-smoke);
+  .footer {
+    padding: var(--space-6) var(--page-margin) var(--space-4);
     border-top: 1px solid var(--color-hairline);
+    container-type: inline-size;
   }
 
-  .site-footer p {
+  /* Phones: the intro on its own, then the three lists side by side in two
+     columns. Desktop: intro on the left, the three lists to its right. */
+  .footer__columns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-5) var(--space-4);
+  }
+
+  .footer__intro {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+
+  .footer__pitch {
+    max-width: 22ch;
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--step-1);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+
+  .footer__cta {
+    font-size: 0.95rem;
+    text-decoration: none;
+  }
+
+  /* Column labels in the mono voice of the header and the print captions. */
+  .footer__label {
+    margin: 0 0 var(--space-3);
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-smoke);
+  }
+
+  .footer__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .footer__list li {
+    min-width: 0;
+  }
+
+  .footer__link {
+    font-size: 0.95rem;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+
+  /* Where you are: a small square before the link, in the accent colour. */
+  .footer__link[aria-current]::before {
+    content: '';
+    display: inline-block;
+    width: 0.4em;
+    height: 0.4em;
+    margin-right: 0.5em;
+    vertical-align: 0.15em;
+    background: var(--color-accent);
+  }
+
+  .footer__pending,
+  .footer__handle {
+    font-size: 0.95rem;
+    color: var(--color-smoke);
+  }
+
+  .footer__handle {
+    display: block;
+    margin-top: 0.2rem;
+    font-size: 0.8rem;
+  }
+
+  /* As wide as the footer: width / the name's measured width in em. */
+  .footer__name {
+    margin: var(--space-6) 0 var(--space-4) -0.04em;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: calc(100cqi / var(--name-width));
+    line-height: 0.8;
+    letter-spacing: -0.045em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    user-select: none;
+  }
+
+  .footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2) var(--space-4);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-hairline);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-smoke);
+  }
+
+  .footer__legal {
     margin: 0;
   }
 
-  .site-footer a {
+  .footer__langs {
+    display: flex;
+    gap: var(--space-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .footer__lang {
+    padding: 0.4rem 0;
+    color: var(--color-smoke);
     text-decoration: none;
   }
+
+  .footer__lang:hover,
+  .footer__lang[aria-current] {
+    color: var(--color-paper);
+  }
+
+  .footer__top {
+    text-decoration: none;
+  }
+
+  @media (min-width: 48rem) {
+    .footer__columns {
+      grid-template-columns: minmax(0, 2fr) repeat(3, minmax(0, 1fr));
+      gap: var(--space-5);
+    }
+
+    .footer__intro {
+      grid-column: auto;
+    }
+  }
+
 </style>

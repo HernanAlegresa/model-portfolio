@@ -1,6 +1,11 @@
 import type { ImageMetadata } from 'astro';
 import aboutClip from '../assets/video/about.mp4?url';
 import aboutPoster from '../assets/video/about-poster.jpg';
+import sessionClip from '../assets/video/about-session.mp4?url';
+import sessionPoster from '../assets/video/about-session-poster.jpg';
+import football from '../assets/about/football.jpg';
+import coding from '../assets/about/coding.jpg';
+import pipa from '../assets/about/pipa.jpg';
 
 /**
  * What plays in the frame next to the Home's "about" text. Edit this file
@@ -38,4 +43,21 @@ export interface AboutMedia {
 export const aboutMedia: AboutMedia = {
   video: { src: aboutClip, poster: aboutPoster },
   images: [],
+};
+
+/**
+ * The /about page's media (the Home's frame above is separate).
+ *
+ * - `video`: the clip next to the opening line. Square (1:1) and muted;
+ *   converted from the iPhone .mov like the Work clips (docs/ASSET-GUIDE.md §6).
+ * - `football` / `code` / `people`: the photos of the "Fuera de cámara"
+ *   blocks (Deporte, Programación, Mi gente). Their descriptions are
+ *   `about.<key>.alt` in src/i18n/ui.ts.
+ * - `position`: which part stays in frame on phones, where they're cropped.
+ */
+export const aboutPage = {
+  video: { src: sessionClip, poster: sessionPoster },
+  football: { image: football, position: '52% 40%' },
+  code: { image: coding, position: '78% 65%' },
+  people: { image: pipa, position: '50% 55%' },
 };

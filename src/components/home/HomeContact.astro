@@ -1,4 +1,5 @@
 ---
+import { contact } from '../../data/contact';
 import { useTranslations } from '../../i18n/utils';
 import type { Lang } from '../../i18n/ui';
 
@@ -23,14 +24,20 @@ const t = useTranslations(lang);
     <div>
       <dt>{t('contact.instagram.label')}</dt>
       <dd>
-        <a class="link-sweep" href="https://instagram.com/hernanalegresa" target="_blank" rel="noopener noreferrer">
-          @hernanalegresa
+        <a class="link-sweep" href={contact.instagram.url} target="_blank" rel="noopener noreferrer">
+          {contact.instagram.handle}
         </a>
       </dd>
     </div>
     <div>
       <dt>{t('contact.email.label')}</dt>
-      <dd class="closing__pending">{t('contact.email.pending')}</dd>
+      {
+        contact.email ? (
+          <dd><a class="link-sweep" href={`mailto:${contact.email}`}>{contact.email}</a></dd>
+        ) : (
+          <dd class="closing__pending">{t('contact.email.pending')}</dd>
+        )
+      }
     </div>
   </dl>
 </section>
