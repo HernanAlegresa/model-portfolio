@@ -44,7 +44,7 @@ No usar cantidades de meses fijas en el sitio ("hace tres meses"): quedan viejas
 **Fuera de cámara:**
 - **Fútbol:** jugó fútbol profesional en juveniles y después pasó al amateur, donde sigue jugando.
 - **Deporte en general:** gimnasio, correr; le gustan casi todos los deportes, juega a la mayoría y mira tenis y básquetbol, entre otros.
-- **Programación:** programador full stack. **Este portfolio lo hizo él de cero**, como proyecto propio: código, diseño, estética y selección de fotos. Se destaca en About (decisión del usuario).
+- **Programación:** programador recibido (estudió la carrera de programación; institución y título exacto no confirmados, no inventarlos). Trabajó como full stack. **Este portfolio lo hizo él de cero**, como proyecto propio: código, diseño, estética y selección de fotos. Se destaca en About (decisión del usuario).
 - **Vida social:** familia, amigos, conocer gente. Muy sociable y proactivo; se desenvuelve bien en eventos.
 - **Perros:** tiene una perra, Pipa. (Hace poco falleció Nina, otra perra suya: no mencionarlo en el sitio salvo que él lo pida.)
 

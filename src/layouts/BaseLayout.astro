@@ -15,6 +15,9 @@ const { lang, title, description } = Astro.props;
 
 const pathname = Astro.url.pathname;
 const alternatePath = switchLocalePath(pathname, lang === 'es' ? 'en' : 'es');
+// Only pages under /es/ or /en/ have a version in the other language (the
+// 404 page, for one, doesn't).
+const hasAlternate = /^\/(es|en)(\/|$)/.test(pathname);
 ---
 
 <!doctype html>
@@ -25,8 +28,14 @@ const alternatePath = switchLocalePath(pathname, lang === 'es' ? 'en' : 'es');
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="alternate" hreflang="es" href={lang === 'es' ? pathname : alternatePath} />
-    <link rel="alternate" hreflang="en" href={lang === 'en' ? pathname : alternatePath} />
+    {
+      hasAlternate && (
+        <>
+          <link rel="alternate" hreflang="es" href={lang === 'es' ? pathname : alternatePath} />
+          <link rel="alternate" hreflang="en" href={lang === 'en' ? pathname : alternatePath} />
+        </>
+      )
+    }
     <!-- Cross-document View Transitions: pages cross-fade into each other,
          and elements sharing a view-transition-name morph across the
          navigation (a brand's name from its card into its page's title).

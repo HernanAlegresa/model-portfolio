@@ -373,3 +373,11 @@ Quedan: modelaje (Rent the Look, Forum Industries, Original Penguin, Urban Haus,
 **Comprobaciones:** `npm run check` 0 errores; build OK (26 páginas); Chrome 1536 px e iframe de 390 px sin scroll horizontal; ningún "2025" ni "—" visible en el HTML generado.
 
 **Pendiente:** email profesional (lo crea el usuario) → `src/data/contact.ts`; fotos de Rabanne y Armani; nivel de portugués; pasaporte a "vigente" cuando salga; el hero todavía dice "apunto a trabajar a nivel internacional" (se repite con el párrafo nuevo, sin decidir).
+
+## 2026-10-21 (cierre) — About: lema junto al video, programador recibido y revisión general
+
+**About:** a la derecha del video va ahora el lema ("Quiero llegar tan lejos como pueda…") en grande y, debajo, sus valores (imagen vs. ser buena gente, desafiarse, su mejor versión), los dos con el efecto de `LitText`. Se quitó la presentación ("Soy Hernán, tengo 25 años…") y los datos clave, que repetían la ficha; el bloque del lema de más abajo desaparece (no se repite en la página). Programación: "Me recibí de programador…" (sin institución ni título: no confirmados).
+
+**Revisión general antes de cerrar:** 25 páginas (ES/EN) + 404. Sin enlaces ni archivos rotos en el build; sin scroll horizontal a 390 px ni a 1440 px; una sola `h1` por página; todas las imágenes con `alt`; `lang` correcto; ningún texto en el idioma equivocado; ningún "2025", "—" ni placeholder visible. Arreglo: la 404 ya no declara `hreflang` (no tiene versión por idioma).
+
+**Pendiente (para cerrar el portfolio):** email profesional → `src/data/contact.ts`; fotos de Rabanne (página propia) y Armani; foto nueva de Programación (el usuario la manda). Menores: nivel de portugués, pasaporte "vigente", "internacional" repetido en el texto del hero.

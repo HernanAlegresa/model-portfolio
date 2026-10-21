@@ -61,8 +61,6 @@ export const ui = {
     'about.title': 'About | Hernán Alegresa',
     'about.description': 'Quién es Hernán Alegresa: cómo empezó en el modelaje, qué hace fuera de cámara y su ficha técnica.',
     'about.heading': 'About me',
-    'about.intro':
-      "Soy Hernán, tengo {age} años y soy de Uruguay. Trabajo como modelo y creador de contenido.",
     'about.video.alt':
       "Backstage de una sesión de fotos en estudio: Hernán frente al fondo blanco, entre luces y el equipo de producción.",
     'about.story.label':
@@ -94,7 +92,7 @@ export const ui = {
     'about.code.label':
       "Programación",
     'about.code.text':
-      "Trabajé como desarrollador full stack en una empresa y hoy hago proyectos freelance y propios. Este portfolio lo hice yo, de cero: el código, el diseño y cada foto que elegí.",
+      "Me recibí de programador y trabajé como desarrollador full stack en una empresa. Hoy hago proyectos freelance y propios. Este portfolio lo hice yo, de cero: el código, el diseño y cada foto que elegí.",
     'about.code.alt':
       "Hernán programando en una notebook, de perfil, con lentes.",
     'about.people.label':
@@ -104,7 +102,7 @@ export const ui = {
     'about.people.text':
       "Me encanta estar con mi familia y mis amigos, conocer gente y charlar. Soy muy sociable, y en los eventos eso se nota. También me encantan los perros: tengo una perra que se llama Pipa.",
     'about.values':
-      "Cuido mi imagen, pero sé que lo que define a una persona es cómo es. Mi prioridad es ser buena gente, ser fiel a mí mismo y dar lo mejor de mí en cada trabajo.",
+      "Cuido mi imagen, pero sé que no es lo que define a una persona: lo que importa es cómo sos. Mi prioridad es ser buena gente y ser fiel a mí mismo. Me gusta desafiarme y dar lo mejor de mí en cada trabajo, para llegar a mi mejor versión.",
     'about.more':
       "Seguir viendo",
     'about.stats.heading': 'Ficha técnica',
@@ -216,8 +214,6 @@ export const ui = {
     'about.title': 'About | Hernán Alegresa',
     'about.description': 'Who Hernán Alegresa is: how he got into modeling, what he does off camera, and his stats.',
     'about.heading': 'About me',
-    'about.intro':
-      "I'm Hernán, I'm {age} and I'm from Uruguay. I work as a model and content creator.",
     'about.video.alt':
       "Behind the scenes of a studio photo shoot: Hernán against the white backdrop, among the lights and the production team.",
     'about.story.label':
@@ -249,7 +245,7 @@ export const ui = {
     'about.code.label':
       "Programming",
     'about.code.text':
-      "I worked as a full stack developer at a company, and now I do freelance and personal projects. I built this portfolio myself from scratch: the code, the design and every photo I chose.",
+      "I have a degree in programming and worked as a full stack developer at a company. Now I do freelance and personal projects. I built this portfolio myself from scratch: the code, the design and every photo I chose.",
     'about.code.alt':
       "Hernán coding on a laptop, in profile, wearing glasses.",
     'about.people.label':
@@ -259,7 +255,7 @@ export const ui = {
     'about.people.text':
       "I love spending time with my family and friends, meeting people and talking. I'm very sociable, and it shows at events. I also love dogs: I have one called Pipa.",
     'about.values':
-      "I take care of my image, but I know what defines a person is who they are. My priority is being a good person, staying true to myself and giving my best on every job.",
+      "I take care of my image, but I know it's not what defines a person: what matters is who you are. My priority is being a good person and staying true to myself. I like to challenge myself and give my best on every job, to become the best version of me.",
     'about.more':
       "Keep exploring",
     'about.stats.heading': 'Stats',
