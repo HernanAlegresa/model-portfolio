@@ -1,20 +1,22 @@
 ---
 import PolaroidPrint from './PolaroidPrint.astro';
-import { polaroids } from '../data/polaroids';
+import type { Polaroid } from '../data/polaroids';
 import { useTranslations } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
 
 interface Props {
   lang: Lang;
+  /** The prints it can show, in the same order as the page's triggers. */
+  polaroids: Polaroid[];
 }
 
-const { lang } = Astro.props;
+const { lang, polaroids } = Astro.props;
 const t = useTranslations(lang);
 const pad = (n: number) => String(n).padStart(2, '0');
 ---
 
 <!--
-  Full-screen viewer for the four polaroids. Any element on the page with
+  Full-screen viewer for a page's polaroids. Any element on the page with
   data-lightbox-open="<index>" opens it at that print (plain links that
   still work without JS — the script intercepts the click).
 

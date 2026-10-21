@@ -1,5 +1,7 @@
 ---
-import PlaceholderImage from './PlaceholderImage.astro';
+import PageHead from './PageHead.astro';
+import PolaroidPrint from './PolaroidPrint.astro';
+import PolaroidLightbox from './PolaroidLightbox.astro';
 import { polaroids } from '../data/polaroids';
 import { useTranslations } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
@@ -11,94 +13,93 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 
-// Fixed, standard agency set — not a curated gallery. See docs/PROJECT-BRIEF.md
-// ("Polaroids") and docs/ASSET-GUIDE.md for the four exact shots; the list
-// lives in src/data/polaroids.ts (shared with the Home).
+// Read like an agency sheet: the four key shots first, then the extras
+// (the order of src/data/polaroids.ts, shared with the Home). Every print
+// is the same size so they can be compared side by side.
 ---
 
-<section class="polaroids">
-  <header class="polaroids__head">
-    <p class="polaroids__kicker">{t('polaroids.kicker')}</p>
-    <h1 class="polaroids__heading">{t('nav.polaroids')}</h1>
-    <p class="polaroids__lead">{t('polaroids.lead')}</p>
-  </header>
+<PageHead title={t('nav.polaroids')} />
 
-  <div class="polaroids__grid" data-reveal-group>
+<section class="polaroids">
+  <ul class="polaroids__grid" role="list" data-reveal-group>
     {
-      polaroids.map(({ shot, id }) => (
-        <div class="polaroids__item" id={id} data-reveal>
-          <PlaceholderImage ratio="4 / 5" label={t('placeholder.label')} accent="neutral" />
-          <p class="polaroids__caption">{t(`polaroids.shot.${shot}`)}</p>
-        </div>
+      polaroids.map((polaroid, index) => (
+        <li id={polaroid.id} data-reveal>
+          <a
+            class="polaroids__print"
+            href={`#${polaroid.id}`}
+            data-lightbox-open={index}
+            aria-label={`${t('home.stats.open')}: ${t(`polaroids.shot.${polaroid.shot}`)}`}
+          >
+            <PolaroidPrint polaroid={polaroid} lang={lang} sizes="(min-width: 48rem) 24vw, 46vw" />
+          </a>
+        </li>
       ))
     }
-  </div>
+  </ul>
+
+  <PolaroidLightbox lang={lang} polaroids={polaroids} />
 </section>
 
 <style>
   .polaroids {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-6);
-    padding: var(--nav-clearance) var(--page-margin) var(--space-7);
+    padding: 0 var(--page-margin) var(--space-7);
   }
 
-  .polaroids__kicker {
-    margin: 0 0 var(--space-2);
-    font-size: 0.8rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--color-smoke);
-  }
-
-  .polaroids__heading {
-    margin: 0;
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
-    letter-spacing: -0.02em;
-    text-transform: uppercase;
-  }
-
-  .polaroids__lead {
-    max-width: 52ch;
-    margin: var(--space-3) 0 0;
-    color: var(--color-smoke);
-    font-size: var(--step-0);
-  }
-
+  /* Same grid as the Home's prints: four across (two on phones). The
+     last row keeps the same column width even when it isn't full. */
   .polaroids__grid {
     display: grid;
-    /* minmax(0, 1fr), not 1fr — a bare 1fr track has an implicit auto (not 0)
-       minimum, so the caption text below each placeholder would otherwise
-       force the track wider than the viewport on narrow phones. */
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-4);
-    max-width: 56rem;
-  }
-
-  .polaroids__item {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-    min-width: 0;
-  }
-
-  .polaroids__caption {
-    min-width: 0;
-  }
-
-  .polaroids__caption {
+    gap: var(--space-3) 0.75rem;
     margin: 0;
-    font-size: 0.75rem;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-    color: var(--color-smoke);
+    padding: 0;
+    list-style: none;
+  }
+
+  .polaroids__grid li {
+    min-width: 0;
+    scroll-margin-top: var(--nav-clearance);
+  }
+
+  .polaroids__print {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+    cursor: zoom-in;
   }
 
   @media (min-width: 48rem) {
     .polaroids__grid {
       grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-4);
+    }
+  }
+
+  /* Hover, as on the Home: the print under the cursor is picked up off the
+     table while the others step back. */
+  @media (prefers-reduced-motion: no-preference) and (hover: hover) {
+    .polaroids__print {
+      transition:
+        rotate 500ms cubic-bezier(0.16, 1, 0.3, 1),
+        translate 500ms cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 400ms ease;
+    }
+
+    .polaroids__grid:has(.polaroids__print:hover) .polaroids__print:not(:hover) {
+      opacity: 0.55;
+    }
+
+    .polaroids__print:hover {
+      translate: 0 -0.6rem;
+    }
+
+    li:nth-child(odd) .polaroids__print:hover {
+      rotate: -1.5deg;
+    }
+
+    li:nth-child(even) .polaroids__print:hover {
+      rotate: 1.5deg;
     }
   }
 </style>

@@ -73,7 +73,7 @@ No hace falta llenar exactamente esa cantidad de fotos reales — es un punto de
 |---|---|---|
 | Home (`home/hero.png`) | 1 | 1 — la mejor foto que tengas, es la primera impresión |
 | Trabajos en Home (grilla 2×3) | 6 | 6 — se eligen en `src/data/selected-work.ts` (marca + foto) |
-| Polaroids | 4 (las 4 tomas fijas) | 4, mismo encuadre/iluminación entre sí, sin retoque |
+| Polaroids | 4 tomas clave (van a la Home) | 4 clave + extras (torso, medio cuerpo…) — todas en `src/data/polaroids.ts`, las clave con `home: true` |
 | About — portrait | 1 | 1-2 |
 | Home — marco junto a la presentación | 1 video **o** 3 fotos | 1 video vertical de 5–15 s, o 3–5 fotos verticales que se alternan — se eligen en `src/data/about-media.ts` |
 | Work por proyecto | según tabla arriba | según tabla arriba |
@@ -84,7 +84,7 @@ No hace falta llenar exactamente esa cantidad de fotos reales — es un punto de
 |---|---|---|
 | `home/hero.png` | 16:9 (la actual: 1672×941; ideal ≥ 2560 px de ancho) | Horizontal, cara a la derecha |
 | Trabajos en Home — las 6 tarjetas | 1,45:1 (casi 3:2), como Máxima Michaels | Horizontal |
-| Polaroids — las 4 tomas | 4:5, mismo encuadre entre sí (como una ficha de casting real) | Vertical |
+| Polaroids — todas las tomas | 3:4, mismo encuadre entre sí (como una ficha de casting real) | Vertical |
 | About — portrait | 4:5 o 3:4 | Vertical |
 | Work — galería por proyecto | `WorkView.astro` ya cicla ratios 4:5 / 1:1 / 3:4 / 16:9 por posición — subí la foto en su ratio nativo, el recorte final lo hace CSS (`object-fit: cover`) | Mixta |
 

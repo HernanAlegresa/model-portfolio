@@ -1,7 +1,10 @@
 ---
-import PlaceholderImage from './PlaceholderImage.astro';
-import { useTranslations } from '../i18n/utils';
+import { Image, getImage } from 'astro:assets';
+import PageHead from './PageHead.astro';
+import LitText from './LitText.astro';
+import { aboutPage } from '../data/about-media';
 import { profile, formatStatValue } from '../data/profile';
+import { useTranslations } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
 
 interface Props {
@@ -10,6 +13,20 @@ interface Props {
 
 const { lang } = Astro.props;
 const t = useTranslations(lang);
+
+// The age comes from profile.ts (updated by hand), never from a date.
+const intro = t('about.intro').replace('{age}', String(profile.age.value));
+const poster = await getImage({ src: aboutPage.video.poster, width: 1080 });
+
+// How it started: four moments of 2026, read left to right on desktop.
+const story = [1, 2, 3, 4] as const;
+
+// Off camera: three short blocks side by side, each with a photo.
+const life = [
+  { key: 'football', media: aboutPage.football },
+  { key: 'code', media: aboutPage.code },
+  { key: 'people', media: aboutPage.people },
+] as const;
 
 const stats = [
   { label: t('about.stats.age'), field: profile.age, unit: t('about.stats.ageUnit') },
@@ -21,27 +38,99 @@ const stats = [
   { label: t('about.stats.clothing'), field: profile.clothingSize, unit: '' },
   { label: t('about.stats.shoe'), field: profile.shoeSizeEu, unit: 'EU' },
 ] as const;
+
+// Text rows of the sheet. The long ones (languages, passport) take a wider
+// row, with the value next to its label instead of pushed to the far end.
+const details = [
+  { label: t('about.stats.hair'), value: t('about.stats.hairValue') },
+  { label: t('about.stats.eyes'), value: t('about.stats.eyesValue') },
+  { label: t('about.stats.base'), value: 'Uruguay' },
+  { label: t('about.stats.languages'), value: t('about.stats.languagesValue'), wide: true },
+  { label: t('about.stats.passport'), value: t('about.stats.passportValue'), wide: true },
+];
 ---
 
-<section class="about">
-  <header class="about__head">
-    <p class="about__kicker">{t('about.kicker')}</p>
-    <h1 class="about__heading">{t('site.brand')}</h1>
-  </header>
+<!-- The name is already in the header, so the title is just "About me". -->
+<PageHead title={t('about.heading')} />
 
-  <div class="about__grid" data-reveal>
-    <div class="about__portrait">
-      <PlaceholderImage ratio="4 / 5" label={t('placeholder.label')} accent="neutral" />
+<div class="about">
+  <!-- Opening: a clip from a shoot next to who he is, in two lines. -->
+  <section class="about__intro" aria-label={t('about.heading')}>
+    <figure class="about__clip" data-reveal>
+      <video
+        class="about__video"
+        src={aboutPage.video.src}
+        poster={poster.src}
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        aria-label={t('about.video.alt')}
+        data-about-video
+      ></video>
+    </figure>
+
+    <div class="about__lead">
+      <LitText text={intro} from="25%" span="35%" />
     </div>
+  </section>
 
-    <div class="about__content">
-      <p class="about__bio about__bio--short">{t('about.bio.short')}</p>
-      <p class="about__bio about__bio--extended">{t('about.bio.extended')}</p>
+  <!-- How it started: a short timeline. -->
+  <section class="about__block" aria-labelledby="about-story">
+    <h2 id="about-story" class="about__label">{t('about.story.label')}</h2>
+    <ol class="story" role="list">
+      {
+        story.map((step) => (
+          <li class="story__step">
+            <p class="story__when">{t(`about.story.${step}.when`)}</p>
+            <div class="story__text">
+              <LitText text={t(`about.story.${step}.text`)} from="15%" span="30%" />
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <!-- Off camera: sport, programming, the people around him. -->
+  <section class="about__block" aria-labelledby="about-life">
+    <h2 id="about-life" class="about__label">{t('about.life.label')}</h2>
+    <ul class="life" role="list">
+      {
+        life.map((item) => (
+          <li class="life__item">
+            <div class="life__media" data-reveal>
+              <Image
+                src={item.media.image}
+                alt={t(`about.${item.key}.alt`)}
+                widths={[400, 700, 1000]}
+                sizes="(min-width: 56rem) 30vw, 100vw"
+                loading="lazy"
+                decoding="async"
+                style={`object-position: ${item.media.position};`}
+              />
+            </div>
+            <h3 class="life__title">{t(`about.${item.key}.label`)}</h3>
+            <div class="life__text">
+              <LitText text={t(`about.${item.key}.text`)} from="15%" span="30%" />
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <!-- The line he closes with on the Home, and what's behind it. -->
+  <section class="about__motto-block" aria-label={t('home.about.statement')}>
+    <div class="about__motto">
+      <LitText text={t('home.about.statement')} from="20%" span="30%" />
     </div>
-  </div>
+    <p class="about__values">{t('about.values')}</p>
+  </section>
 
-  <div class="about__stats" data-reveal>
-    <h2 class="about__stats-heading">{t('about.stats.heading')}</h2>
+  <section class="about__block" aria-labelledby="about-stats" data-reveal>
+    <h2 id="about-stats" class="about__label">{t('about.stats.heading')}</h2>
     <dl class="stats-grid">
       {
         stats.map(({ label, field, unit }) => (
@@ -60,101 +149,207 @@ const stats = [
           </div>
         ))
       }
-      <div class="stats-grid__row">
-        <dt>{t('about.stats.hair')}</dt>
-        <dd>{t('about.stats.hairValue')}</dd>
-      </div>
-      <div class="stats-grid__row">
-        <dt>{t('about.stats.eyes')}</dt>
-        <dd>{t('about.stats.eyesValue')}</dd>
-      </div>
+      {
+        details.map(({ label, value, wide }) => (
+          <div class:list={['stats-grid__row', { 'stats-grid__row--wide': wide }]}>
+            <dt>{label}</dt>
+            <dd>{value}</dd>
+          </div>
+        ))
+      }
     </dl>
-  </div>
-</section>
+  </section>
+
+  <!-- Where to go next, so the page doesn't end in a dead end. -->
+  <nav class="about__block" aria-labelledby="about-next">
+    <h2 id="about-next" class="about__label">{t('about.more')}</h2>
+    <ul class="about__next-list" role="list">
+      <li><a class="about__next-link link-sweep" href={`/${lang}/polaroids`}>{t('nav.polaroids')} →</a></li>
+      <li><a class="about__next-link link-sweep" href={`/${lang}/work`}>{t('nav.work')} →</a></li>
+      <li><a class="about__next-link link-sweep" href={`/${lang}/contact`}>{t('nav.contact')} →</a></li>
+    </ul>
+  </nav>
+</div>
 
 <style>
   .about {
     display: flex;
     flex-direction: column;
-    gap: var(--space-7);
-    padding: var(--nav-clearance) var(--page-margin) var(--space-7);
+    gap: clamp(4.5rem, 2rem + 6vw, 7rem);
+    padding: 0 var(--page-margin) var(--section-gap);
   }
 
-  .about__kicker {
-    margin: 0 0 var(--space-2);
-    font-size: 0.8rem;
-    letter-spacing: 0.08em;
+  /* Small mono label over each block, in the voice of the header and the
+     polaroid captions. */
+  .about__label {
+    margin: 0 0 var(--space-4);
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--color-smoke);
   }
 
-  .about__heading {
-    margin: 0;
-    font-family: var(--font-display);
-    font-weight: 800;
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
-    letter-spacing: -0.02em;
-    text-transform: uppercase;
-  }
+  /* ---- Opening ---- */
 
-  .about__grid {
+  .about__intro {
     display: grid;
     gap: var(--space-5);
   }
 
-  .about__content {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-4);
-  }
-
-  .about__bio {
+  .about__clip {
     margin: 0;
-    max-width: 58ch;
-    line-height: 1.55;
   }
 
-  .about__bio--short {
-    font-size: var(--step-1);
-    color: var(--color-paper);
+  .about__video {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    background: var(--color-ink-raised);
   }
 
-  .about__bio--extended {
-    font-size: var(--step-0);
-    color: var(--color-smoke);
+  .about__lead {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(1.6rem, 1rem + 1.9vw, 2.75rem);
+    line-height: 1.12;
+    letter-spacing: -0.025em;
+    text-wrap: pretty;
   }
 
-  .about__stats {
-    padding-top: var(--space-6);
+  /* ---- How it started ---- */
+
+  .story {
+    display: grid;
+    gap: var(--space-5);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Each moment hangs from a thin line, like a step on a timeline. */
+  .story__step {
+    padding-top: var(--space-3);
     border-top: 1px solid var(--color-hairline);
   }
 
-  .about__stats-heading {
-    margin: 0 0 var(--space-4);
+  .story__when {
+    margin: 0 0 var(--space-3);
     font-family: var(--font-display);
     font-weight: 800;
     font-size: var(--step-2);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+  }
+
+  .story__text,
+  .life__text {
+    max-width: 46ch;
+    font-size: var(--step-0);
+    line-height: 1.6;
+  }
+
+  /* ---- Off camera ---- */
+
+  .life {
+    display: grid;
+    gap: var(--space-6) var(--space-5);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Square on phones, so the stack of blocks stays short; 4:5 on desktop. */
+  .life__media {
+    margin-bottom: var(--space-4);
+    aspect-ratio: 1;
+    overflow: hidden;
+    background: var(--color-ink-raised);
+  }
+
+  .life__media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .life__title {
+    margin: 0 0 var(--space-2);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: var(--step-1);
     letter-spacing: -0.02em;
     text-transform: uppercase;
   }
 
+  /* ---- Motto ---- */
+
+  .about__motto-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+    text-align: center;
+  }
+
+  .about__motto {
+    max-width: 20ch;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--step-4);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+
+  .about__values {
+    max-width: 52ch;
+    margin: 0;
+    color: var(--color-smoke);
+    font-size: var(--step-0);
+    line-height: 1.6;
+    text-wrap: balance;
+  }
+
+  /* ---- Stats ---- */
+
   .stats-grid {
     display: grid;
-    /* minmax(0, 1fr) — see the matching note in PolaroidsView.astro; the same
-       gotcha applies here with the label/value flex row below. */
+    /* minmax(0, 1fr), not 1fr — a bare 1fr track has an implicit auto (not 0)
+       minimum, so the label/value flex row below would otherwise force the
+       track wider than the viewport on narrow phones. */
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--space-3) var(--space-5);
     margin: 0;
-    max-width: 44rem;
   }
 
   .stats-grid__row {
     display: flex;
     justify-content: space-between;
+    align-items: baseline;
     gap: var(--space-3);
     padding-bottom: var(--space-2);
     border-bottom: 1px solid var(--color-hairline);
     min-width: 0;
+  }
+
+  /* Languages and passport: the value sits right after its label (the
+     label column is as wide as the longest one), not at the far end. */
+  .stats-grid__row--wide {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+  }
+
+  .stats-grid__row--wide dt {
+    width: 7rem;
+  }
+
+  .stats-grid__row--wide dd {
+    text-align: left;
   }
 
   .stats-grid dt,
@@ -163,37 +358,117 @@ const stats = [
   }
 
   .stats-grid dt {
-    font-size: 0.8rem;
-    letter-spacing: 0.04em;
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--color-smoke);
   }
 
   .stats-grid dd {
     margin: 0;
+    font-family: var(--font-display);
+    font-weight: 700;
     font-size: var(--step-0);
     text-align: right;
   }
 
   .stats-grid__pending {
     color: var(--color-smoke);
+    font-weight: 400;
     font-style: italic;
   }
 
-  @media (min-width: 48rem) {
-    .about__grid {
-      grid-template-columns: 5fr 7fr;
-      align-items: start;
+  /* ---- Next ---- */
+
+  .about__next-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-6);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .about__next-link {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: var(--step-3);
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+
+  /* ---- Tablet: the timeline in two columns ---- */
+
+  @media (min-width: 40rem) {
+    .story {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* ---- Desktop ---- */
+
+  @media (min-width: 56rem) {
+    .about__intro {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      align-items: center;
+    }
+
+    .about__clip {
+      grid-column: 1 / 6;
+    }
+
+    .about__lead {
+      grid-column: 7 / 13;
+    }
+
+    .story {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .life {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .life__media {
+      aspect-ratio: 4 / 5;
+    }
+
+    /* Each block shares the grid's rows (photo, title, text), so the three
+       titles line up even when one text runs longer. */
+    .life__item {
+      display: grid;
+      grid-row: span 3;
+      grid-template-rows: subgrid;
+      row-gap: 0;
     }
 
     .stats-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      column-gap: var(--space-5);
     }
-  }
 
-  @media (min-width: 64rem) {
-    .about__portrait {
-      max-width: 28rem;
+    .stats-grid__row--wide {
+      grid-column: span 2;
     }
   }
 </style>
+
+<script>
+  // The clip plays muted on a loop, only while on screen; visitors who
+  // asked for reduced motion get the still (the poster) instead.
+  const video = document.querySelector<HTMLVideoElement>('[data-about-video]');
+  if (video) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      video.removeAttribute('autoplay');
+      video.pause();
+    } else {
+      new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) video.play().catch(() => {});
+        else video.pause();
+      }).observe(video);
+    }
+  }
+</script>

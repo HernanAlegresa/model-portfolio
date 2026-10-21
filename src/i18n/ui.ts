@@ -16,12 +16,12 @@ export const ui = {
     'nav.menu.open': 'Abrir menú',
     'nav.menu.close': 'Cerrar menú',
     'site.brand': 'Hernán Alegresa',
-    'nav.home.label': 'Hernán Alegresa — inicio',
+    'nav.home.label': 'Hernán Alegresa, inicio',
     'nav.lang.label': 'Idioma',
-    'home.title': 'Hernán Alegresa — Modelo',
-    'home.description': 'Portfolio editorial de Hernán Alegresa, modelo con base en Uruguay. Work, Polaroids y contacto.',
+    'home.title': 'Hernán Alegresa | Modelo',
+    'home.description': 'Portfolio de Hernán Alegresa, modelo y creador de contenido uruguayo. Trabajos, polaroids y contacto.',
     'home.bio':
-      'Modelo y creador de contenido con base en Uruguay. Trabajo con marcas de moda y belleza en e-commerce, fotografía, contenido para redes y eventos — versátil del formal al streetwear y con la mira puesta en proyectos internacionales.',
+      "Modelo y creador de contenido uruguayo. Trabajo con marcas de moda y belleza en e-commerce, fotos, contenido para redes y eventos. Me muevo del formal al streetwear y apunto a trabajar a nivel internacional.",
     'home.hero.alt': 'Retrato en blanco y negro de Hernán Alegresa con musculosa blanca, mirando a cámara.',
     'home.name.first': 'HERNÁN',
     'home.name.last': 'ALEGRESA',
@@ -32,7 +32,7 @@ export const ui = {
     'home.about.title': 'Sobre mí',
     'home.about.statement': 'Quiero llegar tan lejos como pueda, sin dejar de ser yo mismo.',
     'home.about.body':
-      'Empecé en el modelaje en enero de 2025, después de una invitación a un evento de Armani en Punta del Este. Ahí conocí gente del rubro que vio potencial en mi perfil. Hoy trabajo como modelo y creador de contenido: soy sociable, deportista y me muevo con naturalidad del formal al streetwear.',
+      "No me pongo techo. Quiero llegar lo más lejos posible en el modelaje: trabajar afuera, con grandes marcas, y dejar mi marca acá en Uruguay. Cada trabajo es una oportunidad para dar lo mejor de mí y ser un poco mejor, como modelo y como persona.",
     'home.about.cta': 'Más sobre mí',
     'home.about.media.alt': 'Hernán Alegresa en distintas sesiones de fotos.',
     'home.stats.open': 'Ampliar polaroid',
@@ -43,21 +43,70 @@ export const ui = {
     'lightbox.next': 'Siguiente',
     'home.stats.cta': 'Ver polaroids',
     'home.contact.title': 'Trabajemos juntos',
-    'placeholder.label': 'Placeholder — foto a reemplazar',
+    'placeholder.label': 'Foto pendiente',
     'wip.title': 'Próximamente',
     'wip.body':
       'Esta sección está en construcción. Todavía estoy seleccionando e incorporando mis fotografías profesionales.',
     'wip.back': 'Volver al inicio',
-    'footer.rights': 'Todos los derechos reservados.',
+    'nav.home': 'Inicio',
+    'footer.pitch': 'Modelo y creador de contenido en Uruguay.',
+    'footer.pages': 'Páginas',
+    'footer.contact': 'Contacto',
+    'footer.social': 'Redes',
+    'footer.dm': 'Mensaje por Instagram',
+    'footer.soon': 'muy pronto',
+    'footer.top': 'Volver arriba',
 
     // About
-    'about.title': 'About — Hernán Alegresa',
-    'about.description': 'Historia personal y ficha técnica de Hernán Alegresa, modelo con base en Uruguay.',
-    'about.kicker': 'About',
-    'about.bio.short':
-      'Mi acercamiento al modelaje empezó en enero de 2025, en un evento de Armani en Punta del Este. Ahí conocí a gente del rubro en Uruguay que vio algo en mi perfil — una oportunidad inesperada que me llevó a explorar un mundo nuevo. Me atrae entrar en una actividad exigente, donde se trabaja con la propia imagen y las oportunidades se construyen con esfuerzo. Soy sociable, activo físicamente y versátil entre estilos — de formal a streetwear. Quiero llegar tan lejos como pueda, sin dejar de ser yo mismo.',
-    'about.bio.extended':
-      'Lo que más me motiva de este camino es vivir experiencias nuevas, crecer y ganar confianza en mí mismo, conocer gente y formar parte de momentos que voy a recordar toda la vida. A lo largo de mi vida probé distintos cortes de pelo y disfruto explorar distintas imágenes — pero me importa mantener mi identidad en el proceso: ser buena persona, disfrutar el trabajo y seguir aprendiendo, sin que la ambición me haga perder la autenticidad. Antes de esto tuve un acercamiento a la programación, pero hoy mi foco está puesto en el modelaje y la creación de contenido. Construyo esta carrera sin ponerme límites de antemano, dejando que el trabajo y las oportunidades me lleven tan lejos como pueda llegar.',
+    'about.title': 'About | Hernán Alegresa',
+    'about.description': 'Quién es Hernán Alegresa: cómo empezó en el modelaje, qué hace fuera de cámara y su ficha técnica.',
+    'about.heading': 'About me',
+    'about.intro':
+      "Soy Hernán, tengo {age} años y soy de Uruguay. Trabajo como modelo y creador de contenido.",
+    'about.video.alt':
+      "Backstage de una sesión de fotos en estudio: Hernán frente al fondo blanco, entre luces y el equipo de producción.",
+    'about.story.label':
+      "Cómo empezó todo",
+    'about.story.1.when':
+      "Enero de 2026",
+    'about.story.1.text':
+      "Me invitaron a un evento de Armani en Punta del Este. Fue mi primer trabajo con una marca y ahí conocí a mucha gente de la moda y el modelaje en Uruguay. Empecé a subir contenido a mis redes.",
+    'about.story.2.when':
+      "Marzo",
+    'about.story.2.text':
+      "Me empezaron a llegar propuestas para modelar. Lo pensé mucho: acá es un rubro poco desarrollado, más para hombres, y me daba miedo el qué dirán.",
+    'about.story.3.when':
+      "Mitad de año",
+    'about.story.3.text':
+      "Me animé. Empecé a aceptar trabajos con marcas sin dejar la programación, y descubrí algo que disfruto muchísimo.",
+    'about.story.4.when':
+      "Hoy",
+    'about.story.4.text':
+      "En pocos meses trabajé con marcas como Rabanne, Original Penguin y Vans, y cada vez me llegan más propuestas. Ahora apunto a trabajar afuera.",
+    'about.life.label':
+      "Fuera de cámara",
+    'about.football.label':
+      "Deporte",
+    'about.football.text':
+      "Jugué al fútbol en juveniles a nivel profesional y hoy sigo jugando en el amateur. Voy al gimnasio, salgo a correr y me gustan casi todos los deportes: juego a la mayoría y miro mucho tenis y básquetbol.",
+    'about.football.alt':
+      "Hernán festejando un gol en una cancha de fútbol, con camiseta azul y short blanco.",
+    'about.code.label':
+      "Programación",
+    'about.code.text':
+      "Trabajé como desarrollador full stack en una empresa y hoy hago proyectos freelance y propios. Este portfolio lo hice yo, de cero: el código, el diseño y cada foto que elegí.",
+    'about.code.alt':
+      "Hernán programando en una notebook, de perfil, con lentes.",
+    'about.people.label':
+      "Mi gente",
+    'about.people.alt':
+      "Hernán en la playa, en cuclillas sobre la arena, abrazando a Pipa, su perra blanca.",
+    'about.people.text':
+      "Me encanta estar con mi familia y mis amigos, conocer gente y charlar. Soy muy sociable, y en los eventos eso se nota. También me encantan los perros: tengo una perra que se llama Pipa.",
+    'about.values':
+      "Cuido mi imagen, pero sé que lo que define a una persona es cómo es. Mi prioridad es ser buena gente, ser fiel a mí mismo y dar lo mejor de mí en cada trabajo.",
+    'about.more':
+      "Seguir viendo",
     'about.stats.heading': 'Ficha técnica',
     'about.stats.age': 'Edad',
     'about.stats.height': 'Altura',
@@ -71,18 +120,23 @@ export const ui = {
     'about.stats.hairValue': 'Castaño claro',
     'about.stats.eyes': 'Ojos',
     'about.stats.eyesValue': 'Marrones',
+    'about.stats.base': 'Base',
+    'about.stats.languages': "Idiomas",
+    'about.stats.languagesValue': "Español (nativo), inglés (avanzado) y portugués",
+    'about.stats.passport': "Pasaporte",
+    'about.stats.passportValue': "Italiano (UE), en trámite",
     'about.stats.pending': 'A confirmar',
     'about.stats.ageUnit': 'años',
 
     // Work
-    'work.title': 'Work — Hernán Alegresa',
-    'work.description': 'Selección de colaboraciones con marcas de Hernán Alegresa, modelo con base en Uruguay.',
+    'work.title': 'Work | Hernán Alegresa',
+    'work.description': 'Marcas con las que trabajó Hernán Alegresa como modelo y creador de contenido en Uruguay.',
     'work.statement': 'Solo presencia.',
     'work.categories.modeling': 'Modelaje',
     'work.categories.ecommerce': 'E-commerce',
     'work.categories.content': 'Contenido',
     'work.categories.events': 'Eventos',
-    'work.detail.title': '{brand} — Hernán Alegresa',
+    'work.detail.title': '{brand} | Hernán Alegresa',
     'work.detail.all': 'Todos los trabajos',
     'work.detail.gallery': 'Fotos',
     'work.detail.backstage': 'Backstage',
@@ -91,24 +145,23 @@ export const ui = {
     'work.photo.open': 'Ampliar foto',
 
     // Polaroids
-    'polaroids.title': 'Polaroids — Hernán Alegresa',
-    'polaroids.description': 'Fotografías de presentación de Hernán Alegresa para agencias y castings.',
-    'polaroids.kicker': 'Polaroids',
-    'polaroids.lead':
-      'El set estándar que usan las agencias para evaluar físico y proporciones reales — sin retoque, sin composición editorial.',
-    'polaroids.shot.faceFront': 'Rostro — frente',
-    'polaroids.shot.faceProfile': 'Rostro — perfil',
-    'polaroids.shot.bodyFront': 'Cuerpo completo — frente',
-    'polaroids.shot.bodyProfile': 'Cuerpo completo — perfil',
+    'polaroids.title': 'Polaroids | Hernán Alegresa',
+    'polaroids.description': 'Polaroids de Hernán Alegresa para agencias y castings: rostro y cuerpo, de frente y de perfil.',
+    'polaroids.shot.faceFront': 'Rostro de frente',
+    'polaroids.shot.faceProfile': 'Rostro de perfil',
+    'polaroids.shot.bodyFront': 'Cuerpo completo de frente',
+    'polaroids.shot.halfProfile': 'Medio cuerpo de perfil',
+    'polaroids.shot.torso': 'Torso',
+    'polaroids.shot.halfFront': 'Medio cuerpo de frente',
 
     // Contact
-    'contact.title': 'Contacto — Hernán Alegresa',
-    'contact.description': 'Contacto profesional de Hernán Alegresa, modelo con base en Uruguay.',
-    'contact.kicker': 'Contact',
-    'contact.lead': 'Para propuestas de marcas, agencias, fotógrafos o castings.',
+    'contact.title': 'Contacto | Hernán Alegresa',
+    'contact.description': 'Cómo contactar a Hernán Alegresa, modelo y creador de contenido en Uruguay.',
+    'contact.lead': 'Para marcas, agencias, fotógrafos y castings.',
     'contact.instagram.label': 'Instagram',
     'contact.email.label': 'Email',
-    'contact.email.pending': 'Casilla profesional en camino',
+    'contact.email.pending': 'Muy pronto',
+    'contact.phone.label': 'Teléfono',
   },
   en: {
     'nav.work': 'Work',
@@ -118,23 +171,23 @@ export const ui = {
     'nav.menu.open': 'Open menu',
     'nav.menu.close': 'Close menu',
     'site.brand': 'Hernán Alegresa',
-    'nav.home.label': 'Hernán Alegresa — home',
+    'nav.home.label': 'Hernán Alegresa, home',
     'nav.lang.label': 'Language',
-    'home.title': 'Hernán Alegresa — Model',
-    'home.description': 'Editorial portfolio for Hernán Alegresa, a model based in Uruguay. Work, Polaroids and contact.',
+    'home.title': 'Hernán Alegresa | Model',
+    'home.description': 'Portfolio of Hernán Alegresa, a model and content creator from Uruguay. Work, polaroids and contact.',
     'home.bio':
-      'Uruguay-based model and content creator. I work with fashion and beauty brands across e-commerce, photography, social content and events — versatile from tailoring to streetwear, with an eye on international projects.',
+      "Model and content creator from Uruguay. I work with fashion and beauty brands on e-commerce, photo shoots, social content and events. I'm at ease from tailoring to streetwear, and I'm aiming for international work.",
     'home.hero.alt': 'Black-and-white portrait of Hernán Alegresa in a white tank top, looking into the camera.',
     'home.name.first': 'HERNÁN',
     'home.name.last': 'ALEGRESA',
     'home.work.title': 'Selected work',
     'home.brands.label': 'Brands I have worked with',
-    'home.work.cta': 'See more works',
+    'home.work.cta': 'See more work',
     'home.work.shot.alt': 'Hernán Alegresa on a job for {brand}',
     'home.about.title': 'About me',
     'home.about.statement': 'I want to go as far as I can, without losing who I am.',
     'home.about.body':
-      'I started modeling in January 2025, after an invitation to an Armani event in Punta del Este. There I met people in the industry who saw potential in my profile. Today I work as a model and content creator: sociable, into sports, and at ease anywhere from tailoring to streetwear.',
+      "I don't set myself a ceiling. I want to go as far as I can in modeling: work abroad, with big brands, and make my mark here in Uruguay. Every job is a chance to give my best and get a little better, as a model and as a person.",
     'home.about.cta': 'More about me',
     'home.about.media.alt': 'Hernán Alegresa across different photo shoots.',
     'home.stats.open': 'Enlarge polaroid',
@@ -145,21 +198,70 @@ export const ui = {
     'lightbox.next': 'Next',
     'home.stats.cta': 'See polaroids',
     'home.contact.title': "Let's work together",
-    'placeholder.label': 'Placeholder — photo to be replaced',
+    'placeholder.label': 'Photo coming soon',
     'wip.title': 'Coming soon',
     'wip.body':
       'This section is under construction. I am still selecting and adding my professional photography.',
     'wip.back': 'Back to home',
-    'footer.rights': 'All rights reserved.',
+    'nav.home': 'Home',
+    'footer.pitch': 'Model and content creator based in Uruguay.',
+    'footer.pages': 'Pages',
+    'footer.contact': 'Contact',
+    'footer.social': 'Social',
+    'footer.dm': 'Message on Instagram',
+    'footer.soon': 'coming soon',
+    'footer.top': 'Back to top',
 
     // About
-    'about.title': 'About — Hernán Alegresa',
-    'about.description': 'Personal history and stats for Hernán Alegresa, a model based in Uruguay.',
-    'about.kicker': 'About',
-    'about.bio.short':
-      'My path into modeling started in January 2025, at an Armani event in Punta del Este. There I met people from the industry in Uruguay who saw something in my profile — an unexpected opportunity that led me to explore a new world. What draws me in is a demanding field where you work with your own image and opportunities are built through effort. I’m sociable, physically active, and versatile across styles — from formal to streetwear. I want to go as far as I can, without losing who I am.',
-    'about.bio.extended':
-      "What motivates me most about this path is living new experiences, growing, building confidence in myself, meeting people, and being part of moments I'll remember for life. Over the years I've tried different haircuts and enjoy exploring different looks — but staying true to who I am matters through all of it: being a good person, enjoying the work, and continuing to learn, without letting ambition cost me authenticity. Before this I had some experience in programming, but my focus today is modeling and content creation. I'm building this career without setting limits upfront, letting the work and the opportunities take me as far as they can.",
+    'about.title': 'About | Hernán Alegresa',
+    'about.description': 'Who Hernán Alegresa is: how he got into modeling, what he does off camera, and his stats.',
+    'about.heading': 'About me',
+    'about.intro':
+      "I'm Hernán, I'm {age} and I'm from Uruguay. I work as a model and content creator.",
+    'about.video.alt':
+      "Behind the scenes of a studio photo shoot: Hernán against the white backdrop, among the lights and the production team.",
+    'about.story.label':
+      "How it all started",
+    'about.story.1.when':
+      "January 2026",
+    'about.story.1.text':
+      "I was invited to an Armani event in Punta del Este. It was my first job with a brand, and there I met a lot of people from fashion and modeling in Uruguay. I started posting content on my social media.",
+    'about.story.2.when':
+      "March",
+    'about.story.2.text':
+      "Modeling offers started coming in. I gave it a lot of thought: the industry here is small, even more so for men, and I was afraid of what people would say.",
+    'about.story.3.when':
+      "Mid-year",
+    'about.story.3.text':
+      "I went for it. I started taking on work with brands while still programming, and found something I really enjoy.",
+    'about.story.4.when':
+      "Today",
+    'about.story.4.text':
+      "In just a few months I've worked with brands like Rabanne, Original Penguin and Vans, and more offers keep coming. Now I'm aiming to work abroad.",
+    'about.life.label':
+      "Off camera",
+    'about.football.label':
+      "Sport",
+    'about.football.text':
+      "I played youth football at a professional level and still play as an amateur. I go to the gym, run, and love almost every sport: I play most of them and watch a lot of tennis and basketball.",
+    'about.football.alt':
+      "Hernán celebrating a goal on a football pitch, in a blue shirt and white shorts.",
+    'about.code.label':
+      "Programming",
+    'about.code.text':
+      "I worked as a full stack developer at a company, and now I do freelance and personal projects. I built this portfolio myself from scratch: the code, the design and every photo I chose.",
+    'about.code.alt':
+      "Hernán coding on a laptop, in profile, wearing glasses.",
+    'about.people.label':
+      "My people",
+    'about.people.alt':
+      "Hernán on the beach, crouching on the sand and hugging Pipa, a small white dog.",
+    'about.people.text':
+      "I love spending time with my family and friends, meeting people and talking. I'm very sociable, and it shows at events. I also love dogs: I have one called Pipa.",
+    'about.values':
+      "I take care of my image, but I know what defines a person is who they are. My priority is being a good person, staying true to myself and giving my best on every job.",
+    'about.more':
+      "Keep exploring",
     'about.stats.heading': 'Stats',
     'about.stats.age': 'Age',
     'about.stats.height': 'Height',
@@ -173,19 +275,24 @@ export const ui = {
     'about.stats.hairValue': 'Light brown',
     'about.stats.eyes': 'Eyes',
     'about.stats.eyesValue': 'Brown',
+    'about.stats.base': 'Based in',
+    'about.stats.languages': "Languages",
+    'about.stats.languagesValue': "Spanish (native), English (advanced) and Portuguese",
+    'about.stats.passport': "Passport",
+    'about.stats.passportValue': "Italian (EU), in progress",
     'about.stats.pending': 'To be confirmed',
     'about.stats.ageUnit': '',
 
     // Work
-    'work.title': 'Work — Hernán Alegresa',
-    'work.description': 'A curated selection of brand collaborations by Hernán Alegresa, a model based in Uruguay.',
+    'work.title': 'Work | Hernán Alegresa',
+    'work.description': 'Brands Hernán Alegresa has worked with as a model and content creator in Uruguay.',
     'work.statement': 'Nothing but presence.',
     'work.categories.modeling': 'Modeling',
     'work.categories.ecommerce': 'E-commerce',
     'work.categories.content': 'Content',
     'work.categories.events': 'Events',
-    'work.detail.title': '{brand} — Hernán Alegresa',
-    'work.detail.all': 'All works',
+    'work.detail.title': '{brand} | Hernán Alegresa',
+    'work.detail.all': 'All work',
     'work.detail.gallery': 'Photos',
     'work.detail.backstage': 'Backstage',
     'work.detail.nav': 'More work',
@@ -193,24 +300,23 @@ export const ui = {
     'work.photo.open': 'Enlarge photo',
 
     // Polaroids
-    'polaroids.title': 'Polaroids — Hernán Alegresa',
-    'polaroids.description': "Presentation photographs of Hernán Alegresa for agencies and castings.",
-    'polaroids.kicker': 'Polaroids',
-    'polaroids.lead':
-      'The standard set agencies use to evaluate real physique and proportions — unretouched, no editorial composition.',
-    'polaroids.shot.faceFront': 'Face — front',
-    'polaroids.shot.faceProfile': 'Face — profile',
-    'polaroids.shot.bodyFront': 'Full body — front',
-    'polaroids.shot.bodyProfile': 'Full body — profile',
+    'polaroids.title': 'Polaroids | Hernán Alegresa',
+    'polaroids.description': 'Polaroids of Hernán Alegresa for agencies and castings: face and body, front and profile.',
+    'polaroids.shot.faceFront': 'Face, front',
+    'polaroids.shot.faceProfile': 'Face, profile',
+    'polaroids.shot.bodyFront': 'Full body, front',
+    'polaroids.shot.halfProfile': 'Half body, profile',
+    'polaroids.shot.torso': 'Torso',
+    'polaroids.shot.halfFront': 'Half body, front',
 
     // Contact
-    'contact.title': 'Contact — Hernán Alegresa',
-    'contact.description': 'Professional contact for Hernán Alegresa, a model based in Uruguay.',
-    'contact.kicker': 'Contact',
-    'contact.lead': 'For proposals from brands, agencies, photographers, or castings.',
+    'contact.title': 'Contact | Hernán Alegresa',
+    'contact.description': 'How to reach Hernán Alegresa, a model and content creator in Uruguay.',
+    'contact.lead': 'For brands, agencies, photographers and castings.',
     'contact.instagram.label': 'Instagram',
     'contact.email.label': 'Email',
-    'contact.email.pending': 'Professional inbox coming soon',
+    'contact.email.pending': 'Coming soon',
+    'contact.phone.label': 'Phone',
   },
 } as const;
 

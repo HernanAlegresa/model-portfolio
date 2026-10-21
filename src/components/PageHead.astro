@@ -1,0 +1,89 @@
+---
+interface Props {
+  /** The big centred line. */
+  title: string;
+  /**
+   * Optional small mono line under it, in brackets (Work's "(WORK)"). When
+   * given, it is the page's h1 and the big line is the visual title only.
+   */
+  label?: string;
+}
+
+const { title, label } = Astro.props;
+---
+
+<!-- The head shared by Work, Polaroids, About and Contact: one big centred
+     line, as on the Máxima Michaels "Work" page, so every page title has
+     the same size and the same distance from the header. -->
+<header class="page-head">
+  {
+    label ? (
+      <>
+        <p class="page-head__title">{title}</p>
+        <h1 class="page-head__label">({label})</h1>
+      </>
+    ) : (
+      <h1 class="page-head__title">{title}</h1>
+    )
+  }
+</header>
+
+<style>
+  /* Máxima at 1536px: 90px line centred, tracking −0.04em, its
+     "(SOME WORK)" in 18px mono grey just under it. The top is the site's
+     usual clearance under the header, the same as the Home's sections. */
+  .page-head {
+    padding: var(--nav-clearance) var(--page-margin) clamp(3rem, 5vw, 5rem);
+    text-align: center;
+  }
+
+  .page-head__title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(2.6rem, 5.86vw, 7rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    text-wrap: balance;
+  }
+
+  .page-head__label {
+    margin: 1.75rem 0 0;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: clamp(0.85rem, 0.7rem + 0.45vw, 1.125rem);
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: #a6a6a6;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* The line rises out of its own baseline, then the label follows. */
+    .page-head__title {
+      animation: page-head-rise 1100ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    .page-head__label {
+      animation: page-head-fade 900ms 250ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes page-head-rise {
+      from {
+        clip-path: inset(0 0 100% 0);
+        translate: 0 0.3em;
+      }
+      to {
+        clip-path: inset(0 0 -0.2em 0);
+        translate: 0 0;
+      }
+    }
+
+    @keyframes page-head-fade {
+      from {
+        opacity: 0;
+        translate: 0 0.5rem;
+      }
+    }
+  }
+</style>
