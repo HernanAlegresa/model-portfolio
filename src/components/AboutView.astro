@@ -14,9 +14,8 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 
-// The age comes from profile.ts (updated by hand), never from a date.
-const intro = t('about.intro').replace('{age}', String(profile.age.value));
 const poster = await getImage({ src: aboutPage.video.poster, width: 1080 });
+
 
 // How it started: four moments of 2026, read left to right on desktop.
 const story = [1, 2, 3, 4] as const;
@@ -54,7 +53,7 @@ const details = [
 <PageHead title={t('about.heading')} />
 
 <div class="about">
-  <!-- Opening: a clip from a shoot next to who he is, in two lines. -->
+  <!-- Opening: a clip from a shoot next to his motto. -->
   <section class="about__intro" aria-label={t('about.heading')}>
     <figure class="about__clip" data-reveal>
       <video
@@ -71,8 +70,14 @@ const details = [
       ></video>
     </figure>
 
-    <div class="about__lead">
-      <LitText text={intro} from="25%" span="35%" />
+    <!-- His motto, big, and what's behind it. -->
+    <div class="about__side">
+      <div class="about__motto">
+        <LitText text={t('home.about.statement')} from="25%" span="30%" />
+      </div>
+      <div class="about__values">
+        <LitText text={t('about.values')} from="30%" span="35%" />
+      </div>
     </div>
   </section>
 
@@ -119,14 +124,6 @@ const details = [
         ))
       }
     </ul>
-  </section>
-
-  <!-- The line he closes with on the Home, and what's behind it. -->
-  <section class="about__motto-block" aria-label={t('home.about.statement')}>
-    <div class="about__motto">
-      <LitText text={t('home.about.statement')} from="20%" span="30%" />
-    </div>
-    <p class="about__values">{t('about.values')}</p>
   </section>
 
   <section class="about__block" aria-labelledby="about-stats" data-reveal>
@@ -210,13 +207,25 @@ const details = [
     background: var(--color-ink-raised);
   }
 
-  .about__lead {
+  .about__side {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .about__motto {
     font-family: var(--font-display);
-    font-weight: 600;
-    font-size: clamp(1.6rem, 1rem + 1.9vw, 2.75rem);
-    line-height: 1.12;
-    letter-spacing: -0.025em;
-    text-wrap: pretty;
+    font-weight: 700;
+    font-size: clamp(2.4rem, 1.2rem + 3.6vw, 5rem);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+  }
+
+  .about__values {
+    max-width: 40ch;
+    font-size: clamp(1.15rem, 0.9rem + 0.7vw, 1.6rem);
+    line-height: 1.45;
   }
 
   /* ---- How it started ---- */
@@ -284,35 +293,6 @@ const details = [
     font-size: var(--step-1);
     letter-spacing: -0.02em;
     text-transform: uppercase;
-  }
-
-  /* ---- Motto ---- */
-
-  .about__motto-block {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-4);
-    text-align: center;
-  }
-
-  .about__motto {
-    max-width: 20ch;
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: var(--step-4);
-    line-height: 1;
-    letter-spacing: -0.03em;
-    text-wrap: balance;
-  }
-
-  .about__values {
-    max-width: 52ch;
-    margin: 0;
-    color: var(--color-smoke);
-    font-size: var(--step-0);
-    line-height: 1.6;
-    text-wrap: balance;
   }
 
   /* ---- Stats ---- */
@@ -420,7 +400,7 @@ const details = [
       grid-column: 1 / 6;
     }
 
-    .about__lead {
+    .about__side {
       grid-column: 7 / 13;
     }
 
