@@ -20,7 +20,7 @@ const poster = await getImage({ src: aboutPage.video.poster, width: 1080 });
 // How it started: four moments of 2026, read left to right on desktop.
 const story = [1, 2, 3, 4] as const;
 
-// Off camera: three short blocks side by side, each with a photo.
+// Off camera: three small blocks, each a photo beside its text.
 const life = [
   { key: 'football', media: aboutPage.football },
   { key: 'code', media: aboutPage.code },
@@ -109,8 +109,8 @@ const details = [
               <Image
                 src={item.media.image}
                 alt={t(`about.${item.key}.alt`)}
-                widths={[400, 700, 1000]}
-                sizes="(min-width: 56rem) 30vw, 100vw"
+                widths={[200, 300, 400]}
+                sizes="(min-width: 64rem) 10.5rem, 7rem"
                 loading="lazy"
                 decoding="async"
                 style={`object-position: ${item.media.position};`}
@@ -254,8 +254,7 @@ const details = [
     text-transform: uppercase;
   }
 
-  .story__text,
-  .life__text {
+  .story__text {
     max-width: 46ch;
     font-size: var(--step-0);
     line-height: 1.6;
@@ -263,20 +262,43 @@ const details = [
 
   /* ---- Off camera ---- */
 
+  /* Each block: a small square photo on the left, the title and text
+     beside it, hanging from a thin line like the timeline above. Stacked
+     on phones, three across on desktop. */
   .life {
     display: grid;
-    gap: var(--space-6) var(--space-5);
+    column-gap: var(--space-5);
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
-  /* Square on phones, so the stack of blocks stays short; 4:5 on desktop. */
+  @media (min-width: 64rem) {
+    .life {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .life__item {
+    display: grid;
+    grid-template-columns: clamp(5.5rem, 3rem + 5vw, 10.5rem) minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    column-gap: clamp(1rem, 0.6rem + 1.5vw, 2rem);
+    padding-block: var(--space-4);
+    border-top: 1px solid var(--color-hairline);
+  }
+
   .life__media {
-    margin-bottom: var(--space-4);
+    grid-row: 1 / 3;
     aspect-ratio: 1;
     overflow: hidden;
     background: var(--color-ink-raised);
+  }
+
+  .life__text {
+    min-width: 0;
+    font-size: 0.95rem;
+    line-height: 1.55;
   }
 
   .life__media img {
@@ -290,7 +312,7 @@ const details = [
     margin: 0 0 var(--space-2);
     font-family: var(--font-display);
     font-weight: 800;
-    font-size: var(--step-1);
+    font-size: clamp(1rem, 0.95rem + 0.3vw, 1.2rem);
     letter-spacing: -0.02em;
     text-transform: uppercase;
   }
@@ -406,23 +428,6 @@ const details = [
 
     .story {
       grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-
-    .life {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .life__media {
-      aspect-ratio: 4 / 5;
-    }
-
-    /* Each block shares the grid's rows (photo, title, text), so the three
-       titles line up even when one text runs longer. */
-    .life__item {
-      display: grid;
-      grid-row: span 3;
-      grid-template-rows: subgrid;
-      row-gap: 0;
     }
 
     .stats-grid {

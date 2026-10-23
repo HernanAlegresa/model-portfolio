@@ -11,8 +11,8 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 
 const links = [
-  { href: `/${lang}/work`, label: t('nav.work') },
   { href: `/${lang}/polaroids`, label: t('nav.polaroids') },
+  { href: `/${lang}/work`, label: t('nav.work') },
   { href: `/${lang}/about`, label: t('nav.about') },
   { href: `/${lang}/contact`, label: t('nav.contact') },
 ];
@@ -43,7 +43,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '');
 </header>
 
 <div id="primary-nav-overlay" class="nav-overlay" aria-hidden="true" inert>
-  <nav class="nav-overlay__links" aria-label="Primary">
+  <nav class="nav-overlay__links" aria-label={t('nav.primary.label')}>
     {
       links.map((link) => (
         <a href={link.href} aria-current={currentPath === link.href ? 'page' : undefined}>

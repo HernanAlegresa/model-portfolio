@@ -2,8 +2,8 @@
  * Contact channels, shared by the footer, the Home's closing section and
  * /contact. Edit them here only.
  *
- * - `email`: null until the professional inbox exists; until then the site
- *   says it's "on the way" (`contact.email.pending` in src/i18n/ui.ts).
+ * - `email`: the professional inbox. Setting it to null brings back the
+ *   "on the way" text (`contact.email.pending` in src/i18n/ui.ts).
  * - `phone`: null hides it everywhere. Only fill it in once Hernán confirms
  *   it may be public (docs/PROJECT-BRIEF.md, privacy rules):
  *     phone: { display: '+598 9X XXX XXX', tel: '+5989XXXXXXX', whatsapp: true },
@@ -18,7 +18,7 @@ export interface ContactInfo {
 
 export const contact: ContactInfo = {
   instagram: { handle: '@hernanalegresa', url: 'https://instagram.com/hernanalegresa' },
-  email: null,
+  email: 'hernanalegresa10@gmail.com',
   phone: null,
 };
 

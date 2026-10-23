@@ -71,7 +71,7 @@ No usar cantidades de meses fijas en el sitio ("hace tres meses"): quedan viejas
 | **Forum Industries** | 2026 | E-commerce, fotos y videos para web/redes | Modelo | modelaje, ecommerce, contenido | Bastante material: fotos + videos |
 | **Vans** *(no "Vans Uruguay")* | 2026 | Contenido durante un viaje personal a Río de Janeiro usando producto de la marca; parte publicada en redes de la marca, parte en redes propias | Creador de contenido | contenido | Hasta ~10 fotos + algunos videos |
 | **Armani Beauty** | 2026 | Eventos y creación de contenido (su primer trabajo con una marca fue como invitado a un evento suyo en Punta del Este, en enero de 2026; no asumir que todo el material es de ese evento) | Creador de contenido, invitado | eventos, contenido | Bastante material: fotos + videos |
-| **Rabanne** *(no "Carolina Herrera")* | 2026 | Modelo e influencer para la marca | Modelo, creador de contenido | modelaje, contenido | ~4 fotos |
+| **Rabanne** *(no "Carolina Herrera")* | 2026 | Modelo e influencer para la marca | Modelo, creador de contenido | modelaje, contenido | 6 fotos + 1 video de backstage |
 
 **Fuera del portfolio por decisión del dueño (2026-10-20):** VCP Uruguay, Chivas Regal y Salus Uruguay. El portfolio es de modelaje: estas colaboraciones (selfies de contenido, un evento como invitado, un comercial de TV sin material) no suman a ese foco. No volver a agregarlas.
 
@@ -80,7 +80,7 @@ No usar cantidades de meses fijas en el sitio ("hace tres meses"): quedan viejas
 2. Cada proyecto respeta las categorías de la tabla; un proyecto puede tener varias.
 3. No inventar resultados, estadísticas, alcance, premios, créditos, enlaces o testimonios.
 4. No mostrar las 8 marcas con idéntico protagonismo — selección curada, no checklist.
-5. No forzar galerías extensas en proyectos con poco material (Rabanne: ~4 fotos).
+5. No forzar galerías extensas en proyectos con poco material (Rabanne: 6 fotos y 1 video).
 6. Dejar espacio para enlaces a publicaciones oficiales, pero **no inventar URLs** — todos los `link` quedan `null`/pendientes hasta que el usuario los confirme.
 7. No usar logos o materiales oficiales de marca sin autorización — el nombre de la marca es referencia de un trabajo real, no implica respaldo oficial del sitio.
 8. Vans: no presentar el viaje como campaña internacional oficial ni organizada por la marca.
@@ -91,7 +91,7 @@ No usar cantidades de meses fijas en el sitio ("hace tres meses"): quedan viejas
 - Instagram: [@hernanalegresa](https://instagram.com/hernanalegresa) — único link social a mostrar.
 - TikTok: **no mostrar**.
 - Agencia: **no mostrar**, no atribuir representación oficial.
-- Email profesional: el usuario todavía no tiene una dirección exclusiva para modelaje — mostrar como "próximamente" bilingüe, no inventar una dirección.
+- Email profesional: **hernanalegresa10@gmail.com** (confirmado por el usuario el 2026-10-23). Vive en `src/data/contact.ts`.
 - Teléfono: no publicar por defecto — pendiente de aprobación final del usuario.
 - Formulario de contacto: **decisión ya tomada en conversación — solo info estática**, sin formulario, para no sumar una dependencia externa (ej. Formspree) sin necesidad confirmada. Si el usuario pide un formulario real más adelante, documentar en `ARCHITECTURE.md` qué servicio y credenciales haría falta — no implementar un formulario que no envíe nada de verdad.
 
@@ -101,16 +101,16 @@ ES/EN desde la primera versión funcional. Audiencia: marcas de indumentaria, ag
 
 ## Arquitectura de navegación
 
-- **Home** — primera impresión visual fuerte, nombre, fotografía protagonista, navegación simple a Work/Polaroids/About/Contact.
+- **Home** — primera impresión visual fuerte, nombre, fotografía protagonista, navegación simple a Polaroids/Work/About/Contact (ese orden en el menú y el footer desde 2026-10-23).
 - **Work** — selección curada de colaboraciones con marcas (tabla arriba), categorizada, con galerías de longitud variable.
 - **Polaroids** *(antes "Digitals" — renombrado por decisión explícita del usuario)* — fotos de presentación estándar de agencia: rostro de frente, rostro de perfil, cuerpo completo de frente, cuerpo completo de perfil. Sección independiente de Work, sin retoque.
 - **About** — historia personal + ficha técnica (medidas confirmadas/pendientes).
-- **Contact** — Instagram, email (placeholder hasta tener dirección real), sin teléfono ni agencia por defecto.
+- **Contact** — Instagram, email, sin teléfono ni agencia por defecto.
 
 ### Explícitamente fuera de alcance por ahora
 - Fotografías y videos reales: el usuario los carga de a poco (ver `docs/ASSET-GUIDE.md`). Ya cargados al 2026-10-17: la foto del hero y el video de "Sobre mí".
 - Nombre de agencia actual.
-- Teléfono personal, email real, enlaces a publicaciones — todos placeholder hasta aprobación/confirmación.
+- Teléfono personal, enlaces a publicaciones — todos placeholder hasta aprobación/confirmación.
 - Formulario de contacto funcional, CMS, backend, base de datos — sin necesidad real identificada.
 
 ## Criterios de éxito

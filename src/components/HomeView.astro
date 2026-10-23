@@ -58,15 +58,16 @@ const t = useTranslations(lang);
 </div>
 </div>
 
-<!-- The brand ticker doubles as the work carousel's heading, so the
-     carousel itself has no visible title (screen readers still get one). -->
-<HomeBrands lang={lang} />
+<!-- Who he is first, then the facts a casting needs (polaroids and
+     measurements), the work, and how to get in touch. -->
+<HomeStats lang={lang} />
 
+<!-- The brand ticker doubles as the work carousel's heading, so the
+     carousel itself has no visible title (screen readers still get one).
+     Keep the two together. -->
+<HomeBrands lang={lang} />
 <HomeWork lang={lang} />
 
-<!-- Who he is first, then the work, the facts a casting needs, and how
-     to get in touch, in the order a client asks those. -->
-<HomeStats lang={lang} />
 <HomeContact lang={lang} />
 
 
