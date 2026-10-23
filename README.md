@@ -6,10 +6,9 @@ Es, a la vez, un portfolio profesional real, una pieza de portfolio de programac
 
 ## Estado
 
-Las 5 páginas existen en ambos idiomas: **Home**, **Work**, **Polaroids**, **About** y **Contact**.
+**Terminado y publicado:** https://hernanalegresa-model.vercel.app (Vercel publica solo cada cambio que llega a `main`).
 
-- La **Home** se está revisando sección por sección con el dueño del sitio. El hero, "Sobre mí" (con video real), el banner de marcas y la grilla de trabajos ya están definidos. La ficha y el contacto de cierre están construidos y falta revisarlos ("Qué hago" se sacó).
-- Material real cargado: la foto del hero y el video de "Sobre mí". El resto de las imágenes son placeholders explícitos, a reemplazar siguiendo `docs/ASSET-GUIDE.md`.
+Las 5 páginas existen en ambos idiomas: **Home**, **Polaroids**, **Work**, **About** y **Contact**, más una página propia por cada una de las 8 marcas (fotos, videos y visor a pantalla completa). Todo el material es real; para cambiar o sumar fotos, ver `docs/ASSET-GUIDE.md`.
 
 El detalle de cada sesión está en `docs/DEVELOPMENT-LOG.md`.
 

@@ -64,8 +64,8 @@ El nombre de cada carpeta bajo `work/` coincide exactamente con el `slug` del ar
 | Valor de `material.photos` | Fotos aproximadas | Marcas con ese valor hoy |
 |---|---|---|
 | `many` | 6 | Rent the Look, Forum Industries, Original Penguin, Armani Beauty |
-| `some` | 4 | Vans, Meller |
-| `few` | 2 | Urban Haus, Rabanne |
+| `some` | 4 | Vans, Meller, Rabanne |
+| `few` | 2 | Urban Haus |
 
 No hace falta llenar exactamente esa cantidad de fotos reales — es un punto de partida curado según lo que cada marca efectivamente tiene, no una grilla obligatoria. Si terminás usando menos o más fotos que el placeholder sugerido, ajustá el valor de `material.photos` (ver sección 6) en vez de forzar la cantidad.
 

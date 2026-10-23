@@ -15,6 +15,7 @@ export const ui = {
     'nav.contact': 'Contacto',
     'nav.menu.open': 'Abrir menú',
     'nav.menu.close': 'Cerrar menú',
+    'nav.primary.label': 'Navegación principal',
     'site.brand': 'Hernán Alegresa',
     'nav.home.label': 'Hernán Alegresa, inicio',
     'nav.lang.label': 'Idioma',
@@ -80,7 +81,7 @@ export const ui = {
     'about.story.4.when':
       "Hoy",
     'about.story.4.text':
-      "En pocos meses trabajé con marcas como Rabanne, Original Penguin y Vans, y cada vez me llegan más propuestas. Ahora apunto a trabajar afuera.",
+      "En pocos meses conseguí trabajar con marcas muy grandes y estoy avanzando a pasos agigantados. Cada vez me llegan más propuestas, y ahora apunto a trabajar afuera.",
     'about.life.label':
       "Fuera de cámara",
     'about.football.label':
@@ -155,7 +156,6 @@ export const ui = {
     // Contact
     'contact.title': 'Contacto | Hernán Alegresa',
     'contact.description': 'Cómo contactar a Hernán Alegresa, modelo y creador de contenido en Uruguay.',
-    'contact.lead': 'Para marcas, agencias, fotógrafos y castings.',
     'contact.instagram.label': 'Instagram',
     'contact.email.label': 'Email',
     'contact.email.pending': 'Muy pronto',
@@ -168,6 +168,7 @@ export const ui = {
     'nav.contact': 'Contact',
     'nav.menu.open': 'Open menu',
     'nav.menu.close': 'Close menu',
+    'nav.primary.label': 'Main navigation',
     'site.brand': 'Hernán Alegresa',
     'nav.home.label': 'Hernán Alegresa, home',
     'nav.lang.label': 'Language',
@@ -233,7 +234,7 @@ export const ui = {
     'about.story.4.when':
       "Today",
     'about.story.4.text':
-      "In just a few months I've worked with brands like Rabanne, Original Penguin and Vans, and more offers keep coming. Now I'm aiming to work abroad.",
+      "In just a few months I've landed work with major brands and I'm moving forward in leaps and bounds. More offers keep coming, and now I'm aiming to work abroad.",
     'about.life.label':
       "Off camera",
     'about.football.label':
@@ -308,7 +309,6 @@ export const ui = {
     // Contact
     'contact.title': 'Contact | Hernán Alegresa',
     'contact.description': 'How to reach Hernán Alegresa, a model and content creator in Uruguay.',
-    'contact.lead': 'For brands, agencies, photographers and castings.',
     'contact.instagram.label': 'Instagram',
     'contact.email.label': 'Email',
     'contact.email.pending': 'Coming soon',

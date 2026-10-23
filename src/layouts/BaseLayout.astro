@@ -31,8 +31,8 @@ const hasAlternate = /^\/(es|en)(\/|$)/.test(pathname);
     {
       hasAlternate && (
         <>
-          <link rel="alternate" hreflang="es" href={lang === 'es' ? pathname : alternatePath} />
-          <link rel="alternate" hreflang="en" href={lang === 'en' ? pathname : alternatePath} />
+          <link rel="alternate" hreflang="es" href={new URL(lang === 'es' ? pathname : alternatePath, Astro.site)} />
+          <link rel="alternate" hreflang="en" href={new URL(lang === 'en' ? pathname : alternatePath, Astro.site)} />
         </>
       )
     }

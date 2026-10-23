@@ -381,3 +381,17 @@ Quedan: modelaje (Rent the Look, Forum Industries, Original Penguin, Urban Haus,
 **Revisión general antes de cerrar:** 25 páginas (ES/EN) + 404. Sin enlaces ni archivos rotos en el build; sin scroll horizontal a 390 px ni a 1440 px; una sola `h1` por página; todas las imágenes con `alt`; `lang` correcto; ningún texto en el idioma equivocado; ningún "2025", "—" ni placeholder visible. Arreglo: la 404 ya no declara `hreflang` (no tiene versión por idioma).
 
 **Pendiente (para cerrar el portfolio):** email profesional → `src/data/contact.ts`; fotos de Rabanne (página propia) y Armani; foto nueva de Programación (el usuario la manda). Menores: nivel de portugués, pasaporte "vigente", "internacional" repetido en el texto del hero.
+
+## 2026-10-23 — Email, Polaroids antes que Trabajos y página de Rabanne
+
+**Contacto:** email profesional `hernanalegresa10@gmail.com` en `src/data/contact.ts`; aparece solo en Contacto, el cierre de la Home y el footer (los tres ya leían `contact.email`). Se quitó la frase "Para marcas, agencias, fotógrafos y castings" de /contact (y su clave `contact.lead`).
+
+**Orden:** en la Home, Polaroids + ficha va antes que el banner de marcas + Trabajos (el banner es el encabezado de la grilla, se mueven juntos). El menú y el footer siguen el mismo orden: Polaroids → Work → About → Contacto. El `aria-label` del menú pasó a `ui.ts` (`nav.primary.label`; estaba en inglés fijo).
+
+**Rabanne (página propia):** 6 fotos de cámara profesional del lanzamiento de 1 Million Black (2:3, `rabanne-01..06`; reemplazan la `rabanne-01` vieja de celular) en `layout: 'rows'`, tres pares: [perfume, mirando atrás desde el volante] + [subiéndose al auto] + [sentado con un invitado]. Un clip de backstage (`rabanne-01.mp4`, iPhone SDR bt709, sin tonemap, 29 MB → 2,4 MB). La tarjeta de la Home y de /work usa la 04 (subiéndose al auto, elegida por el usuario) con `position: '50% 35%'`. `material.photos: some`, `hasVideo: true`.
+
+**About:** "Hoy" ya no nombra marcas ("conseguí trabajar con marcas muy grandes y estoy avanzando a pasos agigantados"). "Fuera de cámara" achicada: cada bloque es una miniatura cuadrada con el título y el texto al lado; tres en una fila desde 64rem, apilados en celular (de ~1000 px de alto a ~220 px en compu). El usuario probó una sola columna y la descartó por el espacio vacío a la derecha.
+
+**Publicación:** `site: 'https://hernanalegresa-model.vercel.app'` en `astro.config.mjs`; los `hreflang` ahora son URLs absolutas. Vercel publica solo cada push a `main`. README actualizado: el portfolio queda terminado.
+
+**Pendiente (opcional):** fotos de Armani; foto nueva de Programación. Decidir si en español el menú dice "Work/About" o "Trabajos/Sobre mí". Menores: nivel de portugués, pasaporte "vigente", "internacional" repetido en el hero.

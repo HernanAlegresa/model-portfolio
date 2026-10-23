@@ -65,6 +65,14 @@ import armaniBeauty04 from '../assets/work/armani-beauty/armani-beauty-04.jpg';
 import armaniBeauty05 from '../assets/work/armani-beauty/armani-beauty-05.jpg';
 import armaniBeautyFilmClip from '../assets/video/work/armani-beauty-film.mp4?url';
 import armaniBeautyFilmPoster from '../assets/video/work/armani-beauty-film-poster.jpg';
+import rabanne01 from '../assets/work/rabanne/rabanne-01.jpg';
+import rabanne02 from '../assets/work/rabanne/rabanne-02.jpg';
+import rabanne03 from '../assets/work/rabanne/rabanne-03.jpg';
+import rabanne04 from '../assets/work/rabanne/rabanne-04.jpg';
+import rabanne05 from '../assets/work/rabanne/rabanne-05.jpg';
+import rabanne06 from '../assets/work/rabanne/rabanne-06.jpg';
+import rabanneClip01 from '../assets/video/work/rabanne-01.mp4?url';
+import rabannePoster01 from '../assets/video/work/rabanne-01-poster.jpg';
 import meller01 from '../assets/work/meller/meller-01.jpg';
 import meller02 from '../assets/work/meller/meller-02.jpg';
 import meller03 from '../assets/work/meller/meller-03.jpg';
@@ -570,6 +578,55 @@ const armaniBeautyFilm: WorkFilm = {
   label: {
     es: 'Hernán a contraluz frente al atardecer en la playa, con un frasco de Acqua di Giò en la mano.',
     en: 'Hernán silhouetted against the sunset on the beach, holding a bottle of Acqua di Giò.',
+  },
+};
+
+/**
+ * Rabanne's photos, from the 1 Million Black launch night in Montevideo,
+ * numbered like their files. 04 is also the Home and /work card's.
+ */
+const rabannePhotos: Record<number, WorkPhoto> = {
+  1: {
+    image: rabanne01,
+    alt: {
+      es: 'Hernán Alegresa con remera negra mostrando un frasco de 1 Million Black frente a los afiches de Rabanne.',
+      en: 'Hernán Alegresa in a black tee holding up a bottle of 1 Million Black in front of Rabanne posters.',
+    },
+  },
+  2: {
+    image: rabanne02,
+    alt: {
+      es: 'Hernán Alegresa al volante de un auto clásico descapotable negro, mirando hacia atrás, de noche frente al evento.',
+      en: 'Hernán Alegresa at the wheel of a black vintage convertible, looking back over his shoulder, at night outside the event.',
+    },
+  },
+  3: {
+    image: rabanne03,
+    alt: {
+      es: 'Hernán Alegresa sentado en un auto clásico descapotable con el brazo sobre la puerta, junto a un invitado con gorra y lentes.',
+      en: 'Hernán Alegresa seated in a vintage convertible with his arm on the door, next to a guest in a cap and sunglasses.',
+    },
+  },
+  4: {
+    image: rabanne04,
+    alt: {
+      es: 'Hernán Alegresa asomándose por encima de la puerta de un auto clásico negro, con el pelo al viento.',
+      en: 'Hernán Alegresa leaning out over the door of a black vintage car, his hair caught by the wind.',
+    },
+  },
+  5: {
+    image: rabanne05,
+    alt: {
+      es: 'Hernán Alegresa al volante de un auto clásico descapotable, mirando hacia abajo, con la entrada del evento detrás.',
+      en: 'Hernán Alegresa at the wheel of a vintage convertible, looking down, with the event entrance behind him.',
+    },
+  },
+  6: {
+    image: rabanne06,
+    alt: {
+      es: 'Hernán Alegresa de pie junto a un auto clásico descapotable negro, con la mano en la puerta, a punto de subirse.',
+      en: 'Hernán Alegresa standing by a black vintage convertible, one hand on the door, about to get in.',
+    },
   },
 };
 
@@ -1095,6 +1152,28 @@ export const workPages: Record<string, WorkPage> = {
     ]),
     // No backstage for this brand: the film is part of the work itself.
     videos: [],
+  },
+  rabanne: {
+    layout: 'rows',
+    // The fragrance first, then the night in the car: getting in, then
+    // seated with a guest. Each number is a
+    // photo in rabannePhotos above (= its file rabanne-NN.jpg): move the
+    // numbers to reorder.
+    ...inRows(rabannePhotos, [
+      [1, 2], // the bottle + looking back from the wheel
+      [6, 4], // getting into the car
+      [3, 5], // seated, with a guest
+    ]),
+    videos: [
+      {
+        src: rabanneClip01,
+        poster: rabannePoster01,
+        label: {
+          es: 'Detrás de cámara: Hernán posando con el perfume frente a los afiches de Rabanne mientras lo filman.',
+          en: 'Behind the scenes: Hernán posing with the fragrance in front of Rabanne posters while being filmed.',
+        },
+      },
+    ],
   },
   meller: {
     layout: 'rows',

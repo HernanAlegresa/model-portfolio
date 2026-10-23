@@ -3,7 +3,7 @@ import type { Lang } from '../i18n/ui';
 import rentTheLook01 from '../assets/work/rent-the-look/rent-the-look-01.jpg';
 import forumIndustries01 from '../assets/work/forum-industries/forum-industries-01.jpg';
 import originalPenguin01 from '../assets/work/original-penguin/original-penguin-01.jpg';
-import rabanne01 from '../assets/work/rabanne/rabanne-01.jpg';
+import rabanne04 from '../assets/work/rabanne/rabanne-04.jpg';
 import armaniBeauty01 from '../assets/work/armani-beauty/armani-beauty-01.jpg';
 import meller01 from '../assets/work/meller/meller-01.jpg';
 import urbanHaus06 from '../assets/work/urban-haus/urban-haus-06.jpg';
@@ -76,11 +76,11 @@ export const selectedWork: SelectedShot[] = [
   },
   {
     work: 'rabanne',
-    image: rabanne01,
-    position: '50% 50%',
+    image: rabanne04,
+    position: '50% 35%',
     alt: {
-      es: 'Hernán Alegresa con remera negra sosteniendo un perfume 1 Million Black frente a los afiches de Rabanne.',
-      en: 'Hernán Alegresa in a black tee holding a 1 Million Black fragrance in front of Rabanne posters.',
+      es: 'Hernán Alegresa subiéndose a un auto clásico descapotable negro, de noche, en el lanzamiento de Rabanne.',
+      en: 'Hernán Alegresa climbing into a black vintage convertible at night, at the Rabanne launch.',
     },
   },
   {
