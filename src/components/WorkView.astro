@@ -3,7 +3,7 @@ import PageHead from './PageHead.astro';
 import { getCollection } from 'astro:content';
 import HomeBrands from './home/HomeBrands.astro';
 import WorkGrid from './WorkGrid.astro';
-import { selectedWork, workOnlyShots, type SelectedShot } from '../data/selected-work';
+import { selectedWork, workCovers, workOnlyShots, type SelectedShot } from '../data/selected-work';
 import { useTranslations } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
 
@@ -17,7 +17,8 @@ const t = useTranslations(lang);
 // Every brand, in curation order, as the same card the Home shows. A brand
 // in the Home's six reuses that photo and framing (src/data/selected-work.ts);
 // the others take theirs from `workOnlyShots` there, or show a placeholder.
-const cards = [...selectedWork, ...workOnlyShots];
+// `workCovers` comes first: it swaps a brand's photo on /work only.
+const cards = [...workCovers, ...selectedWork, ...workOnlyShots];
 const shots: SelectedShot[] = (await getCollection('work'))
   .sort((a, b) => a.data.priority - b.data.priority)
   .map((entry) => cards.find((shot) => shot.work === entry.id) ?? { work: entry.id, image: null });

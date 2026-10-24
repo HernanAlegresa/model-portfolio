@@ -63,6 +63,9 @@ import armaniBeauty02 from '../assets/work/armani-beauty/armani-beauty-02.jpg';
 import armaniBeauty03 from '../assets/work/armani-beauty/armani-beauty-03.jpg';
 import armaniBeauty04 from '../assets/work/armani-beauty/armani-beauty-04.jpg';
 import armaniBeauty05 from '../assets/work/armani-beauty/armani-beauty-05.jpg';
+import armaniBeauty06 from '../assets/work/armani-beauty/armani-beauty-06.jpg';
+import armaniBeauty07 from '../assets/work/armani-beauty/armani-beauty-07.jpg';
+import armaniBeauty08 from '../assets/work/armani-beauty/armani-beauty-08.jpg';
 import armaniBeautyFilmClip from '../assets/video/work/armani-beauty-film.mp4?url';
 import armaniBeautyFilmPoster from '../assets/video/work/armani-beauty-film-poster.jpg';
 import rabanne01 from '../assets/work/rabanne/rabanne-01.jpg';
@@ -565,6 +568,28 @@ const armaniBeautyPhotos: Record<number, WorkPhoto> = {
     alt: {
       es: 'Hernán Alegresa con un trago junto a una invitada con abanico, en el parador del evento de Armani al atardecer.',
       en: 'Hernán Alegresa with a drink beside a guest holding a fan, at the Armani event beach bar at sunset.',
+    },
+  },
+  // 06–08: the I Will launch, on the film-set backdrop. 06 is also the /work card's.
+  6: {
+    image: armaniBeauty06,
+    alt: {
+      es: 'Hernán Alegresa con polo tejido marrón y jean claro, sentado en una silla de director con un frasco de I Will de Giorgio Armani, mirando hacia un costado.',
+      en: 'Hernán Alegresa in a brown knit polo and light jeans, seated on a director’s chair with a bottle of Giorgio Armani I Will, looking to the side.',
+    },
+  },
+  7: {
+    image: armaniBeauty07,
+    alt: {
+      es: 'Hernán Alegresa con los ojos cerrados y el perfume I Will en la mano, frente al panel dorado de Giorgio Armani.',
+      en: 'Hernán Alegresa with his eyes closed, holding the I Will fragrance in front of the gold Giorgio Armani backdrop.',
+    },
+  },
+  8: {
+    image: armaniBeauty08,
+    alt: {
+      es: 'Hernán Alegresa sentado en la silla de director junto a una invitada con blusa de lunares, frente al telón de Giorgio Armani.',
+      en: 'Hernán Alegresa seated on the director’s chair beside a guest in a polka-dot blouse, in front of the Giorgio Armani backdrop.',
     },
   },
 };
@@ -1142,13 +1167,14 @@ export const workPages: Record<string, WorkPage> = {
   'armani-beauty': {
     layout: 'rows',
     // The film opens the gallery across the full width, then a pair and
-    // a row of three. Each number is a photo in armaniBeautyPhotos above
+    // two rows of three. Each number is a photo in armaniBeautyPhotos above
     // (= its file armani-beauty-NN.jpg); move `armaniBeautyFilm` to
     // another row to change where the film goes.
     ...inRows(armaniBeautyPhotos, [
       [armaniBeautyFilm], //  the film, full width
       [1, 2], //              the perfume at sunset + walking
       [4, 3, 5], //           at the event
+      [6, 7, 8], //           the I Will launch
     ]),
     // No backstage for this brand: the film is part of the work itself.
     videos: [],
