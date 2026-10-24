@@ -5,6 +5,7 @@ import forumIndustries01 from '../assets/work/forum-industries/forum-industries-
 import originalPenguin01 from '../assets/work/original-penguin/original-penguin-01.jpg';
 import rabanne04 from '../assets/work/rabanne/rabanne-04.jpg';
 import armaniBeauty01 from '../assets/work/armani-beauty/armani-beauty-01.jpg';
+import armaniBeauty06 from '../assets/work/armani-beauty/armani-beauty-06.jpg';
 import meller01 from '../assets/work/meller/meller-01.jpg';
 import urbanHaus06 from '../assets/work/urban-haus/urban-haus-06.jpg';
 import vans02 from '../assets/work/vans/vans-02.jpg';
@@ -116,6 +117,22 @@ export const workOnlyShots: SelectedShot[] = [
     alt: {
       es: 'Hernán Alegresa con gorra Vans y mochila, haciendo la V con las dos manos y sacando la lengua en la cima de un morro de Río.',
       en: 'Hernán Alegresa in a Vans cap and backpack, making peace signs with both hands and sticking his tongue out on top of a Rio hill.',
+    },
+  },
+];
+
+/**
+ * Cards that only change on /work: a brand listed here shows this photo
+ * there, while the Home keeps its own from `selectedWork`.
+ */
+export const workCovers: SelectedShot[] = [
+  {
+    work: 'armani-beauty',
+    image: armaniBeauty06,
+    position: '50% 20%',
+    alt: {
+      es: 'Hernán Alegresa con polo tejido marrón, sentado en una silla de director con un perfume I Will de Giorgio Armani.',
+      en: 'Hernán Alegresa in a brown knit polo, seated on a director’s chair with a Giorgio Armani I Will fragrance.',
     },
   },
 ];
