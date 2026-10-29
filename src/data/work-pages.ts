@@ -76,6 +76,18 @@ import rabanne05 from '../assets/work/rabanne/rabanne-05.jpg';
 import rabanne06 from '../assets/work/rabanne/rabanne-06.jpg';
 import rabanneClip01 from '../assets/video/work/rabanne-01.mp4?url';
 import rabannePoster01 from '../assets/video/work/rabanne-01-poster.jpg';
+import balmohk01 from '../assets/work/balmohk/balmohk-01.jpg';
+import balmohk02 from '../assets/work/balmohk/balmohk-02.jpg';
+import balmohk03 from '../assets/work/balmohk/balmohk-03.jpg';
+import balmohk04 from '../assets/work/balmohk/balmohk-04.jpg';
+import balmohk05 from '../assets/work/balmohk/balmohk-05.jpg';
+import balmohk06 from '../assets/work/balmohk/balmohk-06.jpg';
+import balmohk07 from '../assets/work/balmohk/balmohk-07.jpg';
+import balmohk08 from '../assets/work/balmohk/balmohk-08.jpg';
+import balmohkClip01 from '../assets/video/work/balmohk-01.mp4?url';
+import balmohkClip02 from '../assets/video/work/balmohk-02.mp4?url';
+import balmohkPoster01 from '../assets/video/work/balmohk-01-poster.jpg';
+import balmohkPoster02 from '../assets/video/work/balmohk-02-poster.jpg';
 import meller01 from '../assets/work/meller/meller-01.jpg';
 import meller02 from '../assets/work/meller/meller-02.jpg';
 import meller03 from '../assets/work/meller/meller-03.jpg';
@@ -570,7 +582,7 @@ const armaniBeautyPhotos: Record<number, WorkPhoto> = {
       en: 'Hernán Alegresa with a drink beside a guest holding a fan, at the Armani event beach bar at sunset.',
     },
   },
-  // 06–08: the I Will launch, on the film-set backdrop. 06 is also the /work card's.
+  // 06–08: the I Will launch, on the film-set backdrop. 06 is also the Home and /work card's.
   6: {
     image: armaniBeauty06,
     alt: {
@@ -656,8 +668,71 @@ const rabannePhotos: Record<number, WorkPhoto> = {
 };
 
 /**
+ * Balmohk's photos, from an event at the brand's store, numbered like
+ * their files. 08 is also the Home and /work card's.
+ */
+const balmohkPhotos: Record<number, WorkPhoto> = {
+  1: {
+    image: balmohk01,
+    alt: {
+      es: 'Hernán Alegresa con campera de cuero marrón y pantalón blanco, sentado sobre el mostrador de Balmohk con una lata en la mano, mirando hacia un costado.',
+      en: 'Hernán Alegresa in a brown leather jacket and white trousers, seated on the Balmohk counter with a can in his hand, looking to the side.',
+    },
+  },
+  2: {
+    image: balmohk02,
+    alt: {
+      es: 'Hernán Alegresa sentado sobre el mostrador de Balmohk, con campera de cuero, pantalón blanco y mocasines negros, mirando a cámara.',
+      en: 'Hernán Alegresa seated on the Balmohk counter in a leather jacket, white trousers and black loafers, looking at the camera.',
+    },
+  },
+  3: {
+    image: balmohk03,
+    alt: {
+      es: 'Hernán Alegresa sonriendo, sentado en el borde del mostrador de Balmohk con campera de cuero y pantalón blanco.',
+      en: 'Hernán Alegresa smiling, seated on the edge of the Balmohk counter in a leather jacket and white trousers.',
+    },
+  },
+  4: {
+    image: balmohk04,
+    alt: {
+      es: 'Hernán Alegresa con lentes de sol y campera de cuero, haciendo la V con las dos manos dentro de la tienda.',
+      en: 'Hernán Alegresa in sunglasses and a leather jacket, making peace signs with both hands inside the store.',
+    },
+  },
+  5: {
+    image: balmohk05,
+    alt: {
+      es: 'Hernán Alegresa con lentes de sol, apoyado en una pared de la tienda con un brazo en alto y la otra mano en el bolsillo.',
+      en: 'Hernán Alegresa in sunglasses, leaning on a wall of the store with one arm raised and the other hand in his pocket.',
+    },
+  },
+  6: {
+    image: balmohk06,
+    alt: {
+      es: 'Hernán Alegresa con lentes de sol y campera de cuero, apoyado en una columna junto a un perchero de jeans.',
+      en: 'Hernán Alegresa in sunglasses and a leather jacket, leaning on a column beside a rack of jeans.',
+    },
+  },
+  7: {
+    image: balmohk07,
+    alt: {
+      es: 'Hernán Alegresa con dos amigos en la tienda de Balmohk, los tres con una lata en la mano.',
+      en: 'Hernán Alegresa with two friends in the Balmohk store, each holding a can.',
+    },
+  },
+  8: {
+    image: balmohk08,
+    alt: {
+      es: 'Hernán Alegresa caminando por un pasillo de la tienda con campera de cuero, remera negra y pantalón blanco.',
+      en: 'Hernán Alegresa walking down an aisle of the store in a leather jacket, black tee and white trousers.',
+    },
+  },
+};
+
+/**
  * Meller's photos (sunglasses), the ones shot with a professional camera,
- * numbered like their files. 01 is also the Home card's.
+ * numbered like their files. 01 is also the /work card's.
  */
 const mellerPhotos: Record<number, WorkPhoto> = {
   1: {
@@ -1166,15 +1241,15 @@ export const workPages: Record<string, WorkPage> = {
   },
   'armani-beauty': {
     layout: 'rows',
-    // The film opens the gallery across the full width, then a pair and
-    // two rows of three. Each number is a photo in armaniBeautyPhotos above
-    // (= its file armani-beauty-NN.jpg); move `armaniBeautyFilm` to
-    // another row to change where the film goes.
+    // The I Will launch opens the gallery, then the film across the full
+    // width, then the beach event. Each number is a photo in
+    // armaniBeautyPhotos above (= its file armani-beauty-NN.jpg); move
+    // `armaniBeautyFilm` to another row to change where the film goes.
     ...inRows(armaniBeautyPhotos, [
+      [6, 7, 8], //           the I Will launch
       [armaniBeautyFilm], //  the film, full width
       [1, 2], //              the perfume at sunset + walking
       [4, 3, 5], //           at the event
-      [6, 7, 8], //           the I Will launch
     ]),
     // No backstage for this brand: the film is part of the work itself.
     videos: [],
@@ -1197,6 +1272,36 @@ export const workPages: Record<string, WorkPage> = {
         label: {
           es: 'Detrás de cámara: Hernán posando con el perfume frente a los afiches de Rabanne mientras lo filman.',
           en: 'Behind the scenes: Hernán posing with the fragrance in front of Rabanne posters while being filmed.',
+        },
+      },
+    ],
+  },
+  balmohk: {
+    layout: 'rows',
+    // Pairs, one moment each: the counter, the sunglasses, the store.
+    // Each number is a photo in balmohkPhotos above (= its file
+    // balmohk-NN.jpg): move the numbers to reorder.
+    ...inRows(balmohkPhotos, [
+      [2, 8], // on the counter + walking the aisle
+      [1, 3], // on the counter, close and smiling
+      [5, 6], // sunglasses, against the wall and the column
+      [4, 7], // the peace sign + with friends
+    ]),
+    videos: [
+      {
+        src: balmohkClip01,
+        poster: balmohkPoster01,
+        label: {
+          es: 'Detrás de cámara: Hernán se sienta en el mostrador de Balmohk y posa frente al logo.',
+          en: 'Behind the scenes: Hernán sits on the Balmohk counter and poses in front of the logo.',
+        },
+      },
+      {
+        src: balmohkClip02,
+        poster: balmohkPoster02,
+        label: {
+          es: 'Detrás de cámara: Hernán con lentes de sol, apoyado en una columna de la tienda mientras pasa la gente.',
+          en: 'Behind the scenes: Hernán in sunglasses, leaning on a column in the store as people walk by.',
         },
       },
     ],

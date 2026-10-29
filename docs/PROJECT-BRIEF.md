@@ -72,6 +72,7 @@ No usar cantidades de meses fijas en el sitio ("hace tres meses"): quedan viejas
 | **Vans** *(no "Vans Uruguay")* | 2026 | Contenido durante un viaje personal a Río de Janeiro usando producto de la marca; parte publicada en redes de la marca, parte en redes propias | Creador de contenido | contenido | Hasta ~10 fotos + algunos videos |
 | **Armani Beauty** | 2026 | Eventos y creación de contenido (su primer trabajo con una marca fue como invitado a un evento suyo en Punta del Este, en enero de 2026; no asumir que todo el material es de ese evento) | Creador de contenido, invitado | eventos, contenido | Bastante material: fotos + videos |
 | **Rabanne** *(no "Carolina Herrera")* | 2026 | Modelo e influencer para la marca | Modelo, creador de contenido | modelaje, contenido | 6 fotos + 1 video de backstage |
+| **Balmohk** | 2026 | Fotos con ropa de la marca en un evento en su tienda (actividad y rol a confirmar) | Modelo | modelaje, eventos | 8 fotos + 2 videos de backstage |
 
 **Fuera del portfolio por decisión del dueño (2026-10-20):** VCP Uruguay, Chivas Regal y Salus Uruguay. El portfolio es de modelaje: estas colaboraciones (selfies de contenido, un evento como invitado, un comercial de TV sin material) no suman a ese foco. No volver a agregarlas.
 
@@ -79,7 +80,7 @@ No usar cantidades de meses fijas en el sitio ("hace tres meses"): quedan viejas
 1. El año es dato de referencia del proyecto — no inventar meses/fechas exactas.
 2. Cada proyecto respeta las categorías de la tabla; un proyecto puede tener varias.
 3. No inventar resultados, estadísticas, alcance, premios, créditos, enlaces o testimonios.
-4. No mostrar las 8 marcas con idéntico protagonismo — selección curada, no checklist.
+4. No mostrar las 9 marcas con idéntico protagonismo — selección curada, no checklist.
 5. No forzar galerías extensas en proyectos con poco material (Rabanne: 6 fotos y 1 video).
 6. Dejar espacio para enlaces a publicaciones oficiales, pero **no inventar URLs** — todos los `link` quedan `null`/pendientes hasta que el usuario los confirme.
 7. No usar logos o materiales oficiales de marca sin autorización — el nombre de la marca es referencia de un trabajo real, no implica respaldo oficial del sitio.

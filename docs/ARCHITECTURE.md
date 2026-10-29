@@ -91,7 +91,7 @@ Orden (en `HomeView.astro`), pensado como las preguntas que se hace una marca o 
 1. **Hero** — foto B&W a pantalla completa (`100svh`), nombre enorme abajo, bio a la izquierda. Ajustable a mano desde el bloque **HERO CONTROLS** (variables CSS para celular y para ≥56rem).
 2. **Sobre mí** (`HomeAbout`) — es la "hoja" que sube tapando el hero.
 3. **Polaroids + ficha** (`HomeStats`) — las 4 polaroids clave y las 5 medidas. Va antes que los trabajos desde 2026-10-23 (pedido del usuario).
-4. **Banner de marcas** (`HomeBrands`) — las 8 marcas de la Collection, sutil; hace de encabezado de la grilla, así que va siempre pegado a ella.
+4. **Banner de marcas** (`HomeBrands`) — las 9 marcas de la Collection, sutil; hace de encabezado de la grilla, así que va siempre pegado a ella.
 5. **Trabajos** (`HomeWork`) — 6 marcas de `selected-work.ts`, réplica de la sección "Some works" de Máxima Michaels.
 6. **Contacto** (`HomeContact`). ("Qué hago" se sacó en 2026-10: repetía las categorías y marcas que ya muestran el banner y la grilla.)
 
