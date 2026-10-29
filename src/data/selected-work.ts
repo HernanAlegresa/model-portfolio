@@ -4,8 +4,8 @@ import rentTheLook01 from '../assets/work/rent-the-look/rent-the-look-01.jpg';
 import forumIndustries01 from '../assets/work/forum-industries/forum-industries-01.jpg';
 import originalPenguin01 from '../assets/work/original-penguin/original-penguin-01.jpg';
 import rabanne04 from '../assets/work/rabanne/rabanne-04.jpg';
-import armaniBeauty01 from '../assets/work/armani-beauty/armani-beauty-01.jpg';
 import armaniBeauty06 from '../assets/work/armani-beauty/armani-beauty-06.jpg';
+import balmohk08 from '../assets/work/balmohk/balmohk-08.jpg';
 import meller01 from '../assets/work/meller/meller-01.jpg';
 import urbanHaus06 from '../assets/work/urban-haus/urban-haus-06.jpg';
 import vans02 from '../assets/work/vans/vans-02.jpg';
@@ -68,11 +68,11 @@ export const selectedWork: SelectedShot[] = [
   },
   {
     work: 'armani-beauty',
-    image: armaniBeauty01,
-    position: '50% 38%',
+    image: armaniBeauty06,
+    position: '50% 20%',
     alt: {
-      es: 'Hernán Alegresa con camisa a rayas sosteniendo un perfume Acqua di Giò en la playa al atardecer.',
-      en: 'Hernán Alegresa in a striped shirt holding an Acqua di Giò fragrance on the beach at sunset.',
+      es: 'Hernán Alegresa con polo tejido marrón, sentado en una silla de director con un perfume I Will de Giorgio Armani.',
+      en: 'Hernán Alegresa in a brown knit polo, seated on a director’s chair with a Giorgio Armani I Will fragrance.',
     },
   },
   {
@@ -85,12 +85,12 @@ export const selectedWork: SelectedShot[] = [
     },
   },
   {
-    work: 'meller',
-    image: meller01,
-    position: '50% 35%',
+    work: 'balmohk',
+    image: balmohk08,
+    position: '50% 28%',
     alt: {
-      es: 'Hernán Alegresa con lentes de sol espejados y buzo tejido a rayas, sosteniendo dos paletas de playa.',
-      en: 'Hernán Alegresa in mirrored sunglasses and a striped knit sweater, holding two beach paddles.',
+      es: 'Hernán Alegresa caminando por un pasillo de la tienda de Balmohk con campera de cuero, remera negra y pantalón blanco.',
+      en: 'Hernán Alegresa walking down an aisle of the Balmohk store in a leather jacket, black tee and white trousers.',
     },
   },
 ];
@@ -101,6 +101,15 @@ export const selectedWork: SelectedShot[] = [
  * first, then from here, else shows a placeholder.
  */
 export const workOnlyShots: SelectedShot[] = [
+  {
+    work: 'meller',
+    image: meller01,
+    position: '50% 35%',
+    alt: {
+      es: 'Hernán Alegresa con lentes de sol espejados y buzo tejido a rayas, sosteniendo dos paletas de playa.',
+      en: 'Hernán Alegresa in mirrored sunglasses and a striped knit sweater, holding two beach paddles.',
+    },
+  },
   {
     work: 'urban-haus',
     image: urbanHaus06,
@@ -125,14 +134,4 @@ export const workOnlyShots: SelectedShot[] = [
  * Cards that only change on /work: a brand listed here shows this photo
  * there, while the Home keeps its own from `selectedWork`.
  */
-export const workCovers: SelectedShot[] = [
-  {
-    work: 'armani-beauty',
-    image: armaniBeauty06,
-    position: '50% 20%',
-    alt: {
-      es: 'Hernán Alegresa con polo tejido marrón, sentado en una silla de director con un perfume I Will de Giorgio Armani.',
-      en: 'Hernán Alegresa in a brown knit polo, seated on a director’s chair with a Giorgio Armani I Will fragrance.',
-    },
-  },
-];
+export const workCovers: SelectedShot[] = [];

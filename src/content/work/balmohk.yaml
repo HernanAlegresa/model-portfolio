@@ -1,0 +1,12 @@
+brand: Balmohk
+year: 2026
+roles: [model]
+categories: [modeling, events]
+summary:
+  es: Fotos con ropa de la marca en un evento en su tienda.
+  en: Photos wearing the brand at an event in its store.
+material:
+  photos: some
+  hasVideo: true
+link: null
+priority: 9
