@@ -54,7 +54,7 @@ const mixedRows = await Promise.all(
       row.map(async (item) => {
         if ('photo' in item) {
           const photo = photos[item.photo]!;
-          return { kind: 'photo' as const, photo, ratio: photo.image.width / photo.image.height };
+          return { kind: 'photo' as const, photo, ratio: photo.image.width / photo.image.height, zoom: photo.zoom };
         }
         const { film } = item;
         const poster = (await getImage({ src: film.poster, width: 1280, format: 'webp' })).src;
@@ -63,6 +63,29 @@ const mixedRows = await Promise.all(
     ),
   ),
 );
+
+// How much of the page width each piece really takes, for the `sizes` the
+// browser uses to pick a photo file sharp enough for it (a horizontal photo
+// next to a vertical one takes far more than half). Desktop: its share of
+// the row. Phones: a trio's first piece is full width and the other two
+// share the next line; a four splits into two pairs.
+const share = (item: { ratio: number; zoom?: number }, group: { ratio: number }[]) =>
+  Math.ceil((item.ratio / group.reduce((sum, piece) => sum + piece.ratio, 0)) * 100 * (item.zoom ?? 1));
+const rowSizes = mixedRows.map((row) =>
+  row.map((item, i) => {
+    const phoneGroup = row.length === 3 ? (i === 0 ? [item] : row.slice(1)) : row.length === 4 ? (i < 2 ? row.slice(0, 2) : row.slice(2)) : row;
+    return `(min-width: 48rem) ${share(item, row)}vw, ${share(item, phoneGroup)}vw`;
+  }),
+);
+
+// `trios` crops every photo to 4:5: a wider photo fills the frame's height
+// and spills past its sides, and `zoom` enlarges it further, so the file
+// has to be that much wider than the frame to stay sharp.
+const trioSizes = (photo: (typeof photos)[number]) => {
+  const grow = Math.max(1, photo.image.width / photo.image.height / (4 / 5)) * (photo.zoom ?? 1);
+  const phone = photo.at === 0 ? 100 : 50;
+  return `(min-width: 48rem) ${Math.ceil(34 * grow)}vw, ${Math.ceil(phone * grow)}vw`;
+};
 
 const clips = await Promise.all(
   page.videos.map(async (clip) => ({
@@ -99,8 +122,8 @@ const nameWidth = displayNameWidth(brand).toFixed(4);
               <Image
                 src={photo.image}
                 alt={photo.alt[lang]}
-                widths={[480, 720, 960, 1280]}
-                sizes={photo.at === 0 ? '(min-width: 48rem) 33vw, 100vw' : '(min-width: 48rem) 33vw, 50vw'}
+                widths={[480, 720, 960, 1280, 1717, 2200, 2576]}
+                sizes={trioSizes(photo)}
                 loading={photo.at < 3 ? 'eager' : 'lazy'}
                 fetchpriority={photo.at === 0 ? 'high' : undefined}
                 style={`object-position: ${photo.position ?? '50% 50%'}; transform-origin: ${photo.position ?? '50% 50%'}; --zoom: ${photo.zoom ?? 1}`}
@@ -176,18 +199,8 @@ const nameWidth = displayNameWidth(brand).toFixed(4);
                   <Image
                     src={item.photo.image}
                     alt={item.photo.alt[lang]}
-                    widths={[480, 640, 960, 1280, 1717]}
-                    sizes={
-                      row.length === 1
-                        ? '100vw'
-                        : row.length === 4
-                          ? '(min-width: 48rem) 25vw, 50vw'
-                          : row.length === 3
-                          ? place === 0
-                            ? '(min-width: 48rem) 33vw, 100vw'
-                            : '(min-width: 48rem) 33vw, 50vw'
-                          : '50vw'
-                    }
+                    widths={[480, 640, 960, 1280, 1717, 2200, 2576]}
+                    sizes={rowSizes[index]![row.indexOf(item)]}
                     loading={index < 2 ? 'eager' : 'lazy'}
                     fetchpriority={index === 0 ? 'high' : undefined}
                     style={`object-position: ${item.photo.position ?? '50% 50%'}; transform-origin: ${item.photo.position ?? '50% 50%'}; --zoom: ${item.photo.zoom ?? 1}`}

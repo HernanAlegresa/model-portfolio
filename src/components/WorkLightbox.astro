@@ -50,7 +50,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
             class="pv__image"
             src={photo.image}
             alt={photo.alt[lang]}
-            widths={[960, 1280, 1717]}
+            widths={[960, 1280, 1717, 2200, 2576]}
             sizes={`min(100vw, calc((100svh - 8rem) * ${(photo.image.width / photo.image.height).toFixed(3)}))`}
             loading="lazy"
           />
