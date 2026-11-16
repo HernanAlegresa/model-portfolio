@@ -60,6 +60,18 @@
 
 html {
   background: var(--color-ink);
+  /* No grey box flashing over links and buttons on tap (iPhone, Android). */
+  -webkit-tap-highlight-color: transparent;
+  /* Keep text sizes as designed when an iPhone turns to landscape. */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+a,
+button {
+  /* A quick double tap on a button (the viewer's Next, say) moves twice
+     instead of zooming the page. */
+  touch-action: manipulation;
 }
 
 body {
@@ -86,6 +98,13 @@ a {
 :focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 3px;
+}
+
+/* After a tap or click, focus that a script moved (a viewer's Close
+   button, the menu's first link) gets no keyboard outline. See the
+   data-input script in BaseLayout.astro. */
+:root[data-input='pointer'] :focus-visible {
+  outline: none;
 }
 
 .visually-hidden {

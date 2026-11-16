@@ -33,7 +33,9 @@ const pad = (n: number) => String(n).padStart(2, '0');
     <button type="button" class="lb__button" data-lightbox-close>{t('lightbox.close')}</button>
   </div>
 
-  <div class="lb__stage" data-lightbox-stage>
+  <!-- The script focuses this on open, not the Close button: otherwise
+       Safari draws the keyboard outline around Close after a tap. -->
+  <div class="lb__stage" data-lightbox-stage tabindex="-1">
     {
       polaroids.map((polaroid, index) => (
         <div class="lb__slide" data-lightbox-slide hidden={index !== 0}>
@@ -119,6 +121,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
     display: grid;
     place-items: center;
     min-height: 0;
+    outline: none;
     touch-action: pan-y;
     user-select: none;
   }
@@ -225,6 +228,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
       morph(printOf(trigger), () => {
         show(at);
         dialog.showModal();
+        stage.focus({ preventScroll: true });
         return printOf(slides[index]);
       });
     };

@@ -202,8 +202,10 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '');
     transition: color 150ms ease;
   }
 
+  /* Focus colours the link only for keyboard users: opening the menu with
+     a tap moves focus to the first link, and Safari would paint it. */
   .nav-overlay__links a:hover,
-  .nav-overlay__links a:focus-visible {
+  :global(:root:not([data-input='pointer'])) .nav-overlay__links a:focus-visible {
     color: var(--color-accent);
   }
 
