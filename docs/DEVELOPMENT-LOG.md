@@ -405,3 +405,20 @@ Quedan: modelaje (Rent the Look, Forum Industries, Original Penguin, Urban Haus,
 **A confirmar con el usuario:** rol y categorías (`model` + `modeling, events`) y el resumen del yaml ("Fotos con ropa de la marca en un evento en su tienda").
 
 **Comprobaciones:** `npm run check` 0 errores; build OK (30 páginas); Chrome 1536 px e iframe de 390 px sin scroll horizontal; los dos videos cargan.
+
+## 2026-11-16 — Nueva marca: Rusty, más Rent the Look y revisión de calidad de imagen
+
+**Categorías:** Rabanne y Balmohk fueron eventos. Su primera categoría pasa a `events` (la tarjeta muestra solo `categories[0]`): Rabanne `[events, content]`, Balmohk `[events, modeling]`.
+
+**Rusty (marca nueva, 10 en total):** sesión de estudio como modelo, 16 fotos (`rusty-01..16`, en el orden en que las mandó el usuario; 12 verticales 2:3, 3 horizontales 3:2, 1 cuadrada) en `layout: 'rows'`, un look por fila: el set de la ola primero [1, 15, 16] polo a rayas, [14, 2] con la modelo + plano abierto, [4, 3] boardshort, [6, 5] salvavidas + plano abierto, [9, 8, 7] canguro terracota; después el sol proyectado [13, 11] y cierra [10, 12] con la silueta. Las horizontales alternan de lado. Sin videos. Prioridad 2 (el usuario la quiere segunda): Forum pasa a 3 y el resto baja un lugar sin cambiar su orden.
+
+**Home:** la grilla queda Rent the Look, Rusty / Original Penguin, Forum Industries / Rabanne, Armani Beauty. Balmohk pasa a `workOnlyShots` (sigue en /work con la 08). Tarjeta de Rusty: `rusty-01` con `position: '50% 14%'`.
+
+**Rent the Look:** 5 fotos nuevas (`rent-the-look-08..12`). La primera que mandó el usuario era idéntica a la 04 (comparada píxel a píxel) y no se cargó. La página pasa de pares a `rows` con la tabla `rentTheLookPhotos`, un traje por fila: [7, 10, 1] topo y marrón (las dos favoritas del usuario abren), [5, 6] verde oliva, [4, 8, 9] lino beige, [3, 2] azul marino, [11, 12] negro y azul sobre remera negra.
+
+**Calidad de imagen (arreglos):**
+- `rows`: el `sizes` de cada foto ahora sale de la parte de la fila que ocupa de verdad (proporción de la foto sobre la suma de la fila; en celular, el grupo en el que queda). Antes una horizontal junto a una vertical declaraba `50vw` ocupando ~70 %, y el navegador bajaba un archivo más chico de lo necesario.
+- `widths` de `rows` y del visor suben hasta 2200 y 2576 px (Astro no agranda: una foto de 853 px se queda en 853).
+- Tarjetas de Home y /work: la copia de adelante usa el mismo `sizes` que la de atrás, así cada tarjeta descarga un solo archivo (antes eran dos).
+
+**Comprobaciones:** `npm run check` 0 errores; build 32 páginas; ningún enlace ni archivo roto en el build; todas las páginas con un `h1`, `title` y `hreflang`; ninguna raya en el texto visible; Chrome a 1440 px y 390 px: sin scroll horizontal, todas las imágenes cargan.
