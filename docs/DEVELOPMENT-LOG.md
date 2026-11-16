@@ -422,3 +422,16 @@ Quedan: modelaje (Rent the Look, Forum Industries, Original Penguin, Urban Haus,
 - Tarjetas de Home y /work: la copia de adelante usa el mismo `sizes` que la de atrás, así cada tarjeta descarga un solo archivo (antes eran dos).
 
 **Comprobaciones:** `npm run check` 0 errores; build 32 páginas; ningún enlace ni archivo roto en el build; todas las páginas con un `h1`, `title` y `hreflang`; ninguna raya en el texto visible; Chrome a 1440 px y 390 px: sin scroll horizontal, todas las imágenes cargan.
+
+## 2026-11-16 (tarde) — Pulido: contorno de foco en iPhone, favicon y vista previa al compartir
+
+**Contorno bordó en el iPhone (lo encontró el usuario):** al abrir un visor (polaroids o fotos de una marca) o el menú, el script mueve el foco, y Safari de iPhone le dibuja el contorno de teclado (`:focus-visible`) aunque se haya abierto con un toque. Arreglos:
+- `BaseLayout.astro` anota en `<html data-input>` si la última entrada fue puntero o teclado, y `global.css` oculta el contorno mientras es `pointer`. Con la primera tecla vuelve, así quien navega con teclado lo sigue viendo.
+- El visor de polaroids enfoca el escenario (`tabindex="-1"`) al abrir, igual que el de fotos, en vez del botón Cerrar.
+- El primer link del menú solo se pinta de bordó por foco si se usa el teclado.
+
+**Toques en celular:** sin el recuadro gris al tocar links y botones (`-webkit-tap-highlight-color`), sin zoom por doble toque en botones (`touch-action: manipulation`) y sin que el iPhone agrande el texto al girar.
+
+**Favicon:** seguía siendo el logo de Astro. Ahora es un monograma HA blanco sobre negro (`favicon.svg`, `favicon.ico` de 32 px y `apple-touch-icon.png` de 180 px para la pantalla de inicio del iPhone).
+
+**Al compartir el link:** cada página tiene `canonical`, `theme-color` y etiquetas Open Graph / Twitter (título, descripción y la foto del hero en JPEG de 1200 px), así WhatsApp e Instagram muestran una tarjeta con foto.
