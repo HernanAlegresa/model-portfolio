@@ -1,7 +1,7 @@
 brand: Rabanne
 year: 2026
 roles: [model, content-creator]
-categories: [modeling, content]
+categories: [events, content]
 summary:
   es: Trabajo como modelo y creación de contenido como influencer para la marca.
   en: Modeling work and influencer content creation for the brand.
@@ -9,4 +9,4 @@ material:
   photos: some
   hasVideo: true
 link: null
-priority: 5
+priority: 6

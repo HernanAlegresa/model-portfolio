@@ -9,6 +9,7 @@ import balmohk08 from '../assets/work/balmohk/balmohk-08.jpg';
 import meller01 from '../assets/work/meller/meller-01.jpg';
 import urbanHaus06 from '../assets/work/urban-haus/urban-haus-06.jpg';
 import vans02 from '../assets/work/vans/vans-02.jpg';
+import rusty01 from '../assets/work/rusty/rusty-01.jpg';
 
 /**
  * The photos in Home's brand-work grid, in order. This is the file to
@@ -49,12 +50,12 @@ export const selectedWork: SelectedShot[] = [
     },
   },
   {
-    work: 'forum-industries',
-    image: forumIndustries01,
-    position: '50% 10%',
+    work: 'rusty',
+    image: rusty01,
+    position: '50% 14%',
     alt: {
-      es: 'Hernán Alegresa con gorra negra y conjunto deportivo crema, sentado sobre el asfalto mirando a cámara.',
-      en: 'Hernán Alegresa in a black cap and a cream sports set, sitting on the asphalt looking at the camera.',
+      es: 'Hernán Alegresa con polo a rayas azul y blanco, mirando a cámara frente a un fondo de ola, en la sesión de Rusty.',
+      en: 'Hernán Alegresa in a blue and white striped polo, looking at the camera against a wave backdrop, at the Rusty shoot.',
     },
   },
   {
@@ -67,12 +68,12 @@ export const selectedWork: SelectedShot[] = [
     },
   },
   {
-    work: 'armani-beauty',
-    image: armaniBeauty06,
-    position: '50% 20%',
+    work: 'forum-industries',
+    image: forumIndustries01,
+    position: '50% 10%',
     alt: {
-      es: 'Hernán Alegresa con polo tejido marrón, sentado en una silla de director con un perfume I Will de Giorgio Armani.',
-      en: 'Hernán Alegresa in a brown knit polo, seated on a director’s chair with a Giorgio Armani I Will fragrance.',
+      es: 'Hernán Alegresa con gorra negra y conjunto deportivo crema, sentado sobre el asfalto mirando a cámara.',
+      en: 'Hernán Alegresa in a black cap and a cream sports set, sitting on the asphalt looking at the camera.',
     },
   },
   {
@@ -85,12 +86,12 @@ export const selectedWork: SelectedShot[] = [
     },
   },
   {
-    work: 'balmohk',
-    image: balmohk08,
-    position: '50% 28%',
+    work: 'armani-beauty',
+    image: armaniBeauty06,
+    position: '50% 20%',
     alt: {
-      es: 'Hernán Alegresa caminando por un pasillo de la tienda de Balmohk con campera de cuero, remera negra y pantalón blanco.',
-      en: 'Hernán Alegresa walking down an aisle of the Balmohk store in a leather jacket, black tee and white trousers.',
+      es: 'Hernán Alegresa con polo tejido marrón, sentado en una silla de director con un perfume I Will de Giorgio Armani.',
+      en: 'Hernán Alegresa in a brown knit polo, seated on a director’s chair with a Giorgio Armani I Will fragrance.',
     },
   },
 ];
@@ -101,6 +102,15 @@ export const selectedWork: SelectedShot[] = [
  * first, then from here, else shows a placeholder.
  */
 export const workOnlyShots: SelectedShot[] = [
+  {
+    work: 'balmohk',
+    image: balmohk08,
+    position: '50% 28%',
+    alt: {
+      es: 'Hernán Alegresa caminando por un pasillo de la tienda de Balmohk con campera de cuero, remera negra y pantalón blanco.',
+      en: 'Hernán Alegresa walking down an aisle of the Balmohk store in a leather jacket, black tee and white trousers.',
+    },
+  },
   {
     work: 'meller',
     image: meller01,

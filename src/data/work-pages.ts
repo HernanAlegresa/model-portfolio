@@ -8,6 +8,11 @@ import rentTheLook04 from '../assets/work/rent-the-look/rent-the-look-04.jpg';
 import rentTheLook05 from '../assets/work/rent-the-look/rent-the-look-05.jpg';
 import rentTheLook06 from '../assets/work/rent-the-look/rent-the-look-06.jpg';
 import rentTheLook07 from '../assets/work/rent-the-look/rent-the-look-07.jpg';
+import rentTheLook08 from '../assets/work/rent-the-look/rent-the-look-08.jpg';
+import rentTheLook09 from '../assets/work/rent-the-look/rent-the-look-09.jpg';
+import rentTheLook10 from '../assets/work/rent-the-look/rent-the-look-10.jpg';
+import rentTheLook11 from '../assets/work/rent-the-look/rent-the-look-11.jpg';
+import rentTheLook12 from '../assets/work/rent-the-look/rent-the-look-12.jpg';
 import forumIndustries01 from '../assets/work/forum-industries/forum-industries-01.jpg';
 import forumIndustries02 from '../assets/work/forum-industries/forum-industries-02.jpg';
 import forumIndustries03 from '../assets/work/forum-industries/forum-industries-03.jpg';
@@ -88,6 +93,22 @@ import balmohkClip01 from '../assets/video/work/balmohk-01.mp4?url';
 import balmohkClip02 from '../assets/video/work/balmohk-02.mp4?url';
 import balmohkPoster01 from '../assets/video/work/balmohk-01-poster.jpg';
 import balmohkPoster02 from '../assets/video/work/balmohk-02-poster.jpg';
+import rusty01 from '../assets/work/rusty/rusty-01.jpg';
+import rusty02 from '../assets/work/rusty/rusty-02.jpg';
+import rusty03 from '../assets/work/rusty/rusty-03.jpg';
+import rusty04 from '../assets/work/rusty/rusty-04.jpg';
+import rusty05 from '../assets/work/rusty/rusty-05.jpg';
+import rusty06 from '../assets/work/rusty/rusty-06.jpg';
+import rusty07 from '../assets/work/rusty/rusty-07.jpg';
+import rusty08 from '../assets/work/rusty/rusty-08.jpg';
+import rusty09 from '../assets/work/rusty/rusty-09.jpg';
+import rusty10 from '../assets/work/rusty/rusty-10.jpg';
+import rusty11 from '../assets/work/rusty/rusty-11.jpg';
+import rusty12 from '../assets/work/rusty/rusty-12.jpg';
+import rusty13 from '../assets/work/rusty/rusty-13.jpg';
+import rusty14 from '../assets/work/rusty/rusty-14.jpg';
+import rusty15 from '../assets/work/rusty/rusty-15.jpg';
+import rusty16 from '../assets/work/rusty/rusty-16.jpg';
 import meller01 from '../assets/work/meller/meller-01.jpg';
 import meller02 from '../assets/work/meller/meller-02.jpg';
 import meller03 from '../assets/work/meller/meller-03.jpg';
@@ -244,6 +265,97 @@ function inRows(photos: Record<number, WorkPhoto>, rows: (number | WorkFilm)[][]
   });
   return { photos: inOrder(photos, order), rows: layout };
 }
+
+/**
+ * Rent the Look's photos, numbered like their files. 01 is also the Home
+ * and /work card's.
+ */
+const rentTheLookPhotos: Record<number, WorkPhoto> = {
+  1: {
+    image: rentTheLook01,
+    alt: {
+      es: 'Hernán Alegresa con traje marrón y remera blanca, sentado en una silla cromada frente a una cortina blanca.',
+      en: 'Hernán Alegresa in a brown suit and white tee, seated on a chrome chair against a white curtain.',
+    },
+  },
+  2: {
+    image: rentTheLook02,
+    alt: {
+      es: 'Hernán Alegresa con traje azul marino y camisa blanca, la mano en la solapa, mirando a cámara frente a una cortina de lino.',
+      en: 'Hernán Alegresa in a navy suit and white shirt, hand on the lapel, looking into the camera against a linen curtain.',
+    },
+  },
+  3: {
+    image: rentTheLook03,
+    alt: {
+      es: 'Hernán Alegresa de cuerpo entero con traje azul marino y remera oscura, de pie frente a una cortina blanca.',
+      en: 'Full-length shot of Hernán Alegresa in a navy suit and dark tee, standing against a white curtain.',
+    },
+  },
+  4: {
+    image: rentTheLook04,
+    alt: {
+      es: 'Hernán Alegresa con traje de lino beige y remera negra, apoyado en una columna de bloques de hormigón.',
+      en: 'Hernán Alegresa in a beige linen suit and black tee, leaning on a column of concrete blocks.',
+    },
+  },
+  5: {
+    image: rentTheLook05,
+    alt: {
+      es: 'Hernán Alegresa de cuerpo entero con traje cruzado verde oliva y remera blanca, junto a una silla cromada.',
+      en: 'Full-length shot of Hernán Alegresa in an olive double-breasted suit and white tee, beside a chrome chair.',
+    },
+  },
+  6: {
+    image: rentTheLook06,
+    alt: {
+      es: 'Hernán Alegresa con saco cruzado verde oliva, tomándose la solapa y mirando hacia un costado.',
+      en: 'Hernán Alegresa in an olive double-breasted jacket, holding the lapel and looking to the side.',
+    },
+  },
+  7: {
+    image: rentTheLook07,
+    alt: {
+      es: 'Hernán Alegresa con traje de lino gris topo, polo blanco y lentes de sol oscuros, frente a una cortina blanca.',
+      en: 'Hernán Alegresa in a taupe linen suit, white polo and dark sunglasses, against a white curtain.',
+    },
+  },
+  8: {
+    image: rentTheLook08,
+    alt: {
+      es: 'Hernán Alegresa con traje de lino beige y remera negra, apoyado en una columna de bloques y mirando hacia un costado.',
+      en: 'Hernán Alegresa in a beige linen suit and black tee, leaning on a column of blocks and looking to the side.',
+    },
+  },
+  9: {
+    image: rentTheLook09,
+    alt: {
+      es: 'Hernán Alegresa con remera negra, pantalón de lino beige y lentes de sol, con el saco colgado de una silla de cuero negro.',
+      en: 'Hernán Alegresa in a black tee, beige linen trousers and sunglasses, his jacket hanging on a black leather chair.',
+    },
+  },
+  10: {
+    image: rentTheLook10,
+    alt: {
+      es: 'Hernán Alegresa con traje de lino topo, polo blanco y lentes de sol, tomándose la solapa y mirando hacia arriba.',
+      en: 'Hernán Alegresa in a taupe linen suit, white polo and sunglasses, holding his lapel and looking up.',
+    },
+  },
+  11: {
+    image: rentTheLook11,
+    alt: {
+      es: 'Hernán Alegresa con traje negro y remera negra, una mano en el bolsillo, frente a una cortina de lino.',
+      en: 'Hernán Alegresa in a black suit and black tee, one hand in his pocket, against a linen curtain.',
+    },
+  },
+  12: {
+    image: rentTheLook12,
+    alt: {
+      es: 'Hernán Alegresa con traje azul marino y remera negra, tomándose el saco y mirando hacia un costado.',
+      en: 'Hernán Alegresa in a navy suit and black tee, holding his jacket and looking to the side.',
+    },
+  },
+};
 
 /**
  * Forum Industries' photos, numbered like their files. Per photo, for the
@@ -731,6 +843,125 @@ const balmohkPhotos: Record<number, WorkPhoto> = {
 };
 
 /**
+ * Rusty's photos, a studio shoot in two sets (the wave backdrop and the
+ * projected sun), numbered like their files. 01 is also the /work card's.
+ */
+const rustyPhotos: Record<number, WorkPhoto> = {
+  1: {
+    image: rusty01,
+    alt: {
+      es: 'Hernán Alegresa con polo a rayas azul y blanco y bermuda de jean gris, con una gorra negra en la mano, mirando a cámara frente a un fondo de ola.',
+      en: 'Hernán Alegresa in a blue and white striped polo and grey denim shorts, holding a black cap, looking at the camera against a wave backdrop.',
+    },
+  },
+  2: {
+    image: rusty02,
+    alt: {
+      es: 'Plano abierto del estudio: Hernán Alegresa con polo a rayas y lentes de sol frente al telón de una ola, entre las luces y los trípodes.',
+      en: 'Wide shot of the studio: Hernán Alegresa in a striped polo and sunglasses in front of a wave backdrop, among the lights and stands.',
+    },
+  },
+  3: {
+    image: rusty03,
+    alt: {
+      es: 'Hernán Alegresa sin remera, con boardshort azul marino y lentes de sol, recostado en una reposera con una remera de Rusty colgada del respaldo.',
+      en: 'Hernán Alegresa shirtless in navy boardshorts and sunglasses, leaning back on a beach chair with a Rusty tee hanging from the backrest.',
+    },
+  },
+  4: {
+    image: rusty04,
+    alt: {
+      es: 'Hernán Alegresa sin remera y con lentes de sol, con una remera de Rusty sobre el hombro, frente al telón de la ola.',
+      en: 'Hernán Alegresa shirtless in sunglasses, a Rusty tee over his shoulder, in front of the wave backdrop.',
+    },
+  },
+  5: {
+    image: rusty05,
+    alt: {
+      es: 'Plano abierto del estudio: Hernán Alegresa con boardshort azul marino entre dos reposeras, con una remera sobre el hombro.',
+      en: 'Wide shot of the studio: Hernán Alegresa in navy boardshorts between two beach chairs, a tee over his shoulder.',
+    },
+  },
+  6: {
+    image: rusty06,
+    alt: {
+      es: 'Hernán Alegresa con short de baño estampado y lentes blancos, sosteniendo un salvavidas verde y blanco.',
+      en: 'Hernán Alegresa in printed swim shorts and white sunglasses, holding a green and white swim ring.',
+    },
+  },
+  7: {
+    image: rusty07,
+    alt: {
+      es: 'Hernán Alegresa con canguro terracota y jean claro, con un skate en la mano, mirando hacia un costado.',
+      en: 'Hernán Alegresa in a terracotta anorak and light jeans, holding a skateboard, looking to the side.',
+    },
+  },
+  8: {
+    image: rusty08,
+    alt: {
+      es: 'Hernán Alegresa con canguro terracota haciendo un giro sobre un surfskate frente al telón de la ola.',
+      en: 'Hernán Alegresa in a terracotta anorak carving on a surfskate in front of the wave backdrop.',
+    },
+  },
+  9: {
+    image: rusty09,
+    alt: {
+      es: 'Hernán Alegresa con canguro terracota y un skate apoyado en el hombro, mirando a cámara.',
+      en: 'Hernán Alegresa in a terracotta anorak with a skateboard on his shoulder, looking at the camera.',
+    },
+  },
+  10: {
+    image: rusty10,
+    alt: {
+      es: 'Hernán Alegresa con camisa negra abierta y cadena plateada, frente a un sol naranja proyectado en el fondo.',
+      en: 'Hernán Alegresa in an open black shirt and a silver chain, in front of an orange sun projected on the backdrop.',
+    },
+  },
+  11: {
+    image: rusty11,
+    alt: {
+      es: 'Hernán Alegresa de espaldas con remera negra estampada de Rusty y un skate en la mano, mirando a cámara por encima del hombro.',
+      en: 'Hernán Alegresa from behind in a black Rusty graphic tee, holding a skateboard, looking at the camera over his shoulder.',
+    },
+  },
+  12: {
+    image: rusty12,
+    alt: {
+      es: 'Silueta de Hernán Alegresa a contraluz frente a un sol amarillo sobre fondo rojo.',
+      en: 'Hernán Alegresa’s silhouette, backlit against a yellow sun on a red background.',
+    },
+  },
+  13: {
+    image: rusty13,
+    alt: {
+      es: 'Hernán Alegresa con remera amarilla de Rusty y short rojo, mirando a cámara frente a un sol naranja.',
+      en: 'Hernán Alegresa in a yellow Rusty tee and red shorts, looking at the camera in front of an orange sun.',
+    },
+  },
+  14: {
+    image: rusty14,
+    alt: {
+      es: 'Hernán Alegresa con polo a rayas, sentado en una reposera junto a una modelo con musculosa rosa a rayas.',
+      en: 'Hernán Alegresa in a striped polo, seated on a beach chair beside a model in a pink striped tank top.',
+    },
+  },
+  15: {
+    image: rusty15,
+    alt: {
+      es: 'Hernán Alegresa con polo a rayas, lentes de sol y una gorra negra en la mano, frente al telón de la ola.',
+      en: 'Hernán Alegresa in a striped polo and sunglasses, holding a black cap, in front of the wave backdrop.',
+    },
+  },
+  16: {
+    image: rusty16,
+    alt: {
+      es: 'Hernán Alegresa con polo a rayas y lentes de sol, sentado en una reposera mirando hacia un costado.',
+      en: 'Hernán Alegresa in a striped polo and sunglasses, seated on a beach chair looking to the side.',
+    },
+  },
+};
+
+/**
  * Meller's photos (sunglasses), the ones shot with a professional camera,
  * numbered like their files. 01 is also the /work card's.
  */
@@ -1068,57 +1299,18 @@ const vansFilmSummit: WorkFilm = {
 
 export const workPages: Record<string, WorkPage> = {
   'rent-the-look': {
-    photos: [
-      {
-        image: rentTheLook07,
-        alt: {
-          es: 'Hernán Alegresa con traje de lino gris topo, polo blanco y lentes de sol oscuros, frente a una cortina blanca.',
-          en: 'Hernán Alegresa in a taupe linen suit, white polo and dark sunglasses, against a white curtain.',
-        },
-      },
-      {
-        image: rentTheLook01,
-        alt: {
-          es: 'Hernán Alegresa con traje marrón y remera blanca, sentado en una silla cromada frente a una cortina blanca.',
-          en: 'Hernán Alegresa in a brown suit and white tee, seated on a chrome chair against a white curtain.',
-        },
-      },
-      {
-        image: rentTheLook05,
-        alt: {
-          es: 'Hernán Alegresa de cuerpo entero con traje cruzado verde oliva y remera blanca, junto a una silla cromada.',
-          en: 'Full-length shot of Hernán Alegresa in an olive double-breasted suit and white tee, beside a chrome chair.',
-        },
-      },
-      {
-        image: rentTheLook06,
-        alt: {
-          es: 'Hernán Alegresa con saco cruzado verde oliva, tomándose la solapa y mirando hacia un costado.',
-          en: 'Hernán Alegresa in an olive double-breasted jacket, holding the lapel and looking to the side.',
-        },
-      },
-      {
-        image: rentTheLook03,
-        alt: {
-          es: 'Hernán Alegresa de cuerpo entero con traje azul marino y remera oscura, de pie frente a una cortina blanca.',
-          en: 'Full-length shot of Hernán Alegresa in a navy suit and dark tee, standing against a white curtain.',
-        },
-      },
-      {
-        image: rentTheLook04,
-        alt: {
-          es: 'Hernán Alegresa con traje de lino beige y remera negra, apoyado en una columna de bloques de hormigón.',
-          en: 'Hernán Alegresa in a beige linen suit and black tee, leaning on a column of concrete blocks.',
-        },
-      },
-      {
-        image: rentTheLook02,
-        alt: {
-          es: 'Hernán Alegresa con traje azul marino y camisa blanca, la mano en la solapa, mirando a cámara frente a una cortina de lino.',
-          en: 'Hernán Alegresa in a navy suit and white shirt, hand on the lapel, looking into the camera against a linen curtain.',
-        },
-      },
-    ],
+    layout: 'rows',
+    // One suit per row: the user's two favourites (07, 01) open it, with
+    // 10 between them (same look as 07). Each number is a photo in
+    // rentTheLookPhotos above (= its file rent-the-look-NN.jpg): move the
+    // numbers to reorder, or between lists to regroup.
+    ...inRows(rentTheLookPhotos, [
+      [7, 10, 1], // taupe and brown, white polo and tee
+      [5, 6], //     olive double-breasted
+      [4, 8, 9], //  beige linen, black tee
+      [3, 2], //     navy
+      [11, 12], //   black and navy over a black tee
+    ]),
     videos: [
       {
         src: rentTheLookClip01,
@@ -1305,6 +1497,23 @@ export const workPages: Record<string, WorkPage> = {
         },
       },
     ],
+  },
+  rusty: {
+    layout: 'rows',
+    // A day at the sea that ends at sunset: the wave set first, look by
+    // look, then the projected sun, closing on the silhouette. Each number
+    // is a photo in rustyPhotos above (= its file rusty-NN.jpg): move the
+    // numbers to reorder, or between lists to regroup.
+    ...inRows(rustyPhotos, [
+      [1, 15, 16], // striped polo
+      [14, 2], //     striped polo: with a model + the whole set
+      [4, 3], //      boardshorts and the Rusty tee
+      [6, 5], //      the swim ring + the whole set
+      [9, 8, 7], //   terracotta anorak and the surfskate
+      [13, 11], //    the sun: yellow tee + from behind
+      [10, 12], //    the sun: black shirt + the silhouette
+    ]),
+    videos: [],
   },
   meller: {
     layout: 'rows',

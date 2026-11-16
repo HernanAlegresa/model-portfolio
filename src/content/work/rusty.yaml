@@ -1,0 +1,12 @@
+brand: Rusty
+year: 2026
+roles: [model]
+categories: [modeling]
+summary:
+  es: Sesión de fotos en estudio como modelo para la colección de la marca.
+  en: Studio photo shoot as a model for the brand's collection.
+material:
+  photos: many
+  hasVideo: false
+link: null
+priority: 2

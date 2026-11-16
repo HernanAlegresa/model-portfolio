@@ -69,6 +69,7 @@ const t = useTranslations(lang);
     gap: var(--space-4);
     width: min(100%, 32rem);
     margin: 0;
+    container-type: inline-size;
   }
 
   .contact__row {
@@ -86,9 +87,11 @@ const t = useTranslations(lang);
     color: var(--color-smoke);
   }
 
+  /* Capped by the list's width (cqi) so the email, the longest line,
+     always fits on one line on narrow phones. */
   .contact__row dd {
     margin: 0;
-    font-size: var(--step-2);
+    font-size: min(var(--step-2), 6.8cqi);
   }
 
   .contact__link {
