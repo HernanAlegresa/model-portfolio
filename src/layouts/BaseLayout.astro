@@ -3,6 +3,8 @@ import Nav from '../components/Nav.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import { switchLocalePath } from '../i18n/utils';
 import type { Lang } from '../i18n/ui';
+import { getImage } from 'astro:assets';
+import heroPhoto from '../assets/home/hero.png';
 import '../styles/global.css';
 
 interface Props {
@@ -18,6 +20,12 @@ const alternatePath = switchLocalePath(pathname, lang === 'es' ? 'en' : 'es');
 // Only pages under /es/ or /en/ have a version in the other language (the
 // 404 page, for one, doesn't).
 const hasAlternate = /^\/(es|en)(\/|$)/.test(pathname);
+
+// The preview card WhatsApp, Instagram and others show when the link is
+// shared: a 1200 px JPEG of the Home's hero photo, with an absolute URL.
+const shareImage = await getImage({ src: heroPhoto, width: 1200, format: 'jpg', quality: 82 });
+const shareImageUrl = new URL(shareImage.src, Astro.site);
+const canonical = new URL(pathname, Astro.site);
 ---
 
 <!doctype html>
@@ -25,9 +33,24 @@ const hasAlternate = /^\/(es|en)(\/|$)/.test(pathname);
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <!-- Paints the phone browser's bars in the site's black. -->
+    <meta name="theme-color" content="#0c0c0d" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {hasAlternate && <link rel="canonical" href={canonical} />}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Hernán Alegresa" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={lang === 'es' ? 'es_UY' : 'en_US'} />
+    <meta property="og:image" content={shareImageUrl} />
+    <meta property="og:image:width" content={String(shareImage.attributes.width)} />
+    <meta property="og:image:height" content={String(shareImage.attributes.height)} />
+    <meta name="twitter:card" content="summary_large_image" />
     {
       hasAlternate && (
         <>
@@ -64,6 +87,14 @@ const hasAlternate = /^\/(es|en)(\/|$)/.test(pathname);
         },
         { once: true },
       );
+
+      // Remembers whether the last input was a pointer (mouse, finger) or
+      // the keyboard. Safari on iPhone draws the keyboard focus outline
+      // whenever a script moves focus (opening a viewer or the menu), even
+      // after a tap; global.css hides that outline while data-input is
+      // "pointer". The first key press brings it back for keyboard users.
+      addEventListener('pointerdown', () => (document.documentElement.dataset.input = 'pointer'), true);
+      addEventListener('keydown', () => (document.documentElement.dataset.input = 'keyboard'), true);
     </script>
   </head>
   <body>
